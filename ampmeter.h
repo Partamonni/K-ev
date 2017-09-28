@@ -13,7 +13,7 @@ class AmpMeter : public QLabel
 
 public:
     AmpMeter(QWidget *parent = 0);
-    QWidget *ampFrame = new QWidget();
+    QWidget *ampFrame = new QWidget;
     QGridLayout *ampLay = new QGridLayout;
     QLabel *amps = new QLabel;
     QLabel *ampsUnit = new QLabel;
