@@ -22,7 +22,7 @@ public:
     const short int entries = 6;
     short int entriesInserted = 0;
 
-    QWidget *menu = new QWidget;
+    QWidget *menu = new QWidget();
     QLabel *selector = new QLabel();
     QPixmap *selectorImg = new QPixmap("C:/Users/Sieni/Pictures/buttonselect.png");
     QGridLayout *layout = new QGridLayout();
