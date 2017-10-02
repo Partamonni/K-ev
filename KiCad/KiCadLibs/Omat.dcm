@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP TC1185
+D 150mA Low Dropout Regulator
+K LDO regulator voltage 
+$ENDCMP
+#
+#End Doc Library

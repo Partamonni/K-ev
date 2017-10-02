@@ -1,0 +1,587 @@
+Cmp-Mod V01 Created by PcbNew   date = 19.4.2017 16:54:31
+
+BeginCmp
+TimeStamp = 58F76825
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F76820
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F764F8
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F764F3
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB6D
+Path = /58E00B30
+Reference = U1;
+ValeurCmp = LM5009;
+IdModule  = Housings_SSOP:MSOP-8_3x3mm_Pitch0.65mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75593
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F7558F
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F7558B
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75587
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75583
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F7557E
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75578
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75574
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75570
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F7556C
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75568
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F7520B
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DBAD
+Path = /58E6D14E
+Reference = U4;
+ValeurCmp = LM5112;
+IdModule  = Housings_SSOP:MSOP-8_3x3mm_Pitch0.65mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA5B
+Path = /58E45F7C
+Reference = C19;
+ValeurCmp = 10uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7D9EF
+Path = /58E020F7
+Reference = C1;
+ValeurCmp = 0.022uF;
+IdModule  = Resistors_SMD:R_0603_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7D9F5
+Path = /58E3014B
+Reference = C2;
+ValeurCmp = 0.1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7D9FB
+Path = /58E2F163
+Reference = C3;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1210_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA01
+Path = /58E00D87
+Reference = C4;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA0D
+Path = /58E31E68
+Reference = C6;
+ValeurCmp = 0.1uF;
+IdModule  = Resistors_SMD:R_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA19
+Path = /58E01B2D
+Reference = C8;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA1F
+Path = /58E2D1F9
+Reference = C9;
+ValeurCmp = 1nF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA25
+Path = /58EC189E
+Reference = C10;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA2B
+Path = /58E2BB3E
+Reference = C11;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA31
+Path = /58ED37C8
+Reference = C12;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA37
+Path = /58E7178A
+Reference = C13;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA3D
+Path = /58E87290
+Reference = C14;
+ValeurCmp = 0.1uF;
+IdModule  = Resistors_SMD:R_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA43
+Path = /58E4354C
+Reference = C15;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA49
+Path = /58E436CC
+Reference = C16;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA4F
+Path = /58E8CEFC
+Reference = C17;
+ValeurCmp = 0.1uF;
+IdModule  = Resistors_SMD:R_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA55
+Path = /58E8D3F7
+Reference = C18;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA61
+Path = /58E8D500
+Reference = C20;
+ValeurCmp = 1uF;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA6B
+Path = /58E3A51E
+Reference = D1;
+ValeurCmp = RFN1L6S;
+IdModule  = omat:ROHM_RFN1L6S_HAND_SOLDER;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA71
+Path = /58EA3CBD
+Reference = D2;
+ValeurCmp = TVS;
+IdModule  = omat:DO-214AA;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAAD
+Path = /58E0D863
+Reference = IC1;
+ValeurCmp = ArduinoNano;
+IdModule  = omat:DIP-32_W15.24mm_Socket_LongPads_Arduino_Nano;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAB4
+Path = /58E01A0F
+Reference = L1;
+ValeurCmp = 150uH;
+IdModule  = omat:Bourns_RLB0914-151KL;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DABB
+Path = /58E00340
+Reference = P1;
+ValeurCmp = BATT +;
+IdModule  = Mounting_Holes:MountingHole_8.4mm_M8_Pad;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAC2
+Path = /58E00500
+Reference = P2;
+ValeurCmp = BATT -;
+IdModule  = Mounting_Holes:MountingHole_8.4mm_M8_Pad;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAC9
+Path = /58E10294
+Reference = P3;
+ValeurCmp = 72V-;
+IdModule  = Mounting_Holes:MountingHole_8.4mm_M8_Pad;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAE0
+Path = /58E4ED59
+Reference = Q1;
+ValeurCmp = CSD19535KTT;
+IdModule  = omat:TO-263+Heatsink_hand_solder;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAED
+Path = /58E4E879
+Reference = Q2;
+ValeurCmp = CSD19535KTT;
+IdModule  = omat:TO-263+Heatsink_hand_solder;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAF3
+Path = /58E01E75
+Reference = R1;
+ValeurCmp = 220K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAF9
+Path = /58E5460E
+Reference = R2;
+ValeurCmp = 510K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DAFF
+Path = /58E546AD
+Reference = R3;
+ValeurCmp = 27K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB05
+Path = /58E00C49
+Reference = R4;
+ValeurCmp = 220K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB0F
+Path = /58E00586
+Reference = R5;
+ValeurCmp = 0.2mOhm;
+IdModule  = omat:Bourns_CSS2H-3920_200uOhm_hand_solder;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB15
+Path = /58E00C98
+Reference = R6;
+ValeurCmp = 1.2K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB1B
+Path = /58E142C7
+Reference = R7;
+ValeurCmp = 1K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB21
+Path = /58E34EAF
+Reference = R8;
+ValeurCmp = 20K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB27
+Path = /58E15A91
+Reference = R9;
+ValeurCmp = 20K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB2D
+Path = /58E157FF
+Reference = R10;
+ValeurCmp = 10K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB33
+Path = /58EC3D8A
+Reference = R11;
+ValeurCmp = 100;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB39
+Path = /58E38320
+Reference = R12;
+ValeurCmp = 100K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB3F
+Path = /58E1C8C6
+Reference = R13;
+ValeurCmp = 1K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB45
+Path = /58E487FB
+Reference = R14;
+ValeurCmp = 1K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB4B
+Path = /58E8BA04
+Reference = R15;
+ValeurCmp = 100;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB51
+Path = /58E8BCC9
+Reference = R16;
+ValeurCmp = 100;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB7C
+Path = /58E61668
+Reference = U2;
+ValeurCmp = INA214;
+IdModule  = omat:SC-70-6_Handsoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DB91
+Path = /58E2B71D
+Reference = U3;
+ValeurCmp = TC1185;
+IdModule  = TO_SOT_Packages_SMD:SOT-23-5_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DBCA
+Path = /58E388CE
+Reference = U5;
+ValeurCmp = SI8422;
+IdModule  = Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58EB7797
+Path = /58ECCEDC
+Reference = R17;
+ValeurCmp = 1K;
+IdModule  = Resistors_SMD:R_1206_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F72265
+Path = /58E426DC
+Reference = U6;
+ValeurCmp = MAX1683;
+IdModule  = omat:SOT-23-5_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F72971
+Path = /58E39905
+Reference = P4;
+ValeurCmp = toRasPi;
+IdModule  = omat:USB_B_JACK;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F75849
+Path = 
+Reference = REF**;
+ValeurCmp = via_1.6mm;
+IdModule  = omat:via_1.6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F76000
+Path = 
+Reference = G***;
+ValeurCmp = LOGO;
+IdModule  = omat:logo;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F764B3
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58F764E5
+Path = 
+Reference = REF**;
+ValeurCmp = bland_smd;
+IdModule  = omat:blank_smd;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA13
+Path = /58E63DA4
+Reference = C7;
+ValeurCmp = 0.1uF;
+IdModule  = Capacitors_SMD:C_0805_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 58E7DA07
+Path = /58E7E1B4
+Reference = C5;
+ValeurCmp = 0.1uF;
+IdModule  = Capacitors_SMD:C_0805_HandSoldering;
+EndCmp
+
+EndListe

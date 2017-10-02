@@ -1,0 +1,10 @@
+(module blank_smd (layer F.Cu) (tedit 58F7628F)
+  (fp_text reference REF** (at 0 0.5) (layer F.SilkS) hide
+    (effects (font (size 0.127 0.127) (thickness 0.03175)))
+  )
+  (fp_text value bland_smd (at 0 -0.5) (layer F.Fab) hide
+    (effects (font (size 0.127 0.127) (thickness 0.03175)))
+  )
+  (pad "" smd circle (at 0 0) (size 0.2 0.2) (layers F.Cu)
+    (thermal_width -1) (thermal_gap -1))
+)
