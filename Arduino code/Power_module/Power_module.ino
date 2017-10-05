@@ -100,7 +100,8 @@ void loop()
 
     if(Serial.available())
     {
-      if(Serial.readStringUntil('\n') == "!S"){}; 
+      if(Serial.readStringUntil('\n') == "!S"){};
+        
     }
     
     if(lowVoltage)
