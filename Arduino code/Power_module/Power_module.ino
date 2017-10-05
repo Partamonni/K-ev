@@ -100,8 +100,7 @@ void loop()
 
     if(Serial.available())
     {
-      if(Serial.readStringUntil('\n') == "!S"){};
-        
+      if(Serial.readStringUntil('\n') == "!S"){}; 
     }
     
     if(lowVoltage)
@@ -176,7 +175,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
   {
     current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
 
-    if(current > OVERCURRENT || voltage > OVERVOLTAGE)
+    if(current > OVERCURRENT)
     {
       PORTC = PORTC & B11101111;
       criticalFailure = true;
@@ -184,15 +183,19 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
 
     board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
     voltage = (analogRead(vsense)/1023)*board5v*(537/27);
+
+    if(voltage > OVERVOLTAGE)
+    {
+      PORTC = PORTC & B11101111;
+      criticalFailure = true;
+    }
     
     if(voltage < LOW_VOLTAGE)
-    {
       lowVoltage = true;
-    }
+
     else if(voltage >= LOW_VOLTAGE)
-    {
       lowVoltage = false;
-    }
+    
     valuesUpdated = true; 
   }
 }
