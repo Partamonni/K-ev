@@ -8,9 +8,13 @@ int mosfetSwitch = A4;
 double current;
 double voltage;
 double board5v;
+double ms;
 
 const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
 const int CMD_CHAR_COUNT = 2;
+const int OVERCURRENT = 140;
+const int OVERVOLTAGE = 85;
+const int LOW_VOLTAGE = 58;
 const bool NL = true; // Newline flag for overloaded serialPrint -function
 
 String serialInput = "";
@@ -18,6 +22,8 @@ char cmd[CMD_CHAR_COUNT];
 bool success = false;
 bool setupSuccess = false;
 bool valuesUpdated = false;
+bool criticalFailure = false;
+bool lowVoltage = false;
 
 void interrupt_setup();
 void serialPrint(String);
@@ -29,8 +35,8 @@ bool DEBUG = true;
 
 void setup() 
 {
-  pinMode(mosfetSwitch, OUTPUT);
-  digitalWrite(mosfetSwitch, LOW);
+  DDRC = DDRC | B00010000; // pinMode(mosfetSwitch, OUTPUT);
+  PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW);
   pinMode(fanSwitch, OUTPUT);
   analogWrite(fanSwitch, FAN_MAX_DUTY_CYCLE);
   pinMode(curSense, INPUT);
@@ -45,8 +51,8 @@ void setup()
   {
     do
     {
-    serialPrint("!C", NL); // Board current failure
-    delay(1000);
+      serialPrint("!C", NL); // Board current failure
+      delay(1000);
     }
     while(!DEBUG);
   }
@@ -55,12 +61,12 @@ void setup()
   pinMode(vref3v3, INPUT);
   board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
   voltage = (analogRead(vsense)/1023)*board5v*(537/27);
-  if (voltage > 85 || voltage < 65)
+  if (voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
   {
     do
     {
-    serialPrint("!V", NL); // Board voltage failure
-    delay(1000);
+      serialPrint("!V", NL); // Board voltage failure
+      delay(1000);
     }
     while(!DEBUG);
   }
@@ -78,7 +84,37 @@ void setup()
 
 void loop() 
 {
-  delay(34);
+  ms = millis();
+  while(ms+30 <= millis())
+  {
+    if(criticalFailure)
+    {
+      do
+      {
+        serialPrint("!C", NL);
+        serialPrint("!V", NL);
+        delay(1000);
+      }
+      while(!DEBUG);
+    }
+
+    if(Serial.available())
+    {
+      if(Serial.readStringUntil('\n') == "!S"){};
+        
+    }
+    
+    if(lowVoltage)
+    {
+      do
+      {
+        serialPrint("!v", NL);
+        delay(1000);
+      }
+      while(!DEBUG || lowVoltage);
+    }
+  }
+  
   serialPrint(String(current,1), NL);
   serialPrint(String(voltage,1), NL);
 }
@@ -139,9 +175,25 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
   if(setupSuccess)
   {
     current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
+
+    if(current > OVERCURRENT || voltage > OVERVOLTAGE)
+    {
+      PORTC = PORTC & B11101111;
+      criticalFailure = true;
+    }
+
     board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
     voltage = (analogRead(vsense)/1023)*board5v*(537/27);
-    valuesUpdated = true;
+    
+    if(voltage < LOW_VOLTAGE)
+    {
+      lowVoltage = true;
+    }
+    else if(voltage >= LOW_VOLTAGE)
+    {
+      lowVoltage = false;
+    }
+    valuesUpdated = true; 
   }
 }
 
