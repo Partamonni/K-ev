@@ -18,7 +18,7 @@ const int OVERCURRENT = 140;
 const int OVERVOLTAGE = 85;
 const int LOW_VOLTAGE = 58;
 const bool NL = true; // Newline flag for overloaded serialPrint -function
-const int HOST_QUERY_TIME = 200; // ms
+const int HOST_QUERY_TIME = 5000; // ms
 
 String serialInput = "";
 char cmd[CMD_CHAR_COUNT];
@@ -86,6 +86,7 @@ void setup()
   interrupt_setup();
 
   setupSuccess = true;
+  wdt_reset();
   wdt_enable(WDTO_2S);
   digitalWrite(mosfetSwitch, HIGH);
 }
@@ -95,7 +96,7 @@ void loop()
   wdt_reset();
   
   ms = millis();
-  while(ms+50 <= millis())
+  while(ms+2000 >= millis())
   {
     if(criticalFailure)
     {
@@ -115,6 +116,8 @@ void loop()
       {
          PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
          hostShut = true;
+         if(DEBUG)
+          serialPrint("Gate is now shut", NL);
       } 
     }
     
@@ -126,7 +129,7 @@ void loop()
         delay(1000);
         wdt_reset();
       }
-      while(!DEBUG || lowVoltage);
+      while(!DEBUG && lowVoltage);
     }
 
     if(hostNotResponding)
@@ -136,25 +139,34 @@ void loop()
         serialPrint("!h", NL);
         delay(1000);
         if(Serial.readStringUntil('\n') == "ok")
-          hostNotResponding = false;
-          
+        {
+          hostNotResponding = false;           
+          digitalWrite(mosfetSwitch, HIGH);
+          serialPrint("Host responded, gates are now open", NL);
+        }
         wdt_reset();
       }
-      while(!DEBUG && !hostNotResponding);
+      while(hostNotResponding);
     }
   }
   wdt_reset();
-  
-  serialPrint("?h", NL);
-  success = false;
+
+  success = true;
+  if(Serial.readStringUntil('\n') != "ok")
+  {
+    serialPrint("?h", NL);
+    success = false;
+  }
+
   ms = millis();
-  while(ms+HOST_QUERY_TIME < millis() && !success)
+  while(ms+HOST_QUERY_TIME > millis() && !success)
   {
     if(Serial.readStringUntil('\n') == "ok")
       success = true;
+    wdt_reset();
   }
   
-  if(DEBUG || success)
+  if(success)
   {
     serialPrint(String(current,1), NL);
     serialPrint(String(voltage,1), NL);
@@ -163,6 +175,7 @@ void loop()
   {
     PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
     hostNotResponding = true;
+    if(DEBUG){serialPrint("Host not reached, gates are now shut", NL);}
   }
 }
 
