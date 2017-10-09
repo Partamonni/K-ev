@@ -1,3 +1,5 @@
+#include <avr/wdt.h>
+
 int vsense = A1;
 int curSense = A2;
 int curSenseRef = A3;
@@ -16,6 +18,7 @@ const int OVERCURRENT = 140;
 const int OVERVOLTAGE = 85;
 const int LOW_VOLTAGE = 58;
 const bool NL = true; // Newline flag for overloaded serialPrint -function
+const int HOST_QUERY_TIME = 200; // ms
 
 String serialInput = "";
 char cmd[CMD_CHAR_COUNT];
@@ -24,6 +27,8 @@ bool setupSuccess = false;
 bool valuesUpdated = false;
 bool criticalFailure = false;
 bool lowVoltage = false;
+bool hostNotResponding = false;
+bool hostShut = false;
 
 void interrupt_setup();
 void serialPrint(String);
@@ -31,7 +36,7 @@ void serialPrint(String, bool);
 void waitFor(String);
 String enquire(String);
 
-bool DEBUG = true;
+bool DEBUG = true; // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
 
 void setup() 
 {
@@ -45,6 +50,7 @@ void setup()
   Serial.begin(115200);
   Serial.println("Board started");
   serialInput.reserve(64);
+  Serial.setTimeout(200);
 
   current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
   if (current > 0.5 || current < -0.5)
@@ -80,12 +86,16 @@ void setup()
   interrupt_setup();
 
   setupSuccess = true;
+  wdt_enable(WDTO_2S);
+  digitalWrite(mosfetSwitch, HIGH);
 }
 
 void loop() 
 {
+  wdt_reset();
+  
   ms = millis();
-  while(ms+30 <= millis())
+  while(ms+50 <= millis())
   {
     if(criticalFailure)
     {
@@ -94,13 +104,18 @@ void loop()
         serialPrint("!C", NL);
         serialPrint("!V", NL);
         delay(1000);
+        wdt_reset();
       }
       while(!DEBUG);
     }
 
     if(Serial.available())
     {
-      if(Serial.readStringUntil('\n') == "!S"){}; 
+      if(Serial.readStringUntil('\n') == "!S")
+      {
+         PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
+         hostShut = true;
+      } 
     }
     
     if(lowVoltage)
@@ -109,13 +124,46 @@ void loop()
       {
         serialPrint("!v", NL);
         delay(1000);
+        wdt_reset();
       }
       while(!DEBUG || lowVoltage);
     }
+
+    if(hostNotResponding)
+    {
+      do
+      {
+        serialPrint("!h", NL);
+        delay(1000);
+        if(Serial.readStringUntil('\n') == "ok")
+          hostNotResponding = false;
+          
+        wdt_reset();
+      }
+      while(!DEBUG && !hostNotResponding);
+    }
+  }
+  wdt_reset();
+  
+  serialPrint("?h", NL);
+  success = false;
+  ms = millis();
+  while(ms+HOST_QUERY_TIME < millis() && !success)
+  {
+    if(Serial.readStringUntil('\n') == "ok")
+      success = true;
   }
   
-  serialPrint(String(current,1), NL);
-  serialPrint(String(voltage,1), NL);
+  if(DEBUG || success)
+  {
+    serialPrint(String(current,1), NL);
+    serialPrint(String(voltage,1), NL);
+  }
+  else
+  {
+    PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
+    hostNotResponding = true;
+  }
 }
 
 // https://www.instructables.com/id/Arduino-Timer-Interrupts/
@@ -124,7 +172,7 @@ void interrupt_setup()
 {
 cli();//stop interrupts
 /*
-//set timer0 interrupt at 2kHz
+//set timer0 interrupt at 2kHz // USED BY PWM
   TCCR0A = 0;// set entire TCCR0A register to 0
   TCCR0B = 0;// same for TCCR0B
   TCNT0  = 0;//initialize counter value to 0
@@ -143,7 +191,7 @@ cli();//stop interrupts
   TCCR1B = 0; // same for TCCR1B
   TCNT1  = 0; //initialize counter value to 0
   // set compare match register for 1hz increments
-  OCR1A = 3124; // = (16*10^6) / (1*1024) - 1 (must be <65536)
+  OCR1A = 3124; // = (16*10^6) / (10*1024) - 1 (must be <65536)
   // turn on CTC mode
   TCCR1B |= (1 << WGM12);
   // Set CS10 and CS12 bits for 1024 prescaler
