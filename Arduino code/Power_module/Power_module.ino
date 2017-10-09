@@ -25,7 +25,8 @@ char cmd[CMD_CHAR_COUNT];
 bool success = false;
 bool setupSuccess = false;
 bool valuesUpdated = false;
-bool criticalFailure = false;
+bool criticalCFailure = false;
+bool criticalVFailure = false;
 bool lowVoltage = false;
 bool hostNotResponding = false;
 bool hostShut = false;
@@ -98,11 +99,21 @@ void loop()
   ms = millis();
   while(ms+2000 >= millis())
   {
-    if(criticalFailure)
+    if(criticalCFailure)
     {
       do
       {
         serialPrint("!C", NL);
+        delay(1000);
+        wdt_reset();
+      }
+      while(!DEBUG);
+    }
+    
+    if(criticalVFailure)
+    {
+      do
+      {
         serialPrint("!V", NL);
         delay(1000);
         wdt_reset();
@@ -232,23 +243,24 @@ sei();//allow interrupts
 
 ISR(TIMER1_COMPA_vect) //timer1 interrupt
 {
+  ms = micros();
   if(setupSuccess)
   {
-    current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
-
-    if(current > OVERCURRENT)
-    {
-      PORTC = PORTC & B11101111;
-      criticalFailure = true;
-    }
-
     board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
     voltage = (analogRead(vsense)/1023)*board5v*(537/27);
 
     if(voltage > OVERVOLTAGE)
     {
       PORTC = PORTC & B11101111;
-      criticalFailure = true;
+      criticalVFailure = true;
+    }
+
+    current = board5v*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
+
+    if(current > OVERCURRENT)
+    {
+      PORTC = PORTC & B11101111;
+      criticalCFailure = true;
     }
     
     if(voltage < LOW_VOLTAGE)
@@ -259,6 +271,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
     
     valuesUpdated = true; 
   }
+  ms = micros()- ms;
 }
 
 void serialPrint(String message)
