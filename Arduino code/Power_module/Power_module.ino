@@ -1,7 +1,7 @@
 #include <avr/wdt.h>
 
-byte  tempAdr[20][8];
-byte  data[20][9];
+byte  tempAdr[21][8];
+byte  data[21][9];
 
 int vsense = A1;
 int curSense = A2;
@@ -14,6 +14,7 @@ double current;
 double voltage;
 double board5v;
 double ms;
+double temperature[21];
 
 const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
 const int CMD_CHAR_COUNT = 2;
@@ -173,15 +174,34 @@ void loop()
 
   for(int i = 0; i < 20; ++i)
   {
+    ds.reset();
+    ds.select(adr[i]);    
+    ds.write(0xBE);
     for(int j = 0; i < 9; ++j)
     {
-      ds.reset();
-      ds.select(adr[i]);    
-      ds.write(0xBE);
       data[i][j] = ds.read();
+      if(OneWire::crc8(data[i], 8) != data[i][8])
+        data[i] = 0xFFFFFFFFF; 
     }
   }
+
+  bool minus;
+  byte a;
+  byte b;
+  for(int i = 0; i < 20; ++i)
+  {
+    if(data[i][1] > 0xF0)
+      minus = true;
+    for(int j = 0; i < 9; ++j)
+    {
+      a = data[i][0]
+      b = data[i][1]
+      
+    }
+  }
+  
   wdt_reset();
+  
   success = true;
   if(Serial.readStringUntil('\n') != "ok")
   {
