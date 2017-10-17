@@ -80,6 +80,8 @@ void Mainwindow::mousePressEvent(QMouseEvent *mouseEvent2)
             dropdown->motEffMen->start();
             if(tempEntry->entryFrame->isVisible())
                 toggleEntry();
+            if(otherEntry->entryFrame->isVisible())
+                toggleEntry();
             delay(dropdown->motEffMen->duration());
             dropdown->menu->hide();
             if(!mouseReleased) // flag to inform that menu has closed if button hasn't been released
@@ -128,7 +130,7 @@ void Mainwindow::toggleMenu()
 
 void Mainwindow::toggleEntry()
 {
-    if(tempEntry->entryFrame->isHidden() && dropdown->selPos == 2 && dropdown->menu->isVisible())
+    if(tempEntry->entryFrame->isHidden() && dropdown->selPos == 2 && dropdown->menu->isVisible() && !dropdown->entryOpen)
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Forward); // set direction to open
         tempEntry->motEffEntry->setStartValue(QPoint(SCR_WIDTH/4 - tempEntry->entryFrame->width(), tempEntry->entryFrame->y()));
@@ -136,6 +138,7 @@ void Mainwindow::toggleEntry()
         dropdown->menu->raise();
         tempEntry->entryFrame->show();
         tempEntry->motEffEntry->start();
+        dropdown->entryOpen = true;
     }
     else if (tempEntry->entryFrame->isVisible())
     {
@@ -146,17 +149,20 @@ void Mainwindow::toggleEntry()
         tempEntry->motEffEntry->start();
         delay(tempEntry->motEffEntry->duration());
         tempEntry->entryFrame->hide();
+        dropdown->entryOpen = false;
     }
 
-    if(otherEntry->entryFrame->isHidden() && dropdown->selPos == 5 && dropdown->menu->isVisible())
+    if(otherEntry->entryFrame->isHidden() && dropdown->selPos == 6 && dropdown->menu->isVisible() && !dropdown->entryOpen)
     {
         otherEntry->motEffEntry->setDirection(QAbstractAnimation::Forward); // set direction to open
         otherEntry->motEffEntry->setStartValue(QPoint(SCR_WIDTH/4 - otherEntry->entryFrame->width(), otherEntry->entryFrame->y()));
         otherEntry->motEffEntry->setEndValue(QPoint(SCR_WIDTH/4,otherEntry->entryFrame->y()));
         dropdown->menu->raise();
         otherEntry->entryFrame->show();
+        delay(2000);
         otherEntry->motEffEntry->start();
         otherEntry->motEffOth->start();
+        dropdown->entryOpen = true;
     }
     else if (otherEntry->entryFrame->isVisible())
     {
@@ -167,6 +173,8 @@ void Mainwindow::toggleEntry()
         otherEntry->motEffEntry->start();
         delay(tempEntry->motEffEntry->duration());
         otherEntry->entryFrame->hide();
+        otherEntry->motEffOth->stop();
+        dropdown->entryOpen = false;
     }
 }
 

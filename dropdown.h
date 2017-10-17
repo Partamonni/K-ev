@@ -21,6 +21,7 @@ public:
     short int selPos = 0;
     const short int entries = 6;
     short int entriesInserted = 0;
+    bool entryOpen = false;
 
     QWidget *menu = new QWidget();
     QLabel *selector = new QLabel();
@@ -30,9 +31,9 @@ public:
     EntryButton *e1 = new EntryButton(this, QString("Cell Voltages"));
     EntryButton *e2 = new EntryButton(this, QString("Temperatures"));
     EntryButton *e3 = new EntryButton(this, QString("Something"));
-    EntryButton *e4 = new EntryButton(this, QString("More Something"));
+    EntryButton *e4 = new EntryButton(this, QString("Error Messages"));
     EntryButton *e5 = new EntryButton(this, QString("About"));
-    EntryButton *e6 = new EntryButton(this, QString("Error Messages"));
+    EntryButton *e6 = new EntryButton(this, QString("Other"));
 
     QPropertyAnimation *motEffMen = new QPropertyAnimation(menu, "pos"); // motion effect for menu
     QPropertyAnimation *motEffSel = new QPropertyAnimation(selector, "pos"); // motion effect for selector

@@ -21,13 +21,10 @@ OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
     motEffEntry->setEasingCurve(QEasingCurve::InSine);
 
     entryFrame->setFixedSize(ENT_WIDTH,SCR_HEIGHT);
-    entryFrame->setContentsMargins(20,0,20,0);
     entryFrame->setStyleSheet("*{background-color: black; color: white;}");
 
     entryFrame->setLayout(entryLayout);
 
-    entryLayout->setContentsMargins(0,0,0,0);
-    entryLayout->setSpacing(0);
 
     std::ifstream txtFile;
     txtFile.open("C:/Users/Sieni/Documents/lgpl.txt");
@@ -41,11 +38,14 @@ OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
     }
 
     textField->setText(text);
+    textField->setFixedHeight(10000);
+    textField->setFixedWidth(ENT_WIDTH);
+    textField->setContentsMargins(50,0,0,0);
 
-    entryLayout->addWidget(textField,0,0,Qt::AlignHCenter);
+    entryLayout->addWidget(textField,0,0,(Qt::AlignTop | Qt::AlignLeft));
 
     motEffOth->setDirection(QAbstractAnimation::Forward); // set direction to open
-    motEffOth->setDuration(60000);
-    motEffOth->setStartValue(textField->pos());
-    motEffOth->setEndValue(QPoint(textField->x(),textField->y() - textField->height()));
+    motEffOth->setDuration(80000);
+    motEffOth->setStartValue(QPoint(1/4*SCR_WIDTH,0));
+    motEffOth->setEndValue(QPoint(1/4*SCR_WIDTH,-textField->height()));
 }

@@ -1,5 +1,8 @@
 #include <avr/wdt.h>
 
+byte  tempAdr[20][8];
+byte  data[20][9];
+
 int vsense = A1;
 int curSense = A2;
 int curSenseRef = A3;
@@ -85,6 +88,7 @@ void setup()
   while(enquire("?t") != "ok"){}
 
   interrupt_setup();
+  OneWire ds(10);
 
   setupSuccess = true;
   wdt_reset();
@@ -95,10 +99,15 @@ void setup()
 void loop() 
 {
   wdt_reset();
+
+  ds.reset();
+  ds.skip();
+  ds.write(0x44);
   
   ms = millis();
-  while(ms+2000 >= millis())
-  {
+  while(ms+200 >= millis()) // Keep over 200ms if no extra timing is 
+  {                         // given for temp sensors to do conversion
+    
     if(criticalCFailure)
     {
       do
@@ -162,6 +171,17 @@ void loop()
   }
   wdt_reset();
 
+  for(int i = 0; i < 20; ++i)
+  {
+    for(int j = 0; i < 9; ++j)
+    {
+      ds.reset();
+      ds.select(adr[i]);    
+      ds.write(0xBE);
+      data[i][j] = ds.read();
+    }
+  }
+  wdt_reset();
   success = true;
   if(Serial.readStringUntil('\n') != "ok")
   {
@@ -353,3 +373,5 @@ String enquire(String query)
   }
   return serialInput;
 }
+
+
