@@ -1,7 +1,28 @@
+/* K-ev Power-Module script
+ *  
+ * Written by Henri Pyoria (henri.pyoria@outlook.com)
+ *  
+ * Temperature-IC's must be pre-configured for 10-bit resolution (possible atleast on MAX31820)
+ * and addresses must be manually defined to tempAdr table. This skips teh lengthy search for 'em.
+ * 
+ * 2s watchdog implemented after the setups ready, in case of odd failures.
+ */
+
 #include <avr/wdt.h>
 
-byte  tempAdr[21][8];
-byte  data[21][9];
+#DEFINE FAN_MAX_DUTY_CYCLE 35 //(12/72)*256 and lowered still a bit for first tests
+#DEFINE CMD_CHAR_COUNT 2
+#DEFINE OVERCURRENT 140
+#DEFINE OVERVOLTAGE 85
+#DEFINE LOW_VOLTAGE 58
+#DEFINE NL = 1  // Newline flag for overloaded serialPrint -function
+#DEFINE HOST_QUERY_TIME 5000 // ms
+#DEFINE TMP_COUNT 21
+
+#DEFINE DEBUG 1 // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
+
+byte  tempAdr[TMP_COUNT][8];
+byte  data[TMP_COUNT][9];
 
 int vsense = A1;
 int curSense = A2;
@@ -14,15 +35,7 @@ double current;
 double voltage;
 double board5v;
 double ms;
-double temperature[21];
-
-const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
-const int CMD_CHAR_COUNT = 2;
-const int OVERCURRENT = 140;
-const int OVERVOLTAGE = 85;
-const int LOW_VOLTAGE = 58;
-const bool NL = true; // Newline flag for overloaded serialPrint -function
-const int HOST_QUERY_TIME = 5000; // ms
+double temperature[TMP_COUNT];
 
 String serialInput = "";
 char cmd[CMD_CHAR_COUNT];
@@ -41,8 +54,6 @@ void serialPrint(String, bool);
 void waitFor(String);
 String enquire(String);
 
-bool DEBUG = true; // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
-
 void setup() 
 {
   DDRC = DDRC | B00010000; // pinMode(mosfetSwitch, OUTPUT);
@@ -52,12 +63,13 @@ void setup()
   pinMode(curSense, INPUT);
   pinMode(curSenseRef, INPUT);
   
-  Serial.begin(115200);
+  Serial.begin(57600);
   Serial.println("Board started");
-  serialInput.reserve(64);
-  Serial.setTimeout(200);
+  serialInput.reserve(64);  // These values are way too unoptimized,
+  Serial.setTimeout(200);   // but I don't really care too much for now.
 
-  current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
+  current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
+  // ^ Can measure accuracy to ~0.25A
   if (current > 0.5 || current < -0.5)
   {
     do
@@ -71,7 +83,10 @@ void setup()
   pinMode(vsense, INPUT);
   pinMode(vref3v3, INPUT);
   board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
+  // ^ Returns real voltage referring to internal 3v3 regulator voltage
+  // 3v3 output pin shorted to analog input
   voltage = (analogRead(vsense)/1023)*board5v*(537/27);
+  // (537/27) is a multiplier to counter voltage divider in the circuit
   if (voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
   {
     do
@@ -106,7 +121,7 @@ void loop()
   ds.write(0x44);
   
   ms = millis();
-  while(ms+200 >= millis()) // Keep over 200ms if no extra timing is 
+  while(ms+200 >= millis()) // Do over 200ms if no extra timing is 
   {                         // given for temp sensors to do conversion
     
     if(criticalCFailure)
@@ -130,19 +145,7 @@ void loop()
       }
       while(!DEBUG);
     }
-
-    if(Serial.available())
-    {
-      if(Serial.readStringUntil('\n') == "!S")
-      {
-         PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
-         hostShut = true;
-         if(DEBUG)
-          serialPrint("Gate is now shut", NL);
-      } 
-    }
-    
-    if(lowVoltage)
+    else if(lowVoltage)
     {
       do
       {
@@ -168,6 +171,17 @@ void loop()
         wdt_reset();
       }
       while(hostNotResponding);
+    }
+
+    else if(Serial.available())
+    {
+      if(Serial.readStringUntil('\n') == "!S")
+      {
+         PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
+         hostShut = true;
+         if(DEBUG)
+          serialPrint("Gate is now shut", NL);
+      } 
     }
   }
   wdt_reset();
@@ -283,7 +297,6 @@ sei();//allow interrupts
 
 ISR(TIMER1_COMPA_vect) //timer1 interrupt
 {
-  ms = micros();
   if(setupSuccess)
   {
     board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
@@ -311,13 +324,15 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
     
     valuesUpdated = true; 
   }
-  ms = micros()- ms;
 }
 
-void serialPrint(String message)
-{
+void serialPrint(String message
+{ // These funcs are needed because somehow too fast consecutive 
+  // Serial.Print() calls fail to wait the previous calls to finish.
   Serial.print(message);
-  Serial.flush();
+  Serial.flush(); 
+  // Flushing means for arduino just to wait for data to be transmitted,
+  // not emptying the queue;
 }
 
 void serialPrint(String message, bool NL)
