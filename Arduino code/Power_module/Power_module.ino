@@ -1,4 +1,4 @@
-/* K-ev Power-Module script
+/* K-ev Power-Module script v0.2
  *  
  * Written by Henri Pyoria (henri.pyoria@outlook.com)
  *  
@@ -9,19 +9,46 @@
  */
 
 #include <avr/wdt.h>
+#include <OneWire.h>
 
-#DEFINE FAN_MAX_DUTY_CYCLE 35 //(12/72)*256 and lowered still a bit for first tests
-#DEFINE CMD_CHAR_COUNT 2
-#DEFINE OVERCURRENT 140
-#DEFINE OVERVOLTAGE 85
-#DEFINE LOW_VOLTAGE 58
-#DEFINE NL = 1  // Newline flag for overloaded serialPrint -function
-#DEFINE HOST_QUERY_TIME 5000 // ms
-#DEFINE TMP_COUNT 21
+const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
+const int CMD_CHAR_COUNT = 2;
+const int OVERCURRENT = 140;
+const int OVERVOLTAGE = 85;
+const int LOW_VOLTAGE = 58;
+const int OVER_HEAT = 60;
+const int NL = 1;  // Newline flag for overloaded serialPrint -function
+const int HOST_QUERY_TIME = 5000; // ms | Change for real application
+const int TMP_COUNT = 21;
+const int BYTE = 8;
 
-#DEFINE DEBUG 1 // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
+const bool DEBUG = true; // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
 
-byte  tempAdr[TMP_COUNT][8];
+OneWire ds(2);
+
+byte  tempAdr[TMP_COUNT][8] =
+{ {0x28, 0xBA, 0x4B, 0x41, 0x09, 0x00, 0x00, 0xAE},
+  {0x28, 0xEE, 0x46, 0x41, 0x09, 0x00, 0x00, 0xB0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0}
+};
 byte  data[TMP_COUNT][9];
 
 int vsense = A1;
@@ -38,12 +65,11 @@ double ms;
 double temperature[TMP_COUNT];
 
 String serialInput = "";
-char cmd[CMD_CHAR_COUNT];
 bool success = false;
 bool setupSuccess = false;
-bool valuesUpdated = false;
 bool criticalCFailure = false;
 bool criticalVFailure = false;
+bool criticalTFailure = false;
 bool lowVoltage = false;
 bool hostNotResponding = false;
 bool hostShut = false;
@@ -56,8 +82,8 @@ String enquire(String);
 
 void setup() 
 {
-  DDRC = DDRC | B00010000; // pinMode(mosfetSwitch, OUTPUT);
-  PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW);
+  DDRC |= B00010000; // pinMode(mosfetSwitch, OUTPUT);
+  PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW);
   pinMode(fanSwitch, OUTPUT);
   analogWrite(fanSwitch, FAN_MAX_DUTY_CYCLE);
   pinMode(curSense, INPUT);
@@ -96,16 +122,26 @@ void setup()
     }
     while(!DEBUG);
   }
+  
+  interrupt_setup();
+  
+  if(!ds.reset())
+  {
+    do
+    {
+      serialPrint("!T", NL); // Board temperature failure
+      delay(1000);
+    }
+    while(!DEBUG);
+  }
 
-  while(enquire("?h") != "ok"){}
+  while(enquire("?h") != "ok"){} 
 
   serialPrint(String(current,1), NL);
   serialPrint(String(voltage,1), NL);
-  while(enquire("?t") != "ok"){}
 
-  interrupt_setup();
-  OneWire ds(10);
 
+  
   setupSuccess = true;
   wdt_reset();
   wdt_enable(WDTO_2S);
@@ -122,8 +158,7 @@ void loop()
   
   ms = millis();
   while(ms+200 >= millis()) // Do over 200ms if no extra timing is 
-  {                         // given for temp sensors to do conversion
-    
+  {                         // given for temp sensors to do conversion    
     if(criticalCFailure)
     {
       do
@@ -156,6 +191,17 @@ void loop()
       while(!DEBUG && lowVoltage);
     }
 
+    if(criticalTFailure)
+    {
+      do
+      {
+        serialPrint("!T", NL);
+        delay(1000);
+        wdt_reset();
+      }
+      while(!DEBUG);
+    }
+    
     if(hostNotResponding)
     {
       do
@@ -166,52 +212,64 @@ void loop()
         {
           hostNotResponding = false;           
           digitalWrite(mosfetSwitch, HIGH);
-          serialPrint("Host responded, gates are now open", NL);
+          serialPrint("up", NL);
+          if(DEBUG)
+            serialPrint("Host responded, gates are now open", NL);
         }
         wdt_reset();
       }
       while(hostNotResponding);
     }
-
     else if(Serial.available())
     {
       if(Serial.readStringUntil('\n') == "!S")
       {
-         PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
-         hostShut = true;
-         if(DEBUG)
+        PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
+        hostShut = true;
+        serialPrint("sh", NL);
+        if(DEBUG)
           serialPrint("Gate is now shut", NL);
       } 
     }
   }
   wdt_reset();
 
-  for(int i = 0; i < 20; ++i)
+  for(int i = 0; i < TMP_COUNT; ++i)
   {
-    ds.reset();
-    ds.select(adr[i]);    
-    ds.write(0xBE);
-    for(int j = 0; i < 9; ++j)
+    if(tempAdr[i]) // This checks if entry has any address in it
     {
-      data[i][j] = ds.read();
+      ds.reset();
+      ds.select(tempAdr[i]);    
+      ds.write(0xBE); // Request sensor to read out the scratchpad
+      for(int j = 0; i < 9; ++j) // Read all 9 bytes
+      {
+        data[i][j] = ds.read(); 
+      }
       if(OneWire::crc8(data[i], 8) != data[i][8])
-        data[i] = 0xFFFFFFFFF; 
+      { // If crc is wrong, set all bits to 1
+        for(int k = 0; k < 9; ++k)
+          data[i][k] = byte(0xFF, HEX);
+        if(DEBUG)
+          serialPrint("CRC-check failed!", NL);
+      }
     }
   }
 
-  bool minus;
-  byte a;
-  byte b;
-  for(int i = 0; i < 20; ++i)
+  int rawTemp;
+  for(int i = 0; i < TMP_COUNT; ++i)
   {
-    if(data[i][1] > 0xF0)
-      minus = true;
-    for(int j = 0; i < 9; ++j)
-    {
-      a = data[i][0]
-      b = data[i][1]
-      
-    }
+      rawTemp = 0;
+      rawTemp = (data[i][0] << BYTE) | data[i][1];
+      // ^ Reads data to temporary container
+      rawTemp &= ~3;
+      // ^ Sets last 2 bits to zero,
+      // as 10-bit resolution doesn't use them
+      temperature[i] = 85.0*(double(rawTemp)/1360.0);
+
+      if(i==0 && temperature[i] >= (OVER_HEAT+60)
+        criticalTFailure = true;
+      else if(i!=0 && temperature[i] >= OVER_HEAT)
+        criticalTFailure = true;
   }
   
   wdt_reset();
@@ -231,20 +289,24 @@ void loop()
     wdt_reset();
   }
   
-  if(success)
+  if(!success)
   {
-    serialPrint(String(current,1), NL);
-    serialPrint(String(voltage,1), NL);
-  }
-  else
-  {
-    PORTC = PORTC & B11101111; // digitalWrite(mosfetSwitch, LOW)
+    PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
     hostNotResponding = true;
     if(DEBUG){serialPrint("Host not reached, gates are now shut", NL);}
   }
+  else
+  {
+    serialPrint(String(current,1), NL);
+    serialPrint(String(voltage,1), NL);
+    for(int i = 0; i < TMP_COUNT; ++i)
+    {
+        serialPrint(String(temperature[i],1), NL);
+    }
+  }
 }
 
-// https://www.instructables.com/id/Arduino-Timer-Interrupts/
+// http://www.instructables.com/id/Arduino-Timer-Interrupts/
 
 void interrupt_setup()
 {
@@ -304,7 +366,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
 
     if(voltage > OVERVOLTAGE)
     {
-      PORTC = PORTC & B11101111;
+      PORTC &= B11101111;
       criticalVFailure = true;
     }
 
@@ -312,7 +374,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
 
     if(current > OVERCURRENT)
     {
-      PORTC = PORTC & B11101111;
+      PORTC &= B11101111;
       criticalCFailure = true;
     }
     
@@ -321,14 +383,14 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
 
     else if(voltage >= LOW_VOLTAGE)
       lowVoltage = false;
-    
-    valuesUpdated = true; 
   }
 }
 
-void serialPrint(String message
-{ // These funcs are needed because somehow too fast consecutive 
-  // Serial.Print() calls fail to wait the previous calls to finish.
+
+// These serial funcs are needed because somehow too fast consecutive
+// Serial.Print() calls fail to wait the previous calls to finish.
+void serialPrint(String message)
+{ 
   Serial.print(message);
   Serial.flush(); 
   // Flushing means for arduino just to wait for data to be transmitted,
