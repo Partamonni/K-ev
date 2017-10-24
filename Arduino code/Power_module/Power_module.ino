@@ -23,7 +23,11 @@ const int OVERVOLTAGE = 85;
 const int LOW_VOLTAGE = 58;
 const int OVER_HEAT = 60;
 const int NL = 1;  // Newline flag for overloaded serialPrint -function
-const int HOST_QUERY_TIME = 5000; // ms | Change for real application
+#if DEBUG
+const int HOST_QUERY_TIME = 5000; // ms
+#else
+const int HOST_QUERY_TIME = 100; // ms
+#endif
 const int TMP_COUNT = 21;
 const int BYTE = 8;
 
@@ -54,7 +58,7 @@ byte  tempAdr[TMP_COUNT][8] =
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
 };
-byte  data[TMP_COUNT][9];
+byte  data[TMP_COUNT][9] = {0};
 
 int vsense = A1;
 int curSense = A2;
@@ -136,7 +140,6 @@ void setup()
   interrupt_setup();
 
   #if DEBUG&&VERBOSE
-  
     serialPrint("Interrupts now in place", NL);
   #endif
   
@@ -160,8 +163,6 @@ void setup()
 
   serialPrint(String(current,1), NL);
   serialPrint(String(voltage,1), NL);
-
-  
   
   setupSuccess = true;
   wdt_reset();
@@ -185,7 +186,7 @@ void loop()
   ds.write(0x44);
   
   ms = millis();            // Secondary loop
-  while(ms+200 >= millis()) // Do over 200ms if no extra timing is 
+  while(ms+190 >= millis()) // Do over 200ms if no extra timing is 
   {                         // given for temp sensors to do conversion    
     if(criticalCFailure)
     {
