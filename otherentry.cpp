@@ -45,7 +45,7 @@ OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
     entryLayout->addWidget(textField,0,0,(Qt::AlignTop | Qt::AlignLeft));
 
     motEffOth->setDirection(QAbstractAnimation::Forward); // set direction to open
-    motEffOth->setDuration(80000);
+    motEffOth->setDuration(60000);
     motEffOth->setStartValue(QPoint(1/4*SCR_WIDTH,0));
-    motEffOth->setEndValue(QPoint(1/4*SCR_WIDTH,-textField->height()));
+    motEffOth->setEndValue(QPoint(1/4*SCR_WIDTH,-(textField->height())));
 }

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,7 +30,8 @@ SOURCES += \
     entrybutton.cpp \
     tempentry.cpp \
     ampmeter.cpp \
-    otherentry.cpp
+    otherentry.cpp \
+    serial.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -38,4 +39,5 @@ HEADERS += \
     entrybutton.h \
     tempentry.h \
     ampmeter.h \
-    otherentry.h
+    otherentry.h \
+    serial.h

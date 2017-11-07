@@ -14,6 +14,7 @@
 
 #define DEBUG 1
 #define VERBOSE 0
+#define HOST_QUERY_ON 1
  // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
 
 const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
@@ -218,6 +219,7 @@ void loop()
         wdt_reset();
       }
       while(!DEBUG && lowVoltage);
+      serialPrint("up", NL);
     }
 
     if(criticalTFailure)
@@ -341,7 +343,7 @@ void loop()
   
   success = true;
   
-  #if 0
+  #if HOST_QUERY_ON
   if(Serial.readStringUntil('\n') != "ok")
   {
     serialPrint("?h", NL);
@@ -373,7 +375,7 @@ void loop()
     {
         serialPrint(String(temperature[i],1), NL);
     }
-    serialPrint("", NL);
+    serialPrint("e", NL);
   }
 }
 

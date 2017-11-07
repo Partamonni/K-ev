@@ -11,6 +11,7 @@
 #include "tempentry.h"
 #include "otherentry.h"
 #include "ampmeter.h"
+#include "serial.h"
 
 class Mainwindow : public QWidget
 {
@@ -34,6 +35,7 @@ public:
     OtherEntry *otherEntry = new OtherEntry(this);
     AmpMeter *ampMeter = new AmpMeter;
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
+    Serial *serial = new Serial;
     void delay(int);
 
 signals:
