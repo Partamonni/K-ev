@@ -3,19 +3,24 @@
 
 #include <QSerialPort>
 
+class Mainwindow;
+
 class Serial : QObject
 {
     Q_OBJECT
 
 public:
-    Serial();
+    Serial(Mainwindow *parent = 0);
     QSerialPort *port = new QSerialPort;
 
 public slots:
     void readData();
 
+signals:
+    void readyRead();
+
 private:
-    QString data;
+    QByteArray *data = new QByteArray;
     bool connectionEstablished = false;
 };
 

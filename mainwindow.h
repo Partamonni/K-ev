@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+ #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QWidget>
@@ -35,7 +35,7 @@ public:
     OtherEntry *otherEntry = new OtherEntry(this);
     AmpMeter *ampMeter = new AmpMeter;
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
-    Serial *serial = new Serial;
+    Serial *serial = new Serial(this);
     void delay(int);
 
 signals:
