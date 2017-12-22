@@ -31,7 +31,7 @@ SOURCES += \
     tempentry.cpp \
     ampmeter.cpp \
     otherentry.cpp \
-    serial.cpp
+    serialportreader.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,4 +40,4 @@ HEADERS += \
     tempentry.h \
     ampmeter.h \
     otherentry.h \
-    serial.h
+    serialportreader.h
