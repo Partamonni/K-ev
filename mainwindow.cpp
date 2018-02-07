@@ -2,6 +2,7 @@
 #include "dropdown.h"
 #include "tempentry.h"
 #include "otherentry.h"
+#include "serialportreader.h"
 
 #include <QTime>
 #include <QCoreApplication>
@@ -16,6 +17,8 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->grabMouse();
     this->grabKeyboard();
+
+    mySerial->openSerialPort();
 
     bgLabel->setFixedSize(this->width(),this->height());
 

@@ -15,13 +15,13 @@ extern short int CELL_COUNT;
 OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
 {
     short int ENT_WIDTH = SCR_WIDTH*3/4;
-
+/*
     QFont font("Arial", 10, Qt::white);
 
     motEffEntry->setEasingCurve(QEasingCurve::InSine);
 
     entryFrame->setFixedSize(ENT_WIDTH,SCR_HEIGHT);
-    entryFrame->setStyleSheet("*{background-color: black; color: white;}");
+    entryFrame->setStyleSheet("*{background-color:black; color:white;}");
 
     entryFrame->setLayout(entryLayout);
 
@@ -48,4 +48,5 @@ OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
     motEffOth->setDuration(60000);
     motEffOth->setStartValue(QPoint(1/4*SCR_WIDTH,0));
     motEffOth->setEndValue(QPoint(1/4*SCR_WIDTH,-(textField->height())));
+*/
 }

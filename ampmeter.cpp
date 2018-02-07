@@ -54,5 +54,5 @@ void AmpMeter::changeAmp()
     int var = qrand();
     var = 50 + var % 3;
     QString text = QStringLiteral("%1").arg(var);
-    amps->setText(text);
+    //amps->setText(text);
 }
