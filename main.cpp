@@ -4,7 +4,7 @@
 short int SCR_WIDTH = 800;
 short int SCR_HEIGHT = 480;
 short int CELL_COUNT = 39;
-int BAUD = 57600;
+int BAUD = 9600;
 
 int main(int argc, char *argv[])
 {

@@ -19,7 +19,7 @@ public:
     explicit SerialPortReader(Mainwindow *parent = 0);
     ~SerialPortReader();
 
-    QLabel *status = nullptr;
+    //QLabel *status = nullptr;
     QString *inData = new QString;
 
 public slots:
@@ -31,10 +31,11 @@ public slots:
     void handleError(QSerialPort::SerialPortError error);
 
 private:
-    void showStatusMessage(const QString &message);
+    void displayMessage(const QString &message);
 
     QSerialPort *m_serial = nullptr;
     Mainwindow *m_parent;
+    bool readyToRec = false;
 };
 
 #endif
