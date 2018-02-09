@@ -90,13 +90,16 @@ void SerialPortReader::handleError(QSerialPort::SerialPortError error)
 
 void SerialPortReader::displayMessage(const QString &message)
 {
+    static QString f_message;
+    f_message = message;
     if(entry == 1)
         m_parent->ampMeter->amps->setText(message);
     else if(entry == 2)
     {}// Do something for voltage
     else if(entry >= 3 && entry <= CELL_COUNT+3)
     {
-        m_parent->tempEntry->packTemp[entry-3]->setText(message);
+        f_message.append("'C");
+        m_parent->tempEntry->packTemp[entry-3]->setText(f_message);
     }
     else
     {}// Do something?
