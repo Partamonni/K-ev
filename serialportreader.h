@@ -19,7 +19,6 @@ public:
     explicit SerialPortReader(Mainwindow *parent = 0);
     ~SerialPortReader();
 
-    //QLabel *status = nullptr;
     QString *inData = new QString;
 
 public slots:
@@ -35,7 +34,7 @@ private:
 
     QSerialPort *m_serial = nullptr;
     Mainwindow *m_parent;
-    bool readyToRec = false;
+    int entry = 1;
 };
 
 #endif

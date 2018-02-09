@@ -10,6 +10,8 @@
 
 class Mainwindow;
 
+extern short int CELL_COUNT;
+
 class TempEntry : public QWidget
 {
     Q_OBJECT
@@ -21,10 +23,14 @@ public:
     QPixmap *entryBg = new QPixmap("C:/Users/Sieni/Pictures/entry.png");
     QLabel *canvas = new QLabel(entryFrame);
     QPropertyAnimation *motEffEntry = new QPropertyAnimation(entryFrame, "pos");
+    QLabel *packTemp[39];
 
 signals:
 
 public slots:
+
+private:
+    const int cells = CELL_COUNT;
 };
 
 #endif // TEMPENTRY_H

@@ -147,13 +147,9 @@ void Mainwindow::toggleEntry()
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Forward);
         // set direction to open
-        tempEntry->motEffEntry->setStartValue(
-                    QPoint(SCR_WIDTH/4 - tempEntry->entryFrame->width(),
-                           tempEntry->entryFrame->y())
-                    );
-        tempEntry->motEffEntry->setEndValue(
-                    QPoint(SCR_WIDTH/4,tempEntry->entryFrame->y())
-                    );
+        tempEntry->motEffEntry->setStartValue(QPoint(QPoint(-SCR_WIDTH*3/4, 0)));
+        tempEntry->motEffEntry->setEndValue(QPoint(SCR_WIDTH/4,0));
+
         dropdown->menu->raise();
         tempEntry->entryFrame->show();
         tempEntry->motEffEntry->start();
@@ -162,17 +158,16 @@ void Mainwindow::toggleEntry()
     else if(tempEntry->entryFrame->isVisible())
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Backward);
-        tempEntry->motEffEntry->setEndValue(QPoint(tempEntry->entryFrame->pos()));
-        tempEntry->motEffEntry->setStartValue(
-                    QPoint(SCR_WIDTH/4 - SCR_WIDTH, tempEntry->entryFrame->y())
-                    );
+        tempEntry->motEffEntry->setEndValue(QPoint(SCR_WIDTH/4,0));
+        tempEntry->motEffEntry->setStartValue(QPoint(-SCR_WIDTH*3/4, 0));
+
         dropdown->menu->raise();
         tempEntry->motEffEntry->start();
         delay(tempEntry->motEffEntry->duration());
         tempEntry->entryFrame->hide();
         dropdown->entryOpen = false;
     }
-
+/*
     if(otherEntry->entryFrame->isHidden() && dropdown->selPos == 6
             && dropdown->menu->isVisible() && !dropdown->entryOpen)
     {
@@ -205,7 +200,7 @@ void Mainwindow::toggleEntry()
         delay(tempEntry->motEffEntry->duration());
         otherEntry->entryFrame->hide();
         otherEntry->motEffOth->stop();
-    }
+    }*/
 }
 
 void Mainwindow::delay( int millisecondsToWait )

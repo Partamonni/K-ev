@@ -8,7 +8,7 @@
 
 
 //QT_USE_NAMESPACE
-
+extern short int CELL_COUNT;
 
 SerialPortReader::SerialPortReader(Mainwindow *parent) :
         m_serial(new QSerialPort(this))
@@ -37,9 +37,9 @@ void SerialPortReader::openSerialPort()
     }
     else
     {
-        QMessageBox::critical(this, tr("Error"), m_serial->errorString());
+        QMessageBox::critical(this, "Error", m_serial->errorString());
 
-        displayMessage(tr("Open error"));
+        displayMessage("Open error");
     }
 }
 
@@ -61,15 +61,22 @@ void SerialPortReader::readData()
 
     inData->append(QString::fromUtf8(data));
 
-    m_serial->write("ok\n");
+    //m_serial->write("ok\n");
 
-    if(inData->length() >= 4 && (inData->contains('\n') || inData->contains('\r')))
+    while(inData->contains('\n') || inData->contains('\r'))
     {
         int i = inData->indexOf('\n');
         if(i < 0)
             i = inData->indexOf('\r');
-        displayMessage(inData->left(i));
+        if(inData->left(i+1) == "e\n" || inData->left(i+1) == "e\r")
+            entry = 1;
+        else
+        {
+            displayMessage(inData->left(i));
+            entry++;
+        }
         *inData = inData->remove(0,i+1);
+
     }
 }
 
@@ -83,5 +90,15 @@ void SerialPortReader::handleError(QSerialPort::SerialPortError error)
 
 void SerialPortReader::displayMessage(const QString &message)
 {
-    m_parent->ampMeter->amps->setText(message);
+    if(entry == 1)
+        m_parent->ampMeter->amps->setText(message);
+    else if(entry == 2)
+    {}// Do something for voltage
+    else if(entry >= 3 && entry <= CELL_COUNT+3)
+    {
+        m_parent->tempEntry->packTemp[entry-3]->setText(message);
+    }
+    else
+    {}// Do something?
+
 }

@@ -6,7 +6,7 @@
 extern short int SCR_WIDTH;
 
 extern short int SCR_HEIGHT;
-extern short int CELL_COUNT;
+
 
 TempEntry::TempEntry(Mainwindow *parent) : QWidget(parent)
 {
@@ -17,7 +17,6 @@ TempEntry::TempEntry(Mainwindow *parent) : QWidget(parent)
 
     motEffEntry->setEasingCurve(QEasingCurve::InSine);
 
-    QLabel *packTemp[CELL_COUNT];
     for (int i=0; i<CELL_COUNT; ++i)
     {
         packTemp[i] = new QLabel(this);
