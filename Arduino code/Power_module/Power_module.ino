@@ -25,7 +25,7 @@ const int LOW_VOLTAGE = 58;
 const int OVER_HEAT = 60;
 const int NL = 1;  // Newline flag for overloaded serialPrint -function
 const int HOST_QUERY_TIME = 5000; // ms | Change for real application
-const int TMP_COUNT = 21;
+const int TMP_COUNT = 41;
 const int BYTE = 8;
 
 // const bool DEBUG = true; // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
@@ -54,6 +54,26 @@ byte  tempAdr[TMP_COUNT][8] =
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
   {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+  {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 };
 byte  data[TMP_COUNT][9];
 
@@ -85,7 +105,7 @@ void serialPrint(String);
 void serialPrint(String, bool);
 void waitFor(String);
 String enquire(String);
-#if DEBUG
+#if DEBUG&&VERBOSE
 void printBits(byte);
 #endif
 
@@ -236,14 +256,14 @@ void loop()
     {
       do
       {
-        serialPrint("!h", NL);
+        serialPrint("?h", NL);
         delay(1000);
         if(Serial.readStringUntil('\n') == "ok")
         {
           hostNotResponding = false;           
           digitalWrite(mosfetSwitch, HIGH);
           serialPrint("up", NL);
-          #if DEBUG
+          #if DEBUG&&VERBOSE
             serialPrint("Host responded, gates are now open", NL);
           #endif
         }
@@ -258,7 +278,7 @@ void loop()
         PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
         hostShut = true;
         serialPrint("sh", NL);
-        #if DEBUG
+        #if DEBUG&&VERBOSE
           serialPrint("Gate is now shut", NL);
         #endif
       } 
@@ -368,10 +388,15 @@ void loop()
   }
   else
   {
+    serialPrint(":c");
     serialPrint(String(current,1), NL);
+    serialPrint(":v");
     serialPrint(String(voltage,1), NL);
     for(int i = 0; i < TMP_COUNT; ++i)
     {
+        serialPrint(String(':'));
+        serialPrint(String(i));
+        serialPrint(String('-'));
         serialPrint(String(temperature[i],1), NL);
     }
     serialPrint("e", NL);
@@ -487,7 +512,7 @@ void waitFor(String messageWanted)
     
     serialInput = Serial.readStringUntil('\n');
 
-    #if DEBUG
+    #if DEBUG&&VERBOSE
       serialPrint("Command received: ");
       serialPrint(serialInput, NL);
       Serial.print(serialInput.length(), DEC);
@@ -501,7 +526,7 @@ void waitFor(String messageWanted)
     }
     else
     {
-      #if DEBUG
+      #if DEBUG&&VERBOSE
         serialPrint("Answer wasnt wanted, clearing", NL);
       #endif
       serialInput = "";
@@ -522,7 +547,7 @@ String enquire(String query)
     
     serialInput = Serial.readStringUntil('\n');
 
-    #if DEBUG
+    #if DEBUG&&VERBOSE
       serialPrint("Command received: ");
       serialPrint(serialInput, NL);
       Serial.print(serialInput.length(), DEC);
@@ -536,7 +561,7 @@ String enquire(String query)
     }
     else
     {
-      #if DEBUG
+      #if DEBUG&&VERBOSE
         serialPrint("Answer wasnt wanted, clearing", NL);
       #endif
       serialInput = "";
@@ -544,7 +569,7 @@ String enquire(String query)
   }
   return serialInput;
 }
-#if DEBUG
+#if DEBUG&&VERBOSE
 void printBits(int data)
 {
   String bits;

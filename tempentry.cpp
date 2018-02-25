@@ -52,7 +52,7 @@ TempEntry::TempEntry(Mainwindow *parent) : QWidget(parent)
             ++col;
 
         entryLayout->addWidget(packTemp[i],i-(col*rows),col,Qt::AlignCenter);
-        packTemp[i]->setText((QString("34,%1 'C").arg(i%10)));
+        packTemp[i]->setText((QString("N/A'C")));
         packTemp[i]->setFixedWidth(600/COLUMNS-10);
         packTemp[i]->setAlignment(Qt::AlignCenter);
     }

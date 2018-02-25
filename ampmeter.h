@@ -17,13 +17,15 @@ public:
     QGridLayout *ampLay = new QGridLayout;
     QLabel *amps = new QLabel;
     QLabel *ampsUnit = new QLabel;
+    QLabel *volts = new QLabel;
+    QLabel *voltsUnit = new QLabel;
     QLabel *back = new QLabel;
     QTime *time = new QTime;
     QTimer *timer = new QTimer;
     QFont *font = new QFont;
 
 public slots:
-    void changeAmp();
+    //void changeAmp();
 
 };
 

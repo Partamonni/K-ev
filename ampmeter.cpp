@@ -23,6 +23,14 @@ AmpMeter::AmpMeter(QWidget *parent)
     ampsUnit->setText("A");
     ampsUnit->setStyleSheet("color: white;");
 
+    volts->setFont(font);
+    volts->setText("0");
+    volts->setStyleSheet("color: white;");
+
+    voltsUnit->setFont(font);
+    voltsUnit->setText("V");
+    voltsUnit->setStyleSheet("color: white;");
+
     ampFrame->setFixedSize(SCR_WIDTH,SCR_HEIGHT);
     ampFrame->setLayout(ampLay);
 
@@ -34,8 +42,10 @@ AmpMeter::AmpMeter(QWidget *parent)
 
 
     ampLay->addWidget(fillFrame,1,1,1,3);
-    ampLay->addWidget(amps,1,2,Qt::AlignRight);
-    ampLay->addWidget(ampsUnit,1,3,Qt::AlignLeft);
+    ampLay->addWidget(volts,1,1,Qt::AlignRight);
+    ampLay->addWidget(voltsUnit,1,2,Qt::AlignLeft);
+    ampLay->addWidget(amps,1,3,Qt::AlignRight);
+    ampLay->addWidget(ampsUnit,1,4,Qt::AlignLeft);
     ampLay->setSpacing(0);
     ampLay->setContentsMargins(0,0,0,0);
     ampLay->setMargin(0);
@@ -45,10 +55,10 @@ AmpMeter::AmpMeter(QWidget *parent)
     ampsUnit->show();
 
 
-    connect(timer,SIGNAL(timeout()),this,SLOT(changeAmp()));
-    timer->start(500);
+/*  connect(timer,SIGNAL(timeout()),this,SLOT(changeAmp()));
+    timer->start(500); */
 }
-
+/* For testing
 void AmpMeter::changeAmp()
 {
     int var = qrand();
@@ -56,3 +66,4 @@ void AmpMeter::changeAmp()
     QString text = QStringLiteral("%1").arg(var);
     //amps->setText(text);
 }
+*/

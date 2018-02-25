@@ -47,7 +47,7 @@ void SerialPortReader::closeSerialPort()
 {
     if (m_serial->isOpen())
         m_serial->close();
-    displayMessage(tr("Disconnected"));
+    displayMessage("Disconnected");
 }
 
 void SerialPortReader::writeData(const QByteArray &outData)
@@ -61,19 +61,57 @@ void SerialPortReader::readData()
 
     inData->append(QString::fromUtf8(data));
 
-    //m_serial->write("ok\n");
-
     while(inData->contains('\n') || inData->contains('\r'))
     {
-        int i = inData->indexOf('\n');
-        if(i < 0)
-            i = inData->indexOf('\r');
-        if(inData->left(i+1) == "e\n" || inData->left(i+1) == "e\r")
-            entry = 1;
-        else
+        int i;
+        if(inData->contains('\n'))
         {
-            displayMessage(inData->left(i));
-            entry++;
+            inData->remove('\r');
+            i = inData->indexOf('\n');
+        }
+        else
+            i = inData->indexOf('\r');
+
+        if(inData->at(0) == "e")
+            m_serial->write("ok\n");
+        else if(inData->at(0) == '?' && inData->at(1) == 'h')
+        {
+            m_serial->write("ok\n");
+        }
+        else if(inData->at(0) == "!" || inData->at(0) == "!")
+        {
+            if(inData->at(1) == 'C')
+            {}//Do something
+            else if(inData->at(1) == 'V')
+            {}//Do something
+            else if(inData->at(1) == 'T')
+            {}//Do something
+            else if(inData->at(1) == 'v')
+            {}//Do something
+        }
+        else if(inData->at(0) == 'u')
+        {}
+        else if(inData->at(0) == ':')
+        {
+            if(inData->at(1) == 'c')
+            {
+                entry = 1;
+                displayMessage(inData->mid(2,i-2));
+            }
+            else if(inData->at(1) == 'v')
+            {
+                entry = 2;
+                displayMessage(inData->mid(2,i-2));
+            }
+            else
+            {
+                QString entryNum = inData->mid(1,inData->indexOf('-')-1);
+                entry = entryNum.toInt()+3;
+                if(inData->mid(inData->indexOf('-')+1,i-inData->indexOf('-')-1) != "257.0")
+                    displayMessage(inData->mid(inData->indexOf('-')+1,i-inData->indexOf('-')-1));
+                else
+                    displayMessage("CRC");
+            }
         }
         *inData = inData->remove(0,i+1);
 
@@ -95,7 +133,7 @@ void SerialPortReader::displayMessage(const QString &message)
     if(entry == 1)
         m_parent->ampMeter->amps->setText(message);
     else if(entry == 2)
-    {}// Do something for voltage
+        m_parent->ampMeter->volts->setText(message);
     else if(entry >= 3 && entry <= CELL_COUNT+3)
     {
         f_message.append("'C");
