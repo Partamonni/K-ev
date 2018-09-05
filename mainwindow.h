@@ -7,11 +7,15 @@
 #include <QPixmap>
 #include <QGridLayout>
 #include <QGraphicsOpacityEffect>
+#include <QTime>
 #include "dropdown.h"
 #include "tempentry.h"
 #include "otherentry.h"
 #include "ampmeter.h"
 #include "serialportreader.h"
+#include "buttons.h"
+
+#define RPI 0
 
 class Mainwindow : public QWidget
 {
@@ -22,7 +26,7 @@ public:
     ~Mainwindow();
 
     int releaseTime = 600;
-    bool mouseReleased = false;
+    bool released = false;
     bool justClosedFlag = false;
 
     QLabel *bgLabel = new QLabel;
@@ -36,21 +40,38 @@ public:
     AmpMeter *ampMeter = new AmpMeter;
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
     SerialPortReader *mySerial = new SerialPortReader(this);
+#if RPI
+    Buttons *buttons = new Buttons(this);
+#endif
+    QTimer *menuTimer = new QTimer(this);
+    QTimer *entryTimer = new QTimer(this);
+
+#if RPI == 0
     void delay(int);
+    void lReleaseEvent();
+    void lPressEvent();
+    void rPressEvent();
+#endif
 
 signals:
     void menuPressed();
-    void selectDown();
     void keyPressed();
 
 public slots:
     void toggleMenu();
+    void shutMenu();
     void toggleEntry();
 
+    void menuIsShutFunc();
+    void entryIsShutFunc();
+
+#if RPI == 0
 protected:
     void mouseReleaseEvent(QMouseEvent *mouseEvent1);
     void mousePressEvent(QMouseEvent *mouseEvent2);
     void keyPressEvent(QKeyEvent *keyEvent);
+#endif
+
 };
 
 #endif // MAINWINDOW_H

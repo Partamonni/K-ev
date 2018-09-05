@@ -27,4 +27,5 @@ Dropdown::Dropdown(Mainwindow *parent)
     motEffSel->setEasingCurve(QEasingCurve::OutQuint);
     motEffSel->setDuration(300);
 
+    connect(this->motEffMen, SIGNAL(finished()), parent, SLOT(menuIsShutFunc()));
 }

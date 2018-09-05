@@ -25,11 +25,11 @@ public:
 
     QWidget *menu = new QWidget();
     QLabel *selector = new QLabel();
-    QPixmap *selectorImg = new QPixmap("C:/Users/Sieni/Pictures/buttonselect.png");
+    QPixmap *selectorImg = new QPixmap(":/buttonselect.png");
     QGridLayout *layout = new QGridLayout();
 
-    EntryButton *e1 = new EntryButton(this, QString("Cell Voltages"));
-    EntryButton *e2 = new EntryButton(this, QString("Temperatures"));
+    EntryButton *e1 = new EntryButton(this, QString("Temperatures"));
+    EntryButton *e2 = new EntryButton(this, QString("Cell Voltages"));
     EntryButton *e3 = new EntryButton(this, QString("Something"));
     EntryButton *e4 = new EntryButton(this, QString("Error Messages"));
     EntryButton *e5 = new EntryButton(this, QString("About"));

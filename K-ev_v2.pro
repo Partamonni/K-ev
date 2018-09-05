@@ -11,7 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = K-ev_v2
 TEMPLATE = app
 
-CONFIG += debug
+CONFIG += debug c++11
+QMAKE_CXXFLAGS += -std=c++11
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -33,7 +34,8 @@ SOURCES += \
     tempentry.cpp \
     ampmeter.cpp \
     otherentry.cpp \
-    serialportreader.cpp
+    serialportreader.cpp \
+    buttons.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,4 +44,10 @@ HEADERS += \
     tempentry.h \
     ampmeter.h \
     otherentry.h \
-    serialportreader.h
+    serialportreader.h \
+    buttons.h
+
+#LIBS += -L/usr/local/include -lwiringPi
+
+RESOURCES += \
+    pics.qrc

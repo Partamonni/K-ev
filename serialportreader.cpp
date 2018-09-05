@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include "mainwindow.h"
 
+#define RPI 0
+
 
 //QT_USE_NAMESPACE
 extern short int CELL_COUNT;
@@ -16,7 +18,7 @@ SerialPortReader::SerialPortReader(Mainwindow *parent) :
     m_parent = parent;
     inData->reserve(100);
 
-    connect(m_serial, &QSerialPort::errorOccurred, this, &SerialPortReader::handleError);
+    connect(m_serial, static_cast<void (QSerialPort::*)(QSerialPort::SerialPortError)>(&QSerialPort::error), this, &SerialPortReader::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &SerialPortReader::readData);
 }
 
@@ -25,7 +27,12 @@ SerialPortReader::~SerialPortReader()
 
 void SerialPortReader::openSerialPort()
 {
-    m_serial->setPortName("COM7");
+#if RPI
+    m_serial->setPortName("ttyAMA0");
+#else
+    m_serial->setPortName("COM3");
+#endif
+
     m_serial->setBaudRate(QSerialPort::Baud57600);
     m_serial->setDataBits(QSerialPort::Data8);
     m_serial->setParity(QSerialPort::NoParity);
@@ -33,7 +40,7 @@ void SerialPortReader::openSerialPort()
     m_serial->setFlowControl(QSerialPort::NoFlowControl);
     if (m_serial->open(QIODevice::ReadWrite))
     {
-        displayMessage(tr("Connected"));
+        displayMessage("Connected");
     }
     else
     {
@@ -72,13 +79,13 @@ void SerialPortReader::readData()
         else
             i = inData->indexOf('\r');
 
-        if(inData->at(0) == "e")
+        if(inData->at(0) == 'e')
             m_serial->write("ok\n");
         else if(inData->at(0) == '?' && inData->at(1) == 'h')
         {
             m_serial->write("ok\n");
         }
-        else if(inData->at(0) == "!" || inData->at(0) == "!")
+        else if(inData->at(0) == '!')
         {
             if(inData->at(1) == 'C')
             {}//Do something
@@ -113,6 +120,11 @@ void SerialPortReader::readData()
                     displayMessage("CRC");
             }
         }
+        else
+        {
+            // Unknown data
+        }
+
         *inData = inData->remove(0,i+1);
 
     }
@@ -121,7 +133,7 @@ void SerialPortReader::readData()
 void SerialPortReader::handleError(QSerialPort::SerialPortError error)
 {
     if (error == QSerialPort::ResourceError) {
-        QMessageBox::critical(this, tr("Critical Error"), m_serial->errorString());
+        QMessageBox::critical(this, "Critical Error", m_serial->errorString());
         closeSerialPort();
     }
 }

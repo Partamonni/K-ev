@@ -13,9 +13,9 @@ extern short int CELL_COUNT;
 
 
 OtherEntry::OtherEntry(Mainwindow *parent) : QWidget(parent)
-{
+{/*
     short int ENT_WIDTH = SCR_WIDTH*3/4;
-/*
+
     QFont font("Arial", 10, Qt::white);
 
     motEffEntry->setEasingCurve(QEasingCurve::InSine);

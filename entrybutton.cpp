@@ -20,7 +20,7 @@ EntryButton::EntryButton(Dropdown *parent, QString text) : QWidget(parent)
     entry->setFixedSize(SCR_WIDTH/4,SCR_HEIGHT/parent->entries);
     parent->layout->addWidget(entry,parent->entriesInserted,0);
     entry->setFont(font);
-    entry->setStyleSheet("QPushButton {border-image: url(C:/Users/Sieni/Pictures/button.png); color: white;}");
+    entry->setStyleSheet("QPushButton {border-image: url(:/button.png); color: white;}");
 
     parent->entriesInserted++;
 }

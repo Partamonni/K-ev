@@ -5,9 +5,6 @@
 #include <QWidget>
 #include <QString>
 
-//#include "mainwindow.h"
-
-
 class QLabel;
 class Mainwindow;
 

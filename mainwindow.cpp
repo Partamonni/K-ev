@@ -3,9 +3,12 @@
 #include "tempentry.h"
 #include "otherentry.h"
 #include "serialportreader.h"
+#include "buttons.h"
 
 #include <QTime>
 #include <QCoreApplication>
+
+#define RPI 0
 
 extern short int SCR_WIDTH;
 extern short int SCR_HEIGHT;
@@ -14,16 +17,17 @@ extern short int CELL_COUNT;
 Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
 {
     this->setFixedSize(SCR_WIDTH,SCR_HEIGHT);
-    this->setWindowFlag(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);
+#if RPI == 0
     this->grabMouse();
     this->grabKeyboard();
-
+#endif
     mySerial->openSerialPort();
 
-    bgLabel->setFixedSize(this->width(),this->height());
+    bgLabel->setFixedSize(SCR_WIDTH,SCR_HEIGHT);
 
-    bgImg->load("C:/Users/Sieni/Pictures/K-EV_rev4.png");
-    *bgImg = bgImg->scaled(this->width(),this->height(),
+    bgImg->load(":/K-EV_rev4.png");
+    *bgImg = bgImg->scaled(SCR_WIDTH, SCR_HEIGHT,
                            Qt::KeepAspectRatioByExpanding,
                            Qt::SmoothTransformation);
 
@@ -35,7 +39,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
 
     for(int i = 0; i < 4; ++i)
     {
-        bgLayout->setColumnMinimumWidth(i,this->width()/4);
+        bgLayout->setColumnMinimumWidth(i,SCR_WIDTH/4);
     }
 
     fgLayout->addWidget(dropdown->menu,0,0,Qt::AlignLeft);
@@ -56,23 +60,43 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     tempEntry->entryFrame->hide();
     otherEntry->entryFrame->hide();
 
+#if RPI == 0
     connect(this, SIGNAL(menuPressed()), this, SLOT(toggleMenu()) );
     connect(this, SIGNAL(keyPressed()), this, SLOT(toggleEntry()) );
+#endif
+
 }
 
 Mainwindow::~Mainwindow(){}
 
+#if RPI == 0
 void Mainwindow::mouseReleaseEvent(QMouseEvent *mouseEvent1)
 {
-    emit menuPressed();
-    mouseReleased = true;
+    this->lReleaseEvent();
 }
 
 void Mainwindow::mousePressEvent(QMouseEvent *mouseEvent2)
 {
-    mouseReleased = false; // make sure previous toggles doesn't affect evaluation.
+    this->lPressEvent();
+}
+
+void Mainwindow::keyPressEvent(QKeyEvent *keyEvent)
+{
+    this->rPressEvent();
+}
+
+
+void Mainwindow::lReleaseEvent()
+{
+    emit this->menuPressed();
+    released = true;
+}
+
+void Mainwindow::lPressEvent()
+{
+    released = false; // make sure previous toggles doesn't affect evaluation.
     delay(releaseTime); // don't hang the program while waiting
-    if(!mouseReleased && !dropdown->menu->isHidden())
+    if(!released && !dropdown->menu->isHidden())
     {   // if pressed long enough, and menu is visible
         // and not moving, set menu to slide out.
         if(dropdown->motEffMen->state() == QAbstractAnimation::Stopped)
@@ -84,7 +108,7 @@ void Mainwindow::mousePressEvent(QMouseEvent *mouseEvent2)
                 toggleEntry();
             delay(dropdown->motEffMen->duration());
             dropdown->menu->hide();
-            if(!mouseReleased)
+            if(!released)
                 justClosedFlag = true;
             // Flag to inform that menu has closed if button hasn't
             // been released. If not implemented, menu would open
@@ -93,14 +117,16 @@ void Mainwindow::mousePressEvent(QMouseEvent *mouseEvent2)
     }
 }
 
-void Mainwindow::keyPressEvent(QKeyEvent *keyEvent)
+void Mainwindow::rPressEvent()
 {
     if(tempEntry->motEffEntry->state() == QAbstractAnimation::Stopped ||
             tempEntry->motEffEntry->state() ==
-            QAbstractAnimation::Forward | QAbstractAnimation::Running
-            )
+            (QAbstractAnimation::Forward | QAbstractAnimation::Running))
+    {
         emit keyPressed();
+    }
 }
+#endif
 
 void Mainwindow::toggleMenu()
 {
@@ -108,13 +134,15 @@ void Mainwindow::toggleMenu()
         justClosedFlag = false;
     else if(dropdown->menu->isHidden())
     {
-        dropdown->motEffMen->setDirection(
-                    QAbstractAnimation::Backward); // set direction to open
+        // set direction to open
+        dropdown->motEffMen->
+                setDirection(QAbstractAnimation::Backward);
         dropdown->selPos = 1; // move selection to top
         dropdown->motEffSel->setStartValue(dropdown->selector->pos());
         dropdown->motEffSel->setEndValue(
                     QPoint(dropdown->selector->x(),
-                           dropdown->selector->height()*(dropdown->selPos-1)));
+                           dropdown->selector->height()*(dropdown->selPos-1))
+                    );
         dropdown->motEffSel->start();
         dropdown->menu->show(); // show menu outside of shown area
         dropdown->motEffMen->start(); // start animation that slides the menu visible
@@ -140,9 +168,28 @@ void Mainwindow::toggleMenu()
     }
 }
 
+void Mainwindow::shutMenu()
+{
+    if(!dropdown->menu->isHidden())
+    {   // if pressed long enough, and menu is visible
+        // and not moving, set menu to slide out.
+        if(dropdown->motEffMen->state() == QAbstractAnimation::Stopped)
+        {
+            dropdown->motEffMen->setDirection(QAbstractAnimation::Forward);
+            dropdown->motEffMen->start();
+            if(tempEntry->entryFrame->isVisible() || otherEntry->entryFrame->isVisible())
+                toggleEntry();
+
+            // Flag to inform that menu has closed if button hasn't
+            // been released. If not implemented, menu would open
+            // again if button was still held when menu had closed.
+        }
+    }
+}
+
 void Mainwindow::toggleEntry()
 {
-    if(tempEntry->entryFrame->isHidden() && dropdown->selPos == 2
+    if(tempEntry->entryFrame->isHidden() && dropdown->selPos == 1
         && dropdown->menu->isVisible() && !dropdown->entryOpen)
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Forward);
@@ -158,56 +205,35 @@ void Mainwindow::toggleEntry()
     else if(tempEntry->entryFrame->isVisible())
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Backward);
-        tempEntry->motEffEntry->setEndValue(QPoint(SCR_WIDTH/4,0));
         tempEntry->motEffEntry->setStartValue(QPoint(-SCR_WIDTH*3/4, 0));
+        tempEntry->motEffEntry->setEndValue(QPoint(SCR_WIDTH/4,0));
 
         dropdown->menu->raise();
         tempEntry->motEffEntry->start();
-        delay(tempEntry->motEffEntry->duration());
-        tempEntry->entryFrame->hide();
-        dropdown->entryOpen = false;
     }
-/*
-    if(otherEntry->entryFrame->isHidden() && dropdown->selPos == 6
-            && dropdown->menu->isVisible() && !dropdown->entryOpen)
-    {
-        otherEntry->motEffEntry->setDirection(
-                    QAbstractAnimation::Forward); // set direction to open
-        otherEntry->motEffEntry->setStartValue(
-                    QPoint(SCR_WIDTH/4 - otherEntry->entryFrame->width(),
-                           otherEntry->entryFrame->y())
-                    );
-        otherEntry->motEffEntry->setEndValue(
-                    QPoint(SCR_WIDTH/4,otherEntry->entryFrame->y()));
-        dropdown->menu->raise();
-        otherEntry->entryFrame->show();
-        delay(2000);
-        otherEntry->motEffEntry->start();
-        otherEntry->motEffOth->start();
-        dropdown->entryOpen = true;
-    }
-    else if (otherEntry->entryFrame->isVisible())
-    {
-        otherEntry->motEffEntry->setDirection(
-                    QAbstractAnimation::Backward);
-        otherEntry->motEffEntry->setEndValue(
-                    QPoint(otherEntry->entryFrame->pos()));
-        otherEntry->motEffEntry->setStartValue(
-                    QPoint(SCR_WIDTH/4 - SCR_WIDTH, otherEntry->entryFrame->y()));
-        dropdown->menu->raise();
-        dropdown->entryOpen = false;
-        otherEntry->motEffEntry->start();
-        delay(tempEntry->motEffEntry->duration());
-        otherEntry->entryFrame->hide();
-        otherEntry->motEffOth->stop();
-    }*/
+    dropdown->menu->setFocus();
 }
 
-void Mainwindow::delay( int millisecondsToWait )
+void Mainwindow::delay(int millisecondsToWait)
 { // allows establishing within-code timers which won't hang up the program (gold nugget!)
     QTime dieTime = QTime::currentTime().addMSecs( millisecondsToWait );
     while( QTime::currentTime() < dieTime )
     {
         QCoreApplication::processEvents( QEventLoop::AllEvents, 100 );
+    }
+}
+
+void Mainwindow::menuIsShutFunc()
+{
+    if(dropdown->motEffMen->direction() == QAbstractAnimation::Forward)
+        dropdown->menu->hide();
+}
+
+void Mainwindow::entryIsShutFunc()
+{
+    if(tempEntry->motEffEntry->direction() == QAbstractAnimation::Backward)
+    {
+        tempEntry->entryFrame->hide();
+        dropdown->entryOpen = false;
     }
 }
