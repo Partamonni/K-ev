@@ -29,11 +29,11 @@ public:
     QGridLayout *layout = new QGridLayout();
 
     EntryButton *e1 = new EntryButton(this, QString("Temperatures"));
-    EntryButton *e2 = new EntryButton(this, QString("Cell Voltages"));
-    EntryButton *e3 = new EntryButton(this, QString("Something"));
+    EntryButton *e2 = new EntryButton(this, QString("Status"));
+    EntryButton *e3 = new EntryButton(this, QString("Stats"));
     EntryButton *e4 = new EntryButton(this, QString("Error Messages"));
-    EntryButton *e5 = new EntryButton(this, QString("About"));
-    EntryButton *e6 = new EntryButton(this, QString("Other"));
+    EntryButton *e5 = new EntryButton(this, QString("Serial Log"));
+    EntryButton *e6 = new EntryButton(this, QString("Motor Power\nOff"));
 
     QPropertyAnimation *motEffMen = new QPropertyAnimation(menu, "pos"); // motion effect for menu
     QPropertyAnimation *motEffSel = new QPropertyAnimation(selector, "pos"); // motion effect for selector
