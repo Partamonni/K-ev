@@ -46,8 +46,8 @@ public:
     QTimer *menuTimer = new QTimer(this);
     QTimer *entryTimer = new QTimer(this);
 
-#if RPI == 0
     void delay(int);
+#if RPI == 0
     void lReleaseEvent();
     void lPressEvent();
     void rPressEvent();

@@ -47,7 +47,9 @@ HEADERS += \
     serialportreader.h \
     buttons.h
 
-#LIBS += -L/usr/local/include -lwiringPi
+unix {
+    LIBS += -L/usr/local/include -lwiringPi
+}
 
 RESOURCES += \
     pics.qrc
