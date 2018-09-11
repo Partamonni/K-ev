@@ -1,4 +1,4 @@
-update=10.9.2018 16.10.39
+update=10.9.2018 16.04.54
 version=1
 last_client=kicad
 [pcbnew]

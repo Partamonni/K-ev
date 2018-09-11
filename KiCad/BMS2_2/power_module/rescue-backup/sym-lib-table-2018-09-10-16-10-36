@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name power_module-rescue)(type Legacy)(uri ${KIPRJMOD}/power_module-rescue.lib)(options "")(descr ""))
+  (lib (name Arduino)(type Legacy)(uri C:/Users/Monni/Documents/GitHub/K-ev/KiCad/KiCadLibs/Arduino.lib)(options "")(descr ""))
+  (lib (name Omat)(type Legacy)(uri C:/Users/Monni/Documents/GitHub/K-ev/KiCad/KiCadLibs/Omat.lib)(options "")(descr ""))
+)

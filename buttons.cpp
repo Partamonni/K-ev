@@ -12,8 +12,8 @@
 #include <QCoreApplication>
 
 #define output33 1
-#define inputL 4
-#define inputR 5
+#define inputL 26
+#define inputR 27
 
 extern Buttons *isrClass;
 
