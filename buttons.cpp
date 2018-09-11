@@ -1,5 +1,5 @@
 
-#define RPI 0
+#define RPI 1
 
 #if RPI
 
@@ -30,8 +30,8 @@ Buttons::Buttons(Mainwindow *parent)
     pullUpDnControl(inputL, PUD_UP);
     pullUpDnControl(inputR, PUD_UP);
 
-    wiringPiISR(inputL, INT_EDGE_BOTH, isrCatchL);
-    wiringPiISR(inputR, INT_EDGE_BOTH, isrCatchR);
+    wiringPiISR(inputL, INT_EDGE_FALLING, isrCatchL);
+    wiringPiISR(inputR, INT_EDGE_FALLING, isrCatchR);
 
     connect(this, SIGNAL(buttonPressedL()), this, SLOT(buttonInterruptL()));
     connect(this, SIGNAL(buttonPressedR()), this, SLOT(buttonInterruptR()));
