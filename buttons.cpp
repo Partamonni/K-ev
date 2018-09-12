@@ -40,34 +40,29 @@ Buttons::Buttons(Mainwindow *parent)
 
 void Buttons::buttonInterruptL()
 {
-    if(!lLock)
+    if(!lDown) // If no pressed down state is present, step into
     {
-        lLock = true;
-        delay(50);
-        if(!lDown && !digitalRead(inputL))
+        lDown = true; // Make code wait for release
+        delay(50); // Debounce time
+        if(!digitalRead(inputL)) // Check if button really is pressed
         {
-            lDown = true;
-            timerL->start(m_parent->releaseTime);
+            timerL->start(m_parent->releaseTime); // Start counting if button is held down long enough
         }
         else
-            lLock = false;
+            lDown = false; // False signal, don't notice it
+    }
+    else // If button was pressed last time
+    {
+        delay(50); // Debounce
+        if(digitalRead(inputL)) // If it's now released
+        {
+            timerL->stop(); // Stop timer that counts menu shutdown
+            lDown = false; // Set state to be up
+            m_parent->toggleMenu(); // Toggle menu instead of closing
+        }
+    }
 
-        lActive = false;
-    }
-    else
-    {
-        delay(50);
-        if(digitalRead(inputL))
-        {
-            timerL->stop();
-            lLock = false;
-            lDown = false;
-            lActive = false;
-            m_parent->toggleMenu();
-        }
-        else
-            lActive = false;
-    }
+    lActive = false; // Let new button interrupts be noticed again
 }
 
 void Buttons::buttonInterruptR()
@@ -87,8 +82,8 @@ void Buttons::isrCatchL()
     {
         emit isrClass->buttonPressedL();
         isrClass->lActive = true;
+        return;
     }
-    return;
 }
 
 void Buttons::isrCatchR()
@@ -96,9 +91,9 @@ void Buttons::isrCatchR()
     if(!isrClass->rActive)
     {
         emit isrClass->buttonPressedR();
-        isrClass->rActive = true;
+        isrClass->rActive = true;   
+        return;
     }
-    return;
 }
 
 void Buttons::delay(int millisecondsToWait)
