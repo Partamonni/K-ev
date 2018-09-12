@@ -177,7 +177,7 @@ void Mainwindow::shutMenu()
         {
             dropdown->motEffMen->setDirection(QAbstractAnimation::Forward);
             dropdown->motEffMen->start();
-            if(tempEntry->entryFrame->isVisible() || otherEntry->entryFrame->isVisible())
+            if(dropdown->entryOpen)
                 toggleEntry();
 
             // Flag to inform that menu has closed if button hasn't
@@ -227,6 +227,7 @@ void Mainwindow::menuIsShutFunc()
 {
     if(dropdown->motEffMen->direction() == QAbstractAnimation::Forward)
         dropdown->menu->hide();
+    justClosedFlag = false;
 }
 
 void Mainwindow::entryIsShutFunc()
