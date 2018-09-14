@@ -20,6 +20,7 @@ SerialPortReader::SerialPortReader(Mainwindow *parent) :
 
     connect(m_serial, static_cast<void (QSerialPort::*)(QSerialPort::SerialPortError)>(&QSerialPort::error), this, &SerialPortReader::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &SerialPortReader::readData);
+    connect(this, SIGNAL(motorIsShut(bool)), parent, SLOT(toggleMotorEntry(bool)));
 }
 
 SerialPortReader::~SerialPortReader()
@@ -79,7 +80,7 @@ void SerialPortReader::readData()
         else
             i = inData->indexOf('\r');
 
-        if(inData->at(0) == 'e')
+        if(inData->at(0) == 'e' || inData->at(0) == '~')
             m_serial->write("ok\n");
         else if(inData->at(0) == '?' && inData->at(1) == 'h')
         {
@@ -96,8 +97,14 @@ void SerialPortReader::readData()
             else if(inData->at(1) == 'v')
             {}//Do something
         }
-        else if(inData->at(0) == 'u')
-        {}
+        else if(inData->at(0) == 'u' && inData->at(1) == 'p')
+        {
+            emit motorIsShut(false);
+        }
+        else if(inData->at(0) == 's' && inData->at(1) == 'h')
+        {
+            emit motorIsShut(true);
+        }
         else if(inData->at(0) == ':')
         {
             if(inData->at(1) == 'c')

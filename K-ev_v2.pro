@@ -35,7 +35,8 @@ SOURCES += \
     ampmeter.cpp \
     otherentry.cpp \
     serialportreader.cpp \
-    buttons.cpp
+    buttons.cpp \
+    shutmotorentry.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
     ampmeter.h \
     otherentry.h \
     serialportreader.h \
-    buttons.h
+    buttons.h \
+    shutmotorentry.h
 
 unix {
     LIBS += -L/usr/local/include -lwiringPi

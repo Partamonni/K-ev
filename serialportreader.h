@@ -18,6 +18,9 @@ public:
 
     QString *inData = new QString;
 
+signals:
+    void motorIsShut(bool);
+
 public slots:
     void openSerialPort();
     void closeSerialPort();

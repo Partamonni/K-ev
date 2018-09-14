@@ -4,11 +4,12 @@
 #include "otherentry.h"
 #include "serialportreader.h"
 #include "buttons.h"
+#include "shutmotorentry.h"
 
 #include <QTime>
 #include <QCoreApplication>
 
-#define RPI 0
+#define RPI 1
 
 extern short int SCR_WIDTH;
 extern short int SCR_HEIGHT;
@@ -130,9 +131,13 @@ void Mainwindow::rPressEvent()
 
 void Mainwindow::toggleMenu()
 {
+#if RPI
+    if(dropdown->menu->isHidden())
+#else
     if(justClosedFlag) // capture false start
         justClosedFlag = false;
     else if(dropdown->menu->isHidden())
+#endif
     {
         // set direction to open
         dropdown->motEffMen->
@@ -189,8 +194,37 @@ void Mainwindow::shutMenu()
 
 void Mainwindow::toggleEntry()
 {
-    if(tempEntry->entryFrame->isHidden() && dropdown->selPos == 1
-        && dropdown->menu->isVisible() && !dropdown->entryOpen)
+    if(dropdown->menu->isVisible())
+    {
+
+        if(dropdown->entryOpen && lastEntryFunc != NULL)
+            (this->*lastEntryFunc)();
+
+        switch(dropdown->selPos)
+        {
+        case 1:
+            toggleTempEntry();
+            lastEntryFunc = &Mainwindow::toggleTempEntry;
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 6:
+            toggleMotorEntry();
+            lastEntryFunc = &Mainwindow::toggleTempEntry;
+            break;
+        }
+    }
+}
+
+void Mainwindow::toggleTempEntry()
+{
+    if(tempEntry->entryFrame->isHidden() && !dropdown->entryOpen)
     {
         tempEntry->motEffEntry->setDirection(QAbstractAnimation::Forward);
         // set direction to open
@@ -212,6 +246,35 @@ void Mainwindow::toggleEntry()
         tempEntry->motEffEntry->start();
     }
     dropdown->menu->setFocus();
+}
+
+void Mainwindow::toggleMotorEntry()
+{
+#if RPI
+    if(!shutMotor->getState())
+    {
+        mySerial->writeData("!S");
+        motorShutTimer->singleShot(100, this, SLOT(toggleMotorEntry(false)));
+    }
+#else
+    toggleMotorEntry(shutMotor->getState());
+#endif
+}
+
+void Mainwindow::toggleMotorEntry(bool success)
+{
+    if(success)
+    {
+        motorShutTimer->stop();
+        dropdown->e6->entry->setText("Motor Power\nOn");
+        shutMotor->setState(false);
+    }
+    else
+    {
+        dropdown->e6->entry->setText("Motor Power\nOff");
+        shutMotor->setState(true);
+    }
+
 }
 
 void Mainwindow::delay(int millisecondsToWait)

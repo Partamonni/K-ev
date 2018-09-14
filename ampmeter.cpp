@@ -42,10 +42,10 @@ AmpMeter::AmpMeter(QWidget *parent)
 
 
     ampLay->addWidget(fillFrame,1,1,1,3);
-    ampLay->addWidget(volts,1,1,Qt::AlignRight);
-    ampLay->addWidget(voltsUnit,1,2,Qt::AlignLeft);
-    ampLay->addWidget(amps,1,3,Qt::AlignRight);
-    ampLay->addWidget(ampsUnit,1,4,Qt::AlignLeft);
+    ampLay->addWidget(volts,1,2,Qt::AlignRight);
+    ampLay->addWidget(voltsUnit,1,3,Qt::AlignLeft);
+    ampLay->addWidget(amps,1,4,Qt::AlignRight);
+    ampLay->addWidget(ampsUnit,1,5,Qt::AlignLeft);
     ampLay->setSpacing(0);
     ampLay->setContentsMargins(0,0,0,0);
     ampLay->setMargin(0);

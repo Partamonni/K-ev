@@ -8,12 +8,14 @@
 #include <QGridLayout>
 #include <QGraphicsOpacityEffect>
 #include <QTime>
+#include <QTimer>
 #include "dropdown.h"
 #include "tempentry.h"
 #include "otherentry.h"
 #include "ampmeter.h"
 #include "serialportreader.h"
 #include "buttons.h"
+#include "shutmotorentry.h"
 
 #define RPI 0
 
@@ -40,6 +42,7 @@ public:
     AmpMeter *ampMeter = new AmpMeter;
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
     SerialPortReader *mySerial = new SerialPortReader(this);
+    ShutMotorEntry *shutMotor = new ShutMotorEntry(this);
 #if RPI
     Buttons *buttons = new Buttons(this);
 #endif
@@ -61,6 +64,7 @@ public slots:
     void toggleMenu();
     void shutMenu();
     void toggleEntry();
+    void toggleMotorEntry(bool success);
 
     void menuIsShutFunc();
     void entryIsShutFunc();
@@ -71,6 +75,12 @@ protected:
     void mousePressEvent(QMouseEvent *mouseEvent2);
     void keyPressEvent(QKeyEvent *keyEvent);
 #endif
+private:
+    void toggleTempEntry();
+    void toggleMotorEntry();
+    void (Mainwindow::*lastEntryFunc)() = NULL;
+
+    QTimer *motorShutTimer = new QTimer;
 
 };
 
