@@ -26,7 +26,7 @@ SerialPortReader::SerialPortReader(Mainwindow *parent) :
 SerialPortReader::~SerialPortReader()
 {}
 
-void SerialPortReader::openSerialPort()
+bool SerialPortReader::openSerialPort()
 {
 #if RPI
     m_serial->setPortName("ttyAMA0");
@@ -42,12 +42,14 @@ void SerialPortReader::openSerialPort()
     if (m_serial->open(QIODevice::ReadWrite))
     {
         displayMessage("Connected");
+        return true;
     }
     else
     {
         QMessageBox::critical(this, "Error", m_serial->errorString());
 
         displayMessage("Open error");
+        return false;
     }
 }
 

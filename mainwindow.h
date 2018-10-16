@@ -16,6 +16,7 @@
 #include "serialportreader.h"
 #include "buttons.h"
 #include "shutmotorentry.h"
+#include "notice.h"
 
 #define RPI 0
 
@@ -43,6 +44,7 @@ public:
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
     SerialPortReader *mySerial = new SerialPortReader(this);
     ShutMotorEntry *shutMotor = new ShutMotorEntry(this);
+    Notice *splash = new Notice(this);
 #if RPI
     Buttons *buttons = new Buttons(this);
 #endif

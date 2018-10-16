@@ -9,7 +9,7 @@
 #include <QTime>
 #include <QCoreApplication>
 
-#define RPI 1
+#define RPI 0
 
 extern short int SCR_WIDTH;
 extern short int SCR_HEIGHT;
@@ -23,7 +23,8 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     this->grabMouse();
     this->grabKeyboard();
 #endif
-    mySerial->openSerialPort();
+    if(mySerial->openSerialPort())
+        mySerial->writeData("!S");
 
     bgLabel->setFixedSize(SCR_WIDTH,SCR_HEIGHT);
 
@@ -36,6 +37,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     bgLabel->setPixmap(*bgImg);
     bgLayout->addWidget(bgLabel,0,0,1,3);
     bgLayout->addWidget(ampMeter->ampFrame,0,0,Qt::AlignVCenter);
+    bgLayout->addWidget(splash->noticeFrame,0,0,1,4,Qt::AlignCenter);
     bgLayout->setContentsMargins(0,0,0,0);
 
     for(int i = 0; i < 4; ++i)
@@ -60,6 +62,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     dropdown->menu->hide();
     tempEntry->entryFrame->hide();
     otherEntry->entryFrame->hide();
+    splash->noticeFrame->show();
 
 #if RPI == 0
     connect(this, SIGNAL(menuPressed()), this, SLOT(toggleMenu()) );
@@ -267,11 +270,13 @@ void Mainwindow::toggleMotorEntry(bool success)
     {
         motorShutTimer->stop();
         dropdown->e6->entry->setText("Motor Power\nOn");
+        splash->showText("Traction is now off");
         shutMotor->setState(false);
     }
     else
     {
         dropdown->e6->entry->setText("Motor Power\nOff");
+        splash->showText("Traction is now on");
         shutMotor->setState(true);
     }
 

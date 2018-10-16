@@ -33,7 +33,7 @@ public:
     EntryButton *e3 = new EntryButton(this, QString("Stats"));
     EntryButton *e4 = new EntryButton(this, QString("Error Messages"));
     EntryButton *e5 = new EntryButton(this, QString("Serial Log"));
-    EntryButton *e6 = new EntryButton(this, QString("Motor Power\nOff"));
+    EntryButton *e6 = new EntryButton(this, QString("Motor Power\nOn"));
 
     QPropertyAnimation *motEffMen = new QPropertyAnimation(menu, "pos"); // motion effect for menu
     QPropertyAnimation *motEffSel = new QPropertyAnimation(selector, "pos"); // motion effect for selector

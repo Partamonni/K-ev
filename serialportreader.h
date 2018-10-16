@@ -22,7 +22,7 @@ signals:
     void motorIsShut(bool);
 
 public slots:
-    void openSerialPort();
+    bool openSerialPort();
     void closeSerialPort();
     void writeData(const QByteArray &outData);
     void readData();
