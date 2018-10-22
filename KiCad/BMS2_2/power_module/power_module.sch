@@ -1,37 +1,6 @@
-EESchema Schematic File Version 2
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
-LIBS:Arduino
-LIBS:Omat
+EESchema Schematic File Version 4
 LIBS:power_module-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -46,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L CONN_01X01 P1
+L power_module-rescue:CONN_01X01 P1
 U 1 1 58E00340
 P 1650 1500
 F 0 "P1" H 1650 1600 50  0000 C CNN
@@ -57,7 +26,7 @@ F 3 "" H 1650 1500 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L CONN_01X01 P2
+L power_module-rescue:CONN_01X01 P2
 U 1 1 58E00500
 P 1650 2000
 F 0 "P2" H 1650 2100 50  0000 C CNN
@@ -68,7 +37,7 @@ F 3 "" H 1650 2000 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L R R5
+L power_module-rescue:R R5
 U 1 1 58E00586
 P 2850 2000
 F 0 "R5" V 2930 2000 50  0000 C CNN
@@ -79,7 +48,7 @@ F 3 "" H 2850 2000 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L LM5009 U1
+L power_module-rescue:LM5009 U1
 U 1 1 58E00B30
 P 1850 5850
 F 0 "U1" H 1850 6300 60  0000 C CNN
@@ -90,7 +59,7 @@ F 3 "" H 1850 5850 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R4
+L power_module-rescue:R R4
 U 1 1 58E00C49
 P 2800 5750
 F 0 "R4" V 2880 5750 50  0000 C CNN
@@ -101,7 +70,7 @@ F 3 "" H 2800 5750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R6
+L power_module-rescue:R R6
 U 1 1 58E00C98
 P 3500 5450
 F 0 "R6" V 3580 5450 50  0000 C CNN
@@ -112,7 +81,7 @@ F 3 "" H 3500 5450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR01
+L power_module-rescue:GND #PWR01
 U 1 1 58E00D4F
 P 3500 6100
 F 0 "#PWR01" H 3500 5850 50  0001 C CNN
@@ -123,7 +92,7 @@ F 3 "" H 3500 6100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C4
+L power_module-rescue:C C4
 U 1 1 58E00D87
 P 2600 6450
 F 0 "C4" H 2625 6550 50  0000 L CNN
@@ -134,7 +103,7 @@ F 3 "" H 2600 6450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR02
+L power_module-rescue:GND #PWR02
 U 1 1 58E00DBC
 P 2600 6600
 F 0 "#PWR02" H 2600 6350 50  0001 C CNN
@@ -145,7 +114,7 @@ F 3 "" H 2600 6600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L INDUCTOR L1
+L power_module-rescue:INDUCTOR L1
 U 1 1 58E01A0F
 P 3200 4850
 F 0 "L1" V 3150 4850 50  0000 C CNN
@@ -156,7 +125,7 @@ F 3 "" H 3200 4850 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C C8
+L power_module-rescue:C C8
 U 1 1 58E01B2D
 P 3900 5250
 F 0 "C8" H 3925 5350 50  0000 L CNN
@@ -167,7 +136,7 @@ F 3 "" H 3900 5250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR03
+L power_module-rescue:GND #PWR03
 U 1 1 58E01BA3
 P 3900 5500
 F 0 "#PWR03" H 3900 5250 50  0001 C CNN
@@ -178,7 +147,7 @@ F 3 "" H 3900 5500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR04
+L power_module-rescue:GND #PWR04
 U 1 1 58E01E4C
 P 950 6300
 F 0 "#PWR04" H 950 6050 50  0001 C CNN
@@ -189,7 +158,7 @@ F 3 "" H 950 6300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R1
+L power_module-rescue:R R1
 U 1 1 58E01E75
 P 950 6050
 F 0 "R1" V 1030 6050 50  0000 C CNN
@@ -200,7 +169,7 @@ F 3 "" H 950 6050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR05
+L power_module-rescue:GND #PWR05
 U 1 1 58E020A1
 P 2800 5250
 F 0 "#PWR05" H 2800 5000 50  0001 C CNN
@@ -211,7 +180,7 @@ F 3 "" H 2800 5250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C1
+L power_module-rescue:C C1
 U 1 1 58E020F7
 P 1000 5100
 F 0 "C1" H 1025 5200 50  0000 L CNN
@@ -222,7 +191,7 @@ F 3 "" H 1000 5100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR06
+L power_module-rescue:GND #PWR06
 U 1 1 58E023F1
 P 1850 2300
 F 0 "#PWR06" H 1850 2050 50  0001 C CNN
@@ -233,7 +202,7 @@ F 3 "" H 1850 2300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR07
+L power_module-rescue:+5V #PWR07
 U 1 1 58E0278A
 P 5550 4850
 F 0 "#PWR07" H 5550 4700 50  0001 C CNN
@@ -244,7 +213,7 @@ F 3 "" H 5550 4850 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L +5V #PWR08
+L power_module-rescue:+5V #PWR08
 U 1 1 58E0DDEC
 P 5850 5450
 F 0 "#PWR08" H 5850 5300 50  0001 C CNN
@@ -255,7 +224,7 @@ F 3 "" H 5850 5450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR09
+L power_module-rescue:GND #PWR09
 U 1 1 58E0DEB7
 P 6100 5850
 F 0 "#PWR09" H 6100 5600 50  0001 C CNN
@@ -266,7 +235,7 @@ F 3 "" H 6100 5850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_01X01 P3
+L power_module-rescue:CONN_01X01 P3
 U 1 1 58E10294
 P 7650 2000
 F 0 "P3" H 7650 2100 50  0000 C CNN
@@ -277,7 +246,7 @@ F 3 "" H 7650 2000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R7
+L power_module-rescue:R R7
 U 1 1 58E142C7
 P 3500 5950
 F 0 "R7" V 3580 5950 50  0000 C CNN
@@ -288,7 +257,7 @@ F 3 "" H 3500 5950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R10
+L power_module-rescue:R R10
 U 1 1 58E157FF
 P 4700 2250
 F 0 "R10" V 4780 2250 50  0000 C CNN
@@ -299,7 +268,7 @@ F 3 "" H 4700 2250 50  0000 C CNN
 	0    -1   1    0   
 $EndComp
 $Comp
-L R R9
+L power_module-rescue:R R9
 U 1 1 58E15A91
 P 4250 2250
 F 0 "R9" V 4330 2250 50  0000 C CNN
@@ -310,7 +279,7 @@ F 3 "" H 4250 2250 50  0000 C CNN
 	0    -1   1    0   
 $EndComp
 $Comp
-L R R13
+L power_module-rescue:R R13
 U 1 1 58E1C8C6
 P 6150 4650
 F 0 "R13" V 6230 4650 50  0000 C CNN
@@ -321,7 +290,7 @@ F 3 "" H 6150 4650 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L TC1185 U3
+L power_module-rescue:TC1185 U3
 U 1 1 58E2B71D
 P 4550 4950
 F 0 "U3" H 4250 5150 50  0000 L CNN
@@ -332,7 +301,7 @@ F 3 "" H 4250 5150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C11
+L power_module-rescue:C C11
 U 1 1 58E2BB3E
 P 5400 5250
 F 0 "C11" H 5425 5350 50  0000 L CNN
@@ -343,7 +312,7 @@ F 3 "" H 5400 5250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C9
+L power_module-rescue:C C9
 U 1 1 58E2D1F9
 P 4950 5250
 F 0 "C9" H 4975 5350 50  0000 L CNN
@@ -358,7 +327,7 @@ NoConn ~ 6350 5350
 NoConn ~ 6350 5250
 NoConn ~ 6350 5150
 $Comp
-L ArduinoNano IC1
+L power_module-rescue:ArduinoNano IC1
 U 1 1 58E0D863
 P 7050 4800
 F 0 "IC1" H 7050 5950 60  0000 C CNN
@@ -381,7 +350,7 @@ NoConn ~ 7750 5150
 NoConn ~ 7750 5250
 NoConn ~ 7750 5550
 $Comp
-L SI8422 U5
+L power_module-rescue:SI8422 U5
 U 1 1 58E388CE
 P 9250 5750
 F 0 "U5" H 9250 6150 60  0000 C CNN
@@ -392,7 +361,7 @@ F 3 "" H 9250 5750 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR010
+L power_module-rescue:+5V #PWR010
 U 1 1 58E38E59
 P 8200 5550
 F 0 "#PWR010" H 8200 5400 50  0001 C CNN
@@ -403,7 +372,7 @@ F 3 "" H 8200 5550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_01X04 P4
+L power_module-rescue:CONN_01X04 P4
 U 1 1 58E39905
 P 10950 5700
 F 0 "P4" H 10950 5950 50  0000 C CNN
@@ -415,7 +384,7 @@ F 3 "" H 10950 5700 50  0000 C CNN
 $EndComp
 NoConn ~ 6350 5550
 $Comp
-L C C3
+L power_module-rescue:C C3
 U 1 1 58E2F163
 P 2200 5100
 F 0 "C3" H 2225 5200 50  0000 L CNN
@@ -426,7 +395,7 @@ F 3 "" H 2200 5100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR011
+L power_module-rescue:GND #PWR011
 U 1 1 58E2F25B
 P 2100 5300
 F 0 "#PWR011" H 2100 5050 50  0001 C CNN
@@ -437,7 +406,7 @@ F 3 "" H 2100 5300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C2
+L power_module-rescue:C C2
 U 1 1 58E3014B
 P 1950 5100
 F 0 "C2" H 1975 5200 50  0000 L CNN
@@ -448,7 +417,7 @@ F 3 "" H 1950 5100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C6
+L power_module-rescue:C C6
 U 1 1 58E31E68
 P 3200 5450
 F 0 "C6" H 3225 5550 50  0000 L CNN
@@ -459,7 +428,7 @@ F 3 "" H 3200 5450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R8
+L power_module-rescue:R R8
 U 1 1 58E34EAF
 P 3850 2250
 F 0 "R8" V 3930 2250 50  0000 C CNN
@@ -470,7 +439,7 @@ F 3 "" H 3850 2250 50  0000 C CNN
 	0    -1   1    0   
 $EndComp
 $Comp
-L D D1
+L power_module-rescue:D D1
 U 1 1 58E3A51E
 P 2800 5100
 F 0 "D1" H 2800 5200 50  0000 C CNN
@@ -481,7 +450,7 @@ F 3 "" H 2800 5100 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L MAX1683 U6
+L power_module-rescue:MAX1683 U6
 U 1 1 58E426DC
 P 9700 3650
 F 0 "U6" H 9700 4050 60  0000 C CNN
@@ -492,7 +461,7 @@ F 3 "" H 9700 3650 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C16
+L power_module-rescue:C_Small C16
 U 1 1 58E436CC
 P 9100 3550
 F 0 "C16" H 9110 3620 50  0000 L CNN
@@ -503,7 +472,7 @@ F 3 "" H 9100 3550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR012
+L power_module-rescue:GND #PWR012
 U 1 1 58E44021
 P 9150 3850
 F 0 "#PWR012" H 9150 3600 50  0001 C CNN
@@ -514,7 +483,7 @@ F 3 "" H 9150 3850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +10V #PWR013
+L power_module-rescue:+10V #PWR013
 U 1 1 58E4437C
 P 10550 3850
 F 0 "#PWR013" H 10550 3700 50  0001 C CNN
@@ -525,7 +494,7 @@ F 3 "" H 10550 3850 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C_Small C15
+L power_module-rescue:C_Small C15
 U 1 1 58E4354C
 P 8900 3550
 F 0 "C15" H 8910 3620 50  0000 L CNN
@@ -536,7 +505,7 @@ F 3 "" H 8900 3550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C19
+L power_module-rescue:C_Small C19
 U 1 1 58E45F7C
 P 10300 3950
 F 0 "C19" H 10310 4020 50  0000 L CNN
@@ -547,7 +516,7 @@ F 3 "" H 10300 3950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR014
+L power_module-rescue:GND #PWR014
 U 1 1 58E474F9
 P 10300 4100
 F 0 "#PWR014" H 10300 3850 50  0001 C CNN
@@ -558,7 +527,7 @@ F 3 "" H 10300 4100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR015
+L power_module-rescue:+5V #PWR015
 U 1 1 58E48474
 P 10300 3450
 F 0 "#PWR015" H 10300 3300 50  0001 C CNN
@@ -569,7 +538,7 @@ F 3 "" H 10300 3450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Q_NMOS_GDS Q2
+L power_module-rescue:Q_NMOS_GDS Q2
 U 1 1 58E4E879
 P 6650 2100
 F 0 "Q2" H 6950 2150 50  0000 R CNN
@@ -580,7 +549,7 @@ F 3 "" H 6650 2100 50  0000 C CNN
 	0    1    -1   0   
 $EndComp
 $Comp
-L Q_NMOS_GDS Q1
+L power_module-rescue:Q_NMOS_GDS Q1
 U 1 1 58E4ED59
 P 6150 2100
 F 0 "Q1" H 6450 2150 50  0000 R CNN
@@ -591,7 +560,7 @@ F 3 "" H 6150 2100 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L +10V #PWR016
+L power_module-rescue:+10V #PWR016
 U 1 1 58E44A16
 P 6900 3000
 F 0 "#PWR016" H 6900 2850 50  0001 C CNN
@@ -602,7 +571,7 @@ F 3 "" H 6900 3000 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L GND #PWR017
+L power_module-rescue:GND #PWR017
 U 1 1 58E44F3D
 P 7950 800
 F 0 "#PWR017" H 7950 550 50  0001 C CNN
@@ -613,7 +582,7 @@ F 3 "" H 7950 800 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L R R14
+L power_module-rescue:R R14
 U 1 1 58E487FB
 P 8350 3750
 F 0 "R14" V 8430 3750 50  0000 C CNN
@@ -624,7 +593,7 @@ F 3 "" H 8350 3750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R2
+L power_module-rescue:R R2
 U 1 1 58E5460E
 P 2700 3850
 F 0 "R2" V 2780 3850 50  0000 C CNN
@@ -635,7 +604,7 @@ F 3 "" H 2700 3850 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R3
+L power_module-rescue:R R3
 U 1 1 58E546AD
 P 2700 4250
 F 0 "R3" V 2780 4250 50  0000 C CNN
@@ -646,7 +615,7 @@ F 3 "" H 2700 4250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR018
+L power_module-rescue:GND #PWR018
 U 1 1 58E54974
 P 2700 4500
 F 0 "#PWR018" H 2700 4250 50  0001 C CNN
@@ -657,7 +626,7 @@ F 3 "" H 2700 4500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L INA214 U2
+L power_module-rescue:INA214 U2
 U 1 1 58E61668
 P 4200 3100
 F 0 "U2" H 4200 2850 60  0000 C CNN
@@ -668,7 +637,7 @@ F 3 "" H 4200 3100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C7
+L power_module-rescue:C_Small C7
 U 1 1 58E63DA4
 P 3300 2950
 F 0 "C7" H 3310 3020 50  0000 L CNN
@@ -679,7 +648,7 @@ F 3 "" H 3300 2950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C14
+L power_module-rescue:C_Small C14
 U 1 1 58E87290
 P 8400 5950
 F 0 "C14" H 8410 6020 50  0000 L CNN
@@ -690,7 +659,7 @@ F 3 "" H 8400 5950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R15
+L power_module-rescue:R R15
 U 1 1 58E8BA04
 P 10550 5650
 F 0 "R15" V 10630 5650 50  0000 C CNN
@@ -701,7 +670,7 @@ F 3 "" H 10550 5650 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L R R16
+L power_module-rescue:R R16
 U 1 1 58E8BCC9
 P 10550 5750
 F 0 "R16" V 10630 5750 50  0000 C CNN
@@ -712,7 +681,7 @@ F 3 "" H 10550 5750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L C_Small C17
+L power_module-rescue:C_Small C17
 U 1 1 58E8CEFC
 P 9750 5950
 F 0 "C17" H 9760 6020 50  0000 L CNN
@@ -723,7 +692,7 @@ F 3 "" H 9750 5950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C18
+L power_module-rescue:C_Small C18
 U 1 1 58E8D3F7
 P 10100 6200
 F 0 "C18" H 10110 6270 50  0000 L CNN
@@ -734,7 +703,7 @@ F 3 "" H 10100 6200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C20
+L power_module-rescue:C_Small C20
 U 1 1 58E8D500
 P 10300 6200
 F 0 "C20" H 10310 6270 50  0000 L CNN
@@ -745,7 +714,7 @@ F 3 "" H 10300 6200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR019
+L power_module-rescue:GND #PWR019
 U 1 1 58E2BB44
 P 5400 5550
 F 0 "#PWR019" H 5400 5300 50  0001 C CNN
@@ -756,7 +725,7 @@ F 3 "" H 5400 5550 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C10
+L power_module-rescue:C_Small C10
 U 1 1 58EC189E
 P 5150 6300
 F 0 "C10" H 5160 6370 50  0000 L CNN
@@ -767,7 +736,7 @@ F 3 "" H 5150 6300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR020
+L power_module-rescue:GNDA #PWR020
 U 1 1 58EC1B5B
 P 5150 6450
 F 0 "#PWR020" H 5150 6200 50  0001 C CNN
@@ -778,7 +747,7 @@ F 3 "" H 5150 6450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R11
+L power_module-rescue:R R11
 U 1 1 58EC3D8A
 P 5150 5900
 F 0 "R11" V 5230 5900 50  0000 C CNN
@@ -789,7 +758,7 @@ F 3 "" H 5150 5900 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L +5VA #PWR021
+L power_module-rescue:+5VA #PWR021
 U 1 1 58EC4AAE
 P 5250 6100
 F 0 "#PWR021" H 5250 5950 50  0001 C CNN
@@ -800,7 +769,7 @@ F 3 "" H 5250 6100 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L +5VA #PWR022
+L power_module-rescue:+5VA #PWR022
 U 1 1 58EC7257
 P 3600 2200
 F 0 "#PWR022" H 3600 2050 50  0001 C CNN
@@ -811,7 +780,7 @@ F 3 "" H 3600 2200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR023
+L power_module-rescue:GNDA #PWR023
 U 1 1 58EC7C5A
 P 2100 2300
 F 0 "#PWR023" H 2100 2050 50  0001 C CNN
@@ -822,7 +791,7 @@ F 3 "" H 2100 2300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR024
+L power_module-rescue:GNDA #PWR024
 U 1 1 58EC7E0F
 P 3300 3150
 F 0 "#PWR024" H 3300 2900 50  0001 C CNN
@@ -833,7 +802,7 @@ F 3 "" H 3300 3150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GNDA #PWR025
+L power_module-rescue:GNDA #PWR025
 U 1 1 58EC8641
 P 4900 2250
 F 0 "#PWR025" H 4900 2000 50  0001 C CNN
@@ -844,7 +813,7 @@ F 3 "" H 4900 2250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L C_Small C12
+L power_module-rescue:C_Small C12
 U 1 1 58ED37C8
 P 5950 5550
 F 0 "C12" H 5960 5620 50  0000 L CNN
@@ -855,7 +824,7 @@ F 3 "" H 5950 5550 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L LM5112 U4
+L power_module-rescue:LM5112 U4
 U 1 1 58E6D14E
 P 7500 3050
 F 0 "U4" H 7500 3400 60  0000 C CNN
@@ -866,7 +835,7 @@ F 3 "" H 7500 3050 60  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L C_Small C13
+L power_module-rescue:C_Small C13
 U 1 1 58E7178A
 P 7500 2550
 F 0 "C13" H 7510 2620 50  0000 L CNN
@@ -877,7 +846,7 @@ F 3 "" H 7500 2550 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L C_Small C5
+L power_module-rescue:C_Small C5
 U 1 1 58E7E1B4
 P 3000 4250
 F 0 "C5" H 3010 4320 50  0000 L CNN
@@ -888,7 +857,7 @@ F 3 "" H 3000 4250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R12
+L power_module-rescue:R R12
 U 1 1 58E38320
 P 5550 2300
 F 0 "R12" V 5630 2300 50  0000 C CNN
@@ -899,7 +868,7 @@ F 3 "" H 5550 2300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR026
+L power_module-rescue:GND #PWR026
 U 1 1 58E87142
 P 5350 2300
 F 0 "#PWR026" H 5350 2050 50  0001 C CNN
@@ -910,7 +879,7 @@ F 3 "" H 5350 2300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L TVS D2
+L power_module-rescue:TVS D2
 U 1 1 58EA3CBD
 P 6400 900
 F 0 "D2" H 6400 1050 50  0000 C CNN
@@ -921,7 +890,7 @@ F 3 "" H 6400 900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R17
+L power_module-rescue:R R17
 U 1 1 58ECCEDC
 P 6150 4950
 F 0 "R17" V 6230 4950 50  0000 C CNN
@@ -932,7 +901,7 @@ F 3 "" H 6150 4950 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Q_NMOS_GDS Q3
+L power_module-rescue:Q_NMOS_GDS Q3
 U 1 1 5901E6A6
 P 6150 1350
 F 0 "Q3" H 6450 1400 50  0000 R CNN
@@ -943,7 +912,7 @@ F 3 "" H 6150 1350 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Q_NMOS_GDS Q4
+L power_module-rescue:Q_NMOS_GDS Q4
 U 1 1 5901E772
 P 6650 1350
 F 0 "Q4" H 6950 1400 50  0000 R CNN
@@ -955,18 +924,7 @@ F 3 "" H 6650 1350 50  0000 C CNN
 $EndComp
 NoConn ~ 7750 5350
 $Comp
-L ZXMC10A816N8 Q5
-U 1 1 59036DCD
-P 8350 1150
-F 0 "Q5" H 8350 1400 60  0000 C CNN
-F 1 "ZXMC10A816N8" H 8360 780 60  0000 C CNN
-F 2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" H 8150 1150 60  0001 C CNN
-F 3 "" H 8150 1150 60  0001 C CNN
-	1    8350 1150
-	1    0    0    -1  
-$EndComp
-$Comp
-L C_Small C21
+L power_module-rescue:C_Small C21
 U 1 1 5904346C
 P 9350 1400
 F 0 "C21" H 9360 1470 50  0000 L CNN
@@ -977,7 +935,7 @@ F 3 "" H 9350 1400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR027
+L power_module-rescue:GND #PWR027
 U 1 1 59044394
 P 9350 1500
 F 0 "#PWR027" H 9350 1250 50  0001 C CNN
@@ -988,7 +946,7 @@ F 3 "" H 9350 1500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_01X02 P5
+L power_module-rescue:CONN_01X02 P5
 U 1 1 59044E50
 P 9850 1350
 F 0 "P5" H 9850 1500 50  0000 C CNN
@@ -999,7 +957,7 @@ F 3 "" H 9850 1350 50  0000 C CNN
 	1    0    0    1   
 $EndComp
 $Comp
-L GND #PWR028
+L power_module-rescue:GND #PWR028
 U 1 1 590451BF
 P 9650 1500
 F 0 "#PWR028" H 9650 1250 50  0001 C CNN
@@ -1010,7 +968,7 @@ F 3 "" H 9650 1500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L R R19
+L power_module-rescue:R R19
 U 1 1 59046985
 P 9050 1300
 F 0 "R19" V 9130 1300 50  0000 C CNN
@@ -1021,20 +979,20 @@ F 3 "" H 9050 1300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L R R18
+L power_module-rescue:R R18
 U 1 1 59049070
-P 7700 1350
-F 0 "R18" V 7780 1350 50  0000 C CNN
-F 1 "10K" V 7700 1350 50  0000 C CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" V 7630 1350 50  0001 C CNN
-F 3 "" H 7700 1350 50  0000 C CNN
-	1    7700 1350
+P 7700 1200
+F 0 "R18" V 7780 1200 50  0000 C CNN
+F 1 "10K" V 7700 1200 50  0000 C CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" V 7630 1200 50  0001 C CNN
+F 3 "" H 7700 1200 50  0000 C CNN
+	1    7700 1200
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1950 700  1950 2700
+	1950 700  1950 1500
 Wire Wire Line
-	2450 2700 2450 5600
+	2450 2700 2450 3650
 Wire Wire Line
 	2450 5600 2800 5600
 Wire Wire Line
@@ -1042,11 +1000,11 @@ Wire Wire Line
 Wire Wire Line
 	3200 6050 2450 6050
 Wire Wire Line
-	3200 5600 3200 6050
+	3200 5600 3200 5700
 Wire Wire Line
 	3200 5700 3500 5700
 Wire Wire Line
-	3500 5600 3500 5800
+	3500 5600 3500 5700
 Connection ~ 3500 5700
 Wire Wire Line
 	2450 5750 2600 5750
@@ -1057,15 +1015,15 @@ Wire Wire Line
 Wire Wire Line
 	1250 5600 1250 4850
 Wire Wire Line
-	1000 4850 2900 4850
+	1000 4850 1250 4850
 Wire Wire Line
-	3500 4850 3500 5300
+	3500 4850 3500 5200
 Wire Wire Line
 	1250 5900 950  5900
 Wire Wire Line
 	1250 6050 1150 6050
 Wire Wire Line
-	950  6200 950  6300
+	950  6200 950  6250
 Wire Wire Line
 	1150 6050 1150 6250
 Wire Wire Line
@@ -1082,12 +1040,12 @@ Connection ~ 1250 4850
 Wire Wire Line
 	1850 2000 1850 2300
 Wire Wire Line
-	3500 4850 4150 4850
+	3500 4850 3900 4850
 Wire Wire Line
 	3900 4850 3900 5100
 Connection ~ 3900 4850
 Wire Wire Line
-	1850 2000 2700 2000
+	1850 2000 2100 2000
 Wire Wire Line
 	3200 2000 3200 3500
 Wire Wire Line
@@ -1100,15 +1058,15 @@ Connection ~ 2450 5600
 Wire Wire Line
 	1000 4850 1000 4950
 Wire Wire Line
-	3600 2200 3600 3250
+	3600 2200 3600 2250
 Wire Wire Line
 	3800 2950 3800 2450
 Wire Wire Line
 	3800 2450 4500 2450
 Wire Wire Line
-	4500 2250 4500 2750
+	4500 2250 4500 2450
 Wire Wire Line
-	4400 2250 4550 2250
+	4400 2250 4500 2250
 Connection ~ 4500 2250
 Wire Wire Line
 	4850 2250 4900 2250
@@ -1116,7 +1074,7 @@ Connection ~ 3600 2250
 Wire Wire Line
 	5400 4850 5400 5100
 Wire Wire Line
-	4950 4850 5550 4850
+	4950 4850 5150 4850
 Connection ~ 5400 4850
 Wire Wire Line
 	4150 4950 4050 4950
@@ -1125,7 +1083,7 @@ Wire Wire Line
 Wire Wire Line
 	4050 5450 3900 5450
 Wire Wire Line
-	3900 5400 3900 5500
+	3900 5400 3900 5450
 Connection ~ 3900 5450
 Wire Wire Line
 	4150 5050 4100 5050
@@ -1133,7 +1091,7 @@ Wire Wire Line
 	4100 5050 4100 4850
 Connection ~ 4100 4850
 Wire Wire Line
-	5400 5400 5400 5550
+	5400 5400 5400 5450
 Wire Wire Line
 	4950 5050 4950 5100
 Wire Wire Line
@@ -1142,27 +1100,27 @@ Wire Wire Line
 	4950 5450 5400 5450
 Connection ~ 5400 5450
 Wire Wire Line
-	5950 5650 6350 5650
+	5950 5650 6100 5650
 Wire Wire Line
 	6300 4650 6350 4650
 Wire Wire Line
 	6000 2950 6000 4650
 Wire Wire Line
-	8200 5550 8850 5550
+	8200 5550 8550 5550
 Wire Wire Line
-	7950 5850 8850 5850
+	7950 5850 8400 5850
 Wire Wire Line
-	5850 5450 6350 5450
+	5850 5450 5950 5450
 Wire Wire Line
 	2200 4950 2200 4900
 Wire Wire Line
-	1950 4900 2450 4900
+	1950 4900 2200 4900
 Connection ~ 2450 4900
 Wire Wire Line
 	1950 4900 1950 4950
 Connection ~ 2200 4900
 Wire Wire Line
-	1950 5250 2200 5250
+	1950 5250 2100 5250
 Wire Wire Line
 	2100 5250 2100 5300
 Connection ~ 2100 5250
@@ -1181,37 +1139,37 @@ Wire Wire Line
 	6100 5850 6100 5650
 Connection ~ 6100 5650
 Wire Wire Line
-	8900 3450 9250 3450
+	8900 3450 9100 3450
 Connection ~ 9100 3450
 Wire Wire Line
-	8900 3650 9250 3650
+	8900 3650 9100 3650
 Connection ~ 9100 3650
 Wire Wire Line
 	9250 3850 9150 3850
 Wire Wire Line
 	10300 3450 10150 3450
 Wire Wire Line
-	10150 3850 10550 3850
+	10150 3850 10300 3850
 Wire Wire Line
 	10300 4050 10300 4100
 Connection ~ 10300 3850
 Wire Wire Line
 	6350 2000 6450 2000
 Wire Wire Line
-	5700 2300 6650 2300
+	5700 2300 6150 2300
 Wire Wire Line
-	6850 2000 7450 2000
+	6850 2000 6900 2000
 Wire Wire Line
-	3000 2000 5950 2000
+	3000 2000 3200 2000
 Wire Wire Line
-	6400 1600 6400 3150
+	6400 1600 6400 2300
 Connection ~ 6400 2300
 Wire Wire Line
 	6400 3150 7000 3150
 Wire Wire Line
 	8350 2850 8350 3600
 Wire Wire Line
-	2700 4000 2700 4100
+	2700 4000 2700 4050
 Wire Wire Line
 	2700 3650 2450 3650
 Connection ~ 2450 3650
@@ -1222,7 +1180,7 @@ Wire Wire Line
 Wire Wire Line
 	5850 4050 5850 4750
 Wire Wire Line
-	2700 4050 5850 4050
+	2700 4050 3000 4050
 Connection ~ 2700 4050
 Wire Wire Line
 	3600 3250 3800 3250
@@ -1249,26 +1207,26 @@ Wire Wire Line
 Wire Wire Line
 	7750 5750 8850 5750
 Wire Wire Line
-	9650 5650 10400 5650
+	9650 5650 10100 5650
 Wire Wire Line
-	9650 5750 10400 5750
+	9650 5750 10300 5750
 Wire Wire Line
 	10700 5650 10750 5650
 Wire Wire Line
 	10700 5750 10750 5750
 Wire Wire Line
-	9650 5850 10750 5850
+	9650 5850 9750 5850
 Wire Wire Line
 	9750 6050 9850 6050
 Wire Wire Line
 	9850 6050 9850 5550
 Wire Wire Line
-	9650 5550 10750 5550
+	9650 5550 9850 5550
 Connection ~ 9850 5550
 Wire Wire Line
 	9950 5850 9950 6300
 Wire Wire Line
-	9950 6300 10300 6300
+	9950 6300 10100 6300
 Connection ~ 9750 5850
 Connection ~ 10100 6300
 Wire Wire Line
@@ -1281,14 +1239,14 @@ Wire Wire Line
 	10300 6100 10300 5750
 Connection ~ 10300 5750
 Wire Wire Line
-	3300 3050 3300 3150
+	3300 3050 3300 3100
 Wire Wire Line
 	3300 2850 3600 2850
 Connection ~ 3600 2850
 Wire Wire Line
 	5150 6400 5150 6450
 Wire Wire Line
-	5150 6050 5150 6200
+	5150 6050 5150 6100
 Wire Wire Line
 	5250 6100 5150 6100
 Connection ~ 5150 6100
@@ -1307,7 +1265,7 @@ Wire Wire Line
 Wire Wire Line
 	7950 5450 7750 5450
 Wire Wire Line
-	6900 3000 7000 3000
+	6900 3000 6950 3000
 Wire Wire Line
 	8000 3000 8050 3000
 Wire Wire Line
@@ -1315,7 +1273,7 @@ Wire Wire Line
 Wire Wire Line
 	8050 3150 8000 3150
 Wire Wire Line
-	8050 2550 8050 3350
+	8050 2550 8050 3000
 Wire Wire Line
 	8050 3300 8000 3300
 Connection ~ 8050 3150
@@ -1330,15 +1288,15 @@ Connection ~ 8050 3000
 Wire Wire Line
 	5900 900  6100 900 
 Wire Wire Line
-	5900 900  5900 2000
+	5900 900  5900 1250
 Connection ~ 5900 2000
 Wire Wire Line
 	6700 900  6900 900 
 Wire Wire Line
-	6900 900  6900 2000
+	6900 900  6900 1250
 Connection ~ 6900 2000
 Wire Wire Line
-	2700 4400 2700 4500
+	2700 4400 2700 4450
 Wire Wire Line
 	3000 4350 3000 4450
 Wire Wire Line
@@ -1374,7 +1332,7 @@ Connection ~ 6900 1250
 Wire Wire Line
 	6150 1550 6150 1600
 Wire Wire Line
-	6150 1600 6650 1600
+	6150 1600 6400 1600
 Wire Wire Line
 	6650 1600 6650 1550
 Connection ~ 6400 1600
@@ -1388,55 +1346,30 @@ Wire Wire Line
 	1950 700  7700 700 
 Connection ~ 1950 1500
 Wire Wire Line
-	7700 700  7700 1200
+	7700 700  7700 1000
 Wire Wire Line
 	8650 4450 7750 4450
 Wire Wire Line
-	7700 1200 8050 1200
-Wire Wire Line
-	8050 1000 7950 1000
-Wire Wire Line
-	7950 1000 7950 800 
-Wire Wire Line
-	8650 1000 8650 850 
-Wire Wire Line
-	8000 850  8700 850 
+	7700 1000 8050 1000
 Wire Wire Line
 	8650 1100 8700 1100
-Wire Wire Line
-	8700 1100 8700 850 
-Connection ~ 8650 850 
-Wire Wire Line
-	8000 850  8000 1500
-Wire Wire Line
-	8000 1300 8050 1300
-Wire Wire Line
-	8050 1100 7950 1100
-Wire Wire Line
-	7950 1100 7950 2400
 Wire Wire Line
 	7950 2400 8650 2400
 Wire Wire Line
 	8650 2400 8650 4450
 Wire Wire Line
-	8650 1300 8900 1300
+	8650 1300 8700 1300
 Wire Wire Line
 	8650 1200 8700 1200
 Wire Wire Line
 	8700 1200 8700 1300
-Connection ~ 8700 1300
-Wire Wire Line
-	9350 1500 9350 1500
 Connection ~ 9350 1300
 Wire Wire Line
 	9650 1400 9650 1500
 Wire Wire Line
-	9200 1300 9650 1300
-Wire Wire Line
-	8000 1500 7700 1500
-Connection ~ 8000 1300
+	9200 1300 9350 1300
 $Comp
-L GND #PWR029
+L power_module-rescue:GND #PWR029
 U 1 1 590761D9
 P 8050 3350
 F 0 "#PWR029" H 8050 3100 50  0001 C CNN
@@ -1447,5 +1380,159 @@ F 3 "" H 8050 3350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 8050 3300
-Connection ~ 7700 1200
+Wire Wire Line
+	3500 5700 3500 5800
+Wire Wire Line
+	950  6250 950  6300
+Wire Wire Line
+	2800 4850 2900 4850
+Wire Wire Line
+	1250 4850 2800 4850
+Wire Wire Line
+	3900 4850 4100 4850
+Wire Wire Line
+	2650 2000 2700 2000
+Wire Wire Line
+	3200 2000 5900 2000
+Wire Wire Line
+	4500 2250 4550 2250
+Wire Wire Line
+	3600 2250 3600 2850
+Wire Wire Line
+	5400 4850 5550 4850
+Wire Wire Line
+	3900 5450 3900 5500
+Wire Wire Line
+	4100 4850 4150 4850
+Wire Wire Line
+	5400 5450 5400 5550
+Wire Wire Line
+	2450 4900 2450 5600
+Wire Wire Line
+	2200 4900 2450 4900
+Wire Wire Line
+	2100 5250 2200 5250
+Wire Wire Line
+	3500 5200 3500 5300
+Wire Wire Line
+	3200 5700 3200 6050
+Wire Wire Line
+	5950 5450 6350 5450
+Wire Wire Line
+	6100 5650 6350 5650
+Wire Wire Line
+	9100 3450 9250 3450
+Wire Wire Line
+	9100 3650 9250 3650
+Wire Wire Line
+	10300 3850 10550 3850
+Wire Wire Line
+	6400 2300 6650 2300
+Wire Wire Line
+	6400 2300 6400 3150
+Wire Wire Line
+	2450 3650 2450 4900
+Wire Wire Line
+	2700 4050 2700 4100
+Wire Wire Line
+	8550 5550 8850 5550
+Wire Wire Line
+	8400 5850 8850 5850
+Wire Wire Line
+	9850 5550 10750 5550
+Wire Wire Line
+	9750 5850 9950 5850
+Wire Wire Line
+	10100 6300 10300 6300
+Wire Wire Line
+	9950 5850 10750 5850
+Wire Wire Line
+	10100 5650 10400 5650
+Wire Wire Line
+	10300 5750 10400 5750
+Wire Wire Line
+	3600 2850 3600 3250
+Wire Wire Line
+	5150 6100 5150 6200
+Wire Wire Line
+	5150 4850 5400 4850
+Wire Wire Line
+	3300 3100 3300 3150
+Wire Wire Line
+	8050 3150 8050 3300
+Wire Wire Line
+	6950 3000 7000 3000
+Wire Wire Line
+	8050 3000 8050 3150
+Wire Wire Line
+	5900 2000 5950 2000
+Wire Wire Line
+	6900 2000 7450 2000
+Wire Wire Line
+	2700 4450 2700 4500
+Wire Wire Line
+	3000 4050 5850 4050
+Wire Wire Line
+	6150 2300 6400 2300
+Wire Wire Line
+	4500 2450 4500 2750
+Wire Wire Line
+	2100 2000 2650 2000
+Wire Wire Line
+	5900 1250 5900 2000
+Wire Wire Line
+	6900 1250 6900 2000
+Wire Wire Line
+	6400 1600 6650 1600
+Wire Wire Line
+	1950 1500 1950 2700
+Wire Wire Line
+	9350 1300 9650 1300
+Wire Wire Line
+	8050 3300 8050 3350
+Connection ~ 7700 1000
+Wire Wire Line
+	7700 1000 7700 1050
+$Comp
+L power_module-rescue:ZXMC10A816N8 Q5
+U 1 1 59036DCD
+P 8350 1150
+F 0 "Q5" H 8350 1400 60  0000 C CNN
+F 1 "ZXMC10A816N8" H 8360 780 60  0000 C CNN
+F 2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" H 8150 1150 60  0001 C CNN
+F 3 "" H 8150 1150 60  0001 C CNN
+	1    8350 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7950 1300 8050 1300
+Wire Wire Line
+	7950 1300 7950 2400
+Wire Wire Line
+	8050 1200 7950 1200
+Wire Wire Line
+	7950 800  7950 1200
+Wire Wire Line
+	8650 1000 8700 1000
+Wire Wire Line
+	8700 1000 8700 1100
+Wire Wire Line
+	8700 1100 8900 1100
+Wire Wire Line
+	8900 1100 8900 1300
+Connection ~ 8700 1100
+Wire Wire Line
+	8050 1100 7850 1100
+Wire Wire Line
+	7850 1100 7850 1350
+Wire Wire Line
+	7850 1350 7700 1350
+Wire Wire Line
+	8700 1300 8700 1450
+Wire Wire Line
+	8700 1450 7700 1450
+Wire Wire Line
+	7700 1450 7700 1350
+Connection ~ 8700 1300
+Connection ~ 7700 1350
 $EndSCHEMATC

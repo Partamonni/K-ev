@@ -1,11 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# power_module-rescue:+10V
+# +10V
 #
-DEF power_module-rescue:+10V #PWR 0 0 Y Y 1 F P
+DEF +10V #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power_module-rescue:+10V" 0 140 50 H V C CNN
+F1 "+10V" 0 140 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -16,11 +16,11 @@ X +10V 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:+5V
+# +5V
 #
-DEF power_module-rescue:+5V #PWR 0 0 Y Y 1 F P
+DEF +5V #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power_module-rescue:+5V" 0 140 50 H V C CNN
+F1 "+5V" 0 140 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -31,11 +31,11 @@ X +5V 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:+5VA
+# +5VA
 #
-DEF power_module-rescue:+5VA #PWR 0 0 Y Y 1 F P
+DEF +5VA #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -150 50 H I C CNN
-F1 "power_module-rescue:+5VA" 0 140 50 H V C CNN
+F1 "+5VA" 0 140 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -46,11 +46,11 @@ X +5VA 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:ArduinoNano
+# ArduinoNano
 #
-DEF power_module-rescue:ArduinoNano IC 0 40 Y Y 1 F N
+DEF ArduinoNano IC 0 40 Y Y 1 F N
 F0 "IC" 0 1150 60 H V C CNN
-F1 "power_module-rescue:ArduinoNano" 0 -650 60 H V C CNN
+F1 "ArduinoNano" 0 -650 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -88,11 +88,11 @@ X D6 9 -700 150 200 R 50 50 1 1 B
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:C
+# C
 #
-DEF power_module-rescue:C C 0 10 N Y 1 F N
+DEF C C 0 10 N Y 1 F N
 F0 "C" 25 100 50 H V L CNN
-F1 "power_module-rescue:C" 25 -100 50 H V L CNN
+F1 "C" 25 -100 50 H V L CNN
 F2 "" 38 -150 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -106,11 +106,11 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:CONN_01X01
+# CONN_01X01
 #
-DEF power_module-rescue:CONN_01X01 J 0 40 Y N 1 F N
+DEF CONN_01X01 J 0 40 Y N 1 F N
 F0 "J" 0 100 50 H V C CNN
-F1 "power_module-rescue:CONN_01X01" 100 0 50 V V C CNN
+F1 "CONN_01X01" 100 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -126,11 +126,11 @@ X P1 1 -200 0 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:CONN_01X02
+# CONN_01X02
 #
-DEF power_module-rescue:CONN_01X02 J 0 40 Y N 1 F N
+DEF CONN_01X02 J 0 40 Y N 1 F N
 F0 "J" 0 150 50 H V C CNN
-F1 "power_module-rescue:CONN_01X02" 100 0 50 V V C CNN
+F1 "CONN_01X02" 100 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -148,11 +148,11 @@ X P2 2 -200 -50 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:CONN_01X04
+# CONN_01X04
 #
-DEF power_module-rescue:CONN_01X04 J 0 40 Y N 1 F N
+DEF CONN_01X04 J 0 40 Y N 1 F N
 F0 "J" 0 250 50 H V C CNN
-F1 "power_module-rescue:CONN_01X04" 100 0 50 V V C CNN
+F1 "CONN_01X04" 100 0 50 V V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -174,11 +174,11 @@ X P4 4 -200 -150 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:C_Small
+# C_Small
 #
-DEF power_module-rescue:C_Small C 0 10 N N 1 F N
+DEF C_Small C 0 10 N N 1 F N
 F0 "C" 10 70 50 H V L CNN
-F1 "power_module-rescue:C_Small" 10 -80 50 H V L CNN
+F1 "C_Small" 10 -80 50 H V L CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -192,11 +192,11 @@ X ~ 2 0 -100 80 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:D
+# D
 #
-DEF power_module-rescue:D D 0 40 N N 1 F N
+DEF D D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "power_module-rescue:D" 0 -100 50 H V C CNN
+F1 "D" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -215,11 +215,11 @@ X A 2 150 0 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:GND
+# GND
 #
-DEF power_module-rescue:GND #PWR 0 0 Y Y 1 F P
+DEF GND #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -250 50 H I C CNN
-F1 "power_module-rescue:GND" 0 -150 50 H V C CNN
+F1 "GND" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -228,11 +228,11 @@ X GND 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:GNDA
+# GNDA
 #
-DEF power_module-rescue:GNDA #PWR 0 0 Y Y 1 F P
+DEF GNDA #PWR 0 0 Y Y 1 F P
 F0 "#PWR" 0 -250 50 H I C CNN
-F1 "power_module-rescue:GNDA" 0 -150 50 H V C CNN
+F1 "GNDA" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -241,11 +241,11 @@ X GNDA 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:INA214
+# INA214
 #
-DEF power_module-rescue:INA214 U 0 40 Y Y 1 F N
+DEF INA214 U 0 40 Y Y 1 F N
 F0 "U" 0 -250 60 H V C CNN
-F1 "power_module-rescue:INA214" 0 250 60 H V C CNN
+F1 "INA214" 0 250 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -259,11 +259,11 @@ X OUT 6 400 150 200 L 50 50 1 1 O
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:INDUCTOR
+# INDUCTOR
 #
-DEF power_module-rescue:INDUCTOR L 0 40 N N 1 F N
+DEF INDUCTOR L 0 40 N N 1 F N
 F0 "L" -50 0 50 V V C CNN
-F1 "power_module-rescue:INDUCTOR" 100 0 50 V V C CNN
+F1 "INDUCTOR" 100 0 50 V V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 $FPLIST
@@ -280,11 +280,11 @@ X 2 2 0 -300 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:LM5009
+# LM5009
 #
-DEF power_module-rescue:LM5009 U 0 40 Y Y 1 F N
+DEF LM5009 U 0 40 Y Y 1 F N
 F0 "U" 0 450 60 H V C CNN
-F1 "power_module-rescue:LM5009" 0 200 60 H V C CNN
+F1 "LM5009" 0 200 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -300,11 +300,11 @@ X VIN 8 600 250 200 L 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:LM5112
+# LM5112
 #
-DEF power_module-rescue:LM5112 U 0 40 Y Y 1 F N
+DEF LM5112 U 0 40 Y Y 1 F N
 F0 "U" 0 350 60 H V C CNN
-F1 "power_module-rescue:LM5112" 0 -350 60 H V C CNN
+F1 "LM5112" 0 -350 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -320,11 +320,11 @@ X N/C 8 500 250 200 L 50 50 1 1 N
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:MAX1683
+# MAX1683
 #
-DEF power_module-rescue:MAX1683 U 0 40 Y Y 1 F N
+DEF MAX1683 U 0 40 Y Y 1 F N
 F0 "U" 0 400 60 H V C CNN
-F1 "power_module-rescue:MAX1683" 0 -450 60 H V C CNN
+F1 "MAX1683" 0 -450 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -337,11 +337,11 @@ X C1+ 5 -450 200 200 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:Q_NMOS_GDS
+# Q_NMOS_GDS
 #
-DEF power_module-rescue:Q_NMOS_GDS Q 0 0 Y N 1 F N
+DEF Q_NMOS_GDS Q 0 0 Y N 1 F N
 F0 "Q" 200 50 50 H V L CNN
-F1 "power_module-rescue:Q_NMOS_GDS" 200 -50 50 H V L CNN
+F1 "Q_NMOS_GDS" 200 -50 50 H V L CNN
 F2 "" 200 100 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -368,11 +368,11 @@ X S 3 100 -200 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:R
+# R
 #
-DEF power_module-rescue:R R 0 0 N Y 1 F N
+DEF R R 0 0 N Y 1 F N
 F0 "R" 80 0 50 V V C CNN
-F1 "power_module-rescue:R" 0 0 50 V V C CNN
+F1 "R" 0 0 50 V V C CNN
 F2 "" -70 0 50 V I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -386,11 +386,11 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:SI8422
+# SI8422
 #
-DEF power_module-rescue:SI8422 U 0 40 Y Y 1 F N
+DEF SI8422 U 0 40 Y Y 1 F N
 F0 "U" 0 400 60 H V C CNN
-F1 "power_module-rescue:SI8422" 0 -400 60 H V C CNN
+F1 "SI8422" 0 -400 60 H V C CNN
 F2 "" 0 0 60 H I C CNN
 F3 "" 0 0 60 H I C CNN
 DRAW
@@ -410,11 +410,11 @@ X VDD2 8 400 200 100 L 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:TC1185
+# TC1185
 #
-DEF power_module-rescue:TC1185 U 0 40 Y Y 1 F N
+DEF TC1185 U 0 40 Y Y 1 F N
 F0 "U" -300 200 50 H V L CNN
-F1 "power_module-rescue:TC1185" 300 200 50 H V R CNN
+F1 "TC1185" 300 200 50 H V R CNN
 F2 "SOT23-5" 0 -200 50 H V C CNN
 F3 "" -300 200 50 H V C CNN
 DRAW
@@ -427,11 +427,11 @@ X Vout 5 400 100 100 L 50 50 1 1 w
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:TVS
+# TVS
 #
-DEF power_module-rescue:TVS D 0 40 Y Y 1 F N
+DEF TVS D 0 40 Y Y 1 F N
 F0 "D" 0 150 50 H V C CNN
-F1 "power_module-rescue:TVS" 0 -150 50 H V C CNN
+F1 "TVS" 0 -150 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -443,11 +443,11 @@ X ~ 2 300 0 300 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# power_module-rescue:ZXMC10A816N8
+# ZXMC10A816N8
 #
-DEF power_module-rescue:ZXMC10A816N8 Q 0 40 Y Y 1 F N
+DEF ZXMC10A816N8 Q 0 40 Y Y 1 F N
 F0 "Q" 0 250 60 H V C CNN
-F1 "power_module-rescue:ZXMC10A816N8" 10 -370 60 H V C CNN
+F1 "ZXMC10A816N8" 10 -370 60 H V C CNN
 F2 "" -200 0 60 H I C CNN
 F3 "" -200 0 60 H I C CNN
 DRAW
