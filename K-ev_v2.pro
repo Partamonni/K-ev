@@ -37,7 +37,8 @@ SOURCES += \
     serialportreader.cpp \
     buttons.cpp \
     shutmotorentry.cpp \
-    notice.cpp
+    notice.cpp \
+    digitalclock.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     serialportreader.h \
     buttons.h \
     shutmotorentry.h \
-    notice.h
+    notice.h \
+    digitalclock.h
 
 unix {
     LIBS += -L/usr/local/include -lwiringPi

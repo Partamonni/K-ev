@@ -17,6 +17,7 @@
 #include "buttons.h"
 #include "shutmotorentry.h"
 #include "notice.h"
+#include "digitalclock.h"
 
 #define RPI 0
 
@@ -45,6 +46,7 @@ public:
     SerialPortReader *mySerial = new SerialPortReader(this);
     ShutMotorEntry *shutMotor = new ShutMotorEntry(this);
     Notice *splash = new Notice(this);
+    DigitalClock *clock = new DigitalClock;
 #if RPI
     Buttons *buttons = new Buttons(this);
 #endif

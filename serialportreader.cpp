@@ -91,13 +91,21 @@ void SerialPortReader::readData()
         else if(inData->at(0) == '!')
         {
             if(inData->at(1) == 'C')
-            {}//Do something
+            {
+                m_parent->splash->showText("Overcurrent detected!");
+            }
             else if(inData->at(1) == 'V')
-            {}//Do something
+            {
+                m_parent->splash->showText("Overvoltage detected!");
+            }
             else if(inData->at(1) == 'T')
-            {}//Do something
+            {
+                m_parent->splash->showText("Overtemperature detected!");
+            }
             else if(inData->at(1) == 'v')
-            {}//Do something
+            {
+                m_parent->splash->showText("Low voltage detected!");
+            }
         }
         else if(inData->at(0) == 'u' && inData->at(1) == 'p')
         {

@@ -38,6 +38,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     bgLayout->addWidget(bgLabel,0,0,1,3);
     bgLayout->addWidget(ampMeter->ampFrame,0,0,Qt::AlignVCenter);
     bgLayout->addWidget(splash->noticeFrame,0,0,1,4,Qt::AlignCenter);
+    bgLayout->addWidget(clock->display,0,3,(Qt::AlignTop | Qt::AlignRight));
     bgLayout->setContentsMargins(0,0,0,0);
 
     for(int i = 0; i < 4; ++i)
@@ -63,6 +64,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     tempEntry->entryFrame->hide();
     otherEntry->entryFrame->hide();
     splash->noticeFrame->show();
+    clock->display->show();
 
 #if RPI == 0
     connect(this, SIGNAL(menuPressed()), this, SLOT(toggleMenu()) );

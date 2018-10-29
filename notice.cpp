@@ -124,6 +124,7 @@ void Notice::show()
 {
     opacity->setOpacity(1);
     noticeFrame->show();
+    noticeFrame->raise();
     hideTimer->start(2000);
 }
 
