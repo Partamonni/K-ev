@@ -1,6 +1,39 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:bms-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:EMB1428Q
+LIBS:EMB1499Q
+LIBS:Omat
 LIBS:bms-cache
-EELAYER 26 0
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -15,7 +48,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L bms-rescue:EMB1499Q-RESCUE-bms IC302
+L EMB1499Q-RESCUE-bms IC302
 U 1 1 58C33901
 P 4150 4200
 F 0 "IC302" H 4150 4100 50  0000 C CNN
@@ -26,7 +59,7 @@ F 3 "" H 4200 4950 50  0001 C CNB
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:C C305
+L C C305
 U 1 1 58C33908
 P 6050 2000
 F 0 "C305" H 6075 2100 50  0000 L CNN
@@ -37,7 +70,7 @@ F 3 "" H 6050 2000 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R312
+L R R312
 U 1 1 58C3390F
 P 7150 2750
 F 0 "R312" V 7230 2750 50  0000 C CNN
@@ -48,7 +81,7 @@ F 3 "" H 7150 2750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:CP1 C306
+L CP1 C306
 U 1 1 58C33916
 P 7400 2100
 F 0 "C306" H 7425 2200 50  0000 L CNN
@@ -59,7 +92,7 @@ F 3 "" H 7400 2100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:D D309
+L D D309
 U 1 1 58C3391D
 P 6400 2200
 F 0 "D309" H 6400 2300 50  0000 C CNN
@@ -70,7 +103,7 @@ F 3 "" H 6400 2200 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:D D307
+L D D307
 U 1 1 58C33924
 P 5500 2400
 F 0 "D307" H 5500 2500 50  0000 C CNN
@@ -81,7 +114,7 @@ F 3 "" H 5500 2400 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D D306
+L D D306
 U 1 1 58C3392B
 P 4750 2250
 F 0 "D306" H 4750 2350 50  0000 C CNN
@@ -92,7 +125,7 @@ F 3 "" H 4750 2250 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D D304
+L D D304
 U 1 1 58C33932
 P 3750 1800
 F 0 "D304" H 3750 1900 50  0000 C CNN
@@ -103,7 +136,7 @@ F 3 "" H 3750 1800 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R303
+L R R303
 U 1 1 58C33939
 P 2800 2450
 F 0 "R303" V 2880 2450 50  0000 C CNN
@@ -114,7 +147,7 @@ F 3 "" H 2800 2450 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L bms-rescue:INDUCTOR L301
+L INDUCTOR L301
 U 1 1 58C33940
 P 2700 1600
 F 0 "L301" V 2650 1600 50  0000 C CNN
@@ -125,7 +158,7 @@ F 3 "" H 2700 1600 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:CP1 C303
+L CP1 C303
 U 1 1 58C33947
 P 2400 2000
 F 0 "C303" H 2425 2100 50  0000 L CNN
@@ -137,7 +170,7 @@ F 3 "" H 2400 2000 50  0000 C CNN
 $EndComp
 NoConn ~ 5050 4650
 $Comp
-L Device:R R301
+L R R301
 U 1 1 58C3394F
 P 2200 4000
 F 0 "R301" V 2280 4000 50  0000 C CNN
@@ -148,7 +181,7 @@ F 3 "" H 2200 4000 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R302
+L R R302
 U 1 1 58C33956
 P 2200 4450
 F 0 "R302" V 2280 4450 50  0000 C CNN
@@ -159,7 +192,7 @@ F 3 "" H 2200 4450 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR09
+L GND #PWR09
 U 1 1 58C3395D
 P 6100 4050
 F 0 "#PWR09" H 6100 3800 50  0001 C CNN
@@ -170,7 +203,7 @@ F 3 "" H 6100 4050 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR010
+L GND #PWR010
 U 1 1 58C33963
 P 2200 4700
 F 0 "#PWR010" H 2200 4450 50  0001 C CNN
@@ -181,7 +214,7 @@ F 3 "" H 2200 4700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR011
+L GND #PWR011
 U 1 1 58C33969
 P 7400 2750
 F 0 "#PWR011" H 7400 2500 50  0001 C CNN
@@ -192,7 +225,7 @@ F 3 "" H 7400 2750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Omat:PA3856.005NL T301
+L PA3856.005NL T301
 U 1 1 58C3396F
 P 5000 1600
 F 0 "T301" H 5000 2100 50  0000 C CNN
@@ -207,7 +240,7 @@ NoConn ~ 5300 2000
 Text GLabel 2400 2550 3    60   Input ~ 0
 GNDF
 $Comp
-L Device:R R309
+L R R309
 U 1 1 58C33979
 P 4250 2700
 F 0 "R309" V 4330 2700 50  0000 C CNN
@@ -218,7 +251,7 @@ F 3 "" H 4250 2700 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R304
+L R R304
 U 1 1 58C33980
 P 3150 2650
 F 0 "R304" V 3230 2650 50  0000 C CNN
@@ -229,7 +262,7 @@ F 3 "" H 3150 2650 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R305
+L R R305
 U 1 1 58C33987
 P 3300 2200
 F 0 "R305" V 3380 2200 50  0000 C CNN
@@ -240,7 +273,7 @@ F 3 "" H 3300 2200 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R308
+L R R308
 U 1 1 58C3398E
 P 4100 2250
 F 0 "R308" V 4180 2250 50  0000 C CNN
@@ -251,7 +284,7 @@ F 3 "" H 4100 2250 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L bms-rescue:ZENER D302
+L ZENER D302
 U 1 1 58C33995
 P 2600 1150
 F 0 "D302" H 2600 1250 50  0000 C CNN
@@ -262,7 +295,7 @@ F 3 "" H 2600 1150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L bms-rescue:ZENER D303
+L ZENER D303
 U 1 1 58C3399C
 P 3000 1150
 F 0 "D303" H 3000 1250 50  0000 C CNN
@@ -464,7 +497,7 @@ Wire Wire Line
 	3200 1150 3200 1600
 Connection ~ 3200 1600
 $Comp
-L bms-rescue:ZENER D301
+L ZENER D301
 U 1 1 58C33A11
 P 1800 2050
 F 0 "D301" H 1800 2150 50  0000 C CNN
@@ -485,7 +518,7 @@ Text GLabel 7750 1600 2    60   BiDi ~ 0
 Wire Wire Line
 	5250 3950 5050 3950
 $Comp
-L Device:R R311
+L R R311
 U 1 1 58C33A1E
 P 6900 2450
 F 0 "R311" V 6980 2450 50  0000 C CNN
@@ -501,7 +534,7 @@ Wire Wire Line
 	6900 2600 6900 2750
 Connection ~ 6900 2750
 $Comp
-L bms-rescue:ZENER D308
+L ZENER D308
 U 1 1 58C33A28
 P 5900 1500
 F 0 "D308" H 5900 1600 50  0000 C CNN
@@ -512,7 +545,7 @@ F 3 "" H 5900 1500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR012
+L GND #PWR012
 U 1 1 58C33A2F
 P 6100 1500
 F 0 "#PWR012" H 6100 1250 50  0001 C CNN
@@ -527,7 +560,7 @@ MATRIX+
 Text GLabel 1300 2450 0    60   BiDi ~ 0
 MATRIX-
 $Comp
-L Device:R R310
+L R R310
 U 1 1 58C33A37
 P 6000 2600
 F 0 "R310" V 6080 2600 50  0000 C CNN
@@ -542,7 +575,7 @@ Wire Wire Line
 Wire Wire Line
 	4750 2050 4750 2100
 $Comp
-L Device:Q_NMOS_DGS Q303
+L Q_NMOS_DGS Q303
 U 1 1 58C33A40
 P 5800 2400
 F 0 "Q303" H 5700 2200 50  0000 R CNN
@@ -553,7 +586,7 @@ F 3 "" H 5800 2400 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Device:Q_PMOS_DGS Q304
+L Q_PMOS_DGS Q304
 U 1 1 58C33A47
 P 6700 2200
 F 0 "Q304" H 6650 2350 50  0000 R CNN
@@ -564,7 +597,7 @@ F 3 "" H 6700 2200 50  0000 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Device:Q_NMOS_DGS Q302
+L Q_NMOS_DGS Q302
 U 1 1 58C33A4E
 P 4500 2250
 F 0 "Q302" H 4400 2050 50  0000 R CNN
@@ -575,7 +608,7 @@ F 3 "" H 4500 2250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:Q_NMOS_DGS Q301
+L Q_NMOS_DGS Q301
 U 1 1 58C33A55
 P 3450 1800
 F 0 "Q301" H 3350 1600 50  0000 R CNN
@@ -618,7 +651,7 @@ Text GLabel 6100 4850 2    60   Input ~ 0
 Text GLabel 6000 2400 2    60   Input ~ 0
 GATE_LS
 $Comp
-L bms-rescue:UCC27511 IC301
+L UCC27511 IC301
 U 1 1 58C34029
 P 3300 6250
 F 0 "IC301" H 3300 6750 60  0000 C CNN
@@ -631,7 +664,7 @@ $EndComp
 Text GLabel 1500 5650 0    60   Input ~ 0
 12VBAT
 $Comp
-L Device:C C302
+L C C302
 U 1 1 58C34031
 P 2100 5800
 F 0 "C302" H 2125 5900 50  0000 L CNN
@@ -642,7 +675,7 @@ F 3 "" H 2100 5800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C301
+L C C301
 U 1 1 58C34038
 P 1900 5800
 F 0 "C301" H 1925 5900 50  0000 L CNN
@@ -653,7 +686,7 @@ F 3 "" H 1900 5800 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR013
+L GND #PWR013
 U 1 1 58C3403F
 P 2000 6050
 F 0 "#PWR013" H 2000 5800 50  0001 C CNN
@@ -678,7 +711,7 @@ Wire Wire Line
 	3800 5650 3800 6000
 Connection ~ 2800 5650
 $Comp
-L power:GND #PWR014
+L GND #PWR014
 U 1 1 58C3404D
 P 2800 6500
 F 0 "#PWR014" H 2800 6250 50  0001 C CNN
@@ -689,7 +722,7 @@ F 3 "" H 2800 6500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R306
+L R R306
 U 1 1 58C34053
 P 3950 6250
 F 0 "R306" V 4030 6250 50  0000 C CNN
@@ -700,7 +733,7 @@ F 3 "" H 3950 6250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:R R307
+L R R307
 U 1 1 58C3405A
 P 3950 6500
 F 0 "R307" V 4030 6500 50  0000 C CNN
@@ -713,7 +746,7 @@ $EndComp
 Wire Wire Line
 	4100 6250 4100 6500
 $Comp
-L Device:C C304
+L C C304
 U 1 1 58C34062
 P 4250 6250
 F 0 "C304" H 4275 6350 50  0000 L CNN
@@ -724,7 +757,7 @@ F 3 "" H 4250 6250 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:D_Schottky D305
+L D_Schottky D305
 U 1 1 58C34069
 P 4600 6400
 F 0 "D305" H 4600 6500 50  0000 C CNN
@@ -735,7 +768,7 @@ F 3 "" H 4600 6400 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR015
+L GND #PWR015
 U 1 1 58C34070
 P 4600 6550
 F 0 "#PWR015" H 4600 6300 50  0001 C CNN

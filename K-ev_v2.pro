@@ -38,7 +38,12 @@ SOURCES += \
     buttons.cpp \
     shutmotorentry.cpp \
     notice.cpp \
-    digitalclock.cpp
+    digitalclock.cpp \
+    statusentry.cpp \
+    statsentry.cpp \
+    errorsentry.cpp \
+    seriallogentry.cpp \
+    entry.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +56,12 @@ HEADERS += \
     buttons.h \
     shutmotorentry.h \
     notice.h \
-    digitalclock.h
+    digitalclock.h \
+    statusentry.h \
+    statsentry.h \
+    errorsentry.h \
+    seriallogentry.h \
+    entry.h
 
 unix {
     LIBS += -L/usr/local/include -lwiringPi

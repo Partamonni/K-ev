@@ -31,7 +31,7 @@ bool SerialPortReader::openSerialPort()
 #if RPI
     m_serial->setPortName("ttyAMA0");
 #else
-    m_serial->setPortName("COM3");
+    m_serial->setPortName("COM11");
 #endif
 
     m_serial->setBaudRate(QSerialPort::Baud57600);

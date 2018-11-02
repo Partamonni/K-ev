@@ -1,6 +1,39 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:bms-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:EMB1428Q
+LIBS:EMB1499Q
+LIBS:Omat
 LIBS:bms-cache
-EELAYER 26 0
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -25,7 +58,7 @@ Power supplies
 Text GLabel 1700 1450 0    60   Input ~ 0
 FRAME_GND
 $Comp
-L power:GND #PWR01
+L GND #PWR01
 U 1 1 5889CB56
 P 1950 1450
 F 0 "#PWR01" H 1950 1200 50  0001 C CNN
@@ -66,7 +99,9 @@ BAT0
 Wire Wire Line
 	1700 1450 1950 1450
 Wire Wire Line
-	1200 3600 1750 3600
+	1200 4600 1200 4600
+Wire Wire Line
+	1200 3600 1900 3600
 Text GLabel 1900 3750 2    60   UnSpc ~ 0
 GND_TOP
 Wire Wire Line
@@ -75,7 +110,7 @@ Wire Wire Line
 	1750 3750 1750 3600
 Connection ~ 1750 3600
 Wire Wire Line
-	1200 2600 1500 2600
+	1200 2600 1900 2600
 Text GLabel 1900 2450 2    60   BiDi ~ 0
 GND_BOT
 Wire Wire Line
@@ -86,7 +121,7 @@ Connection ~ 1500 2600
 Text Notes 7950 2650 2    118  ~ 24
 Balancing DC-control
 $Comp
-L bms-rescue:Molex_conn P101
+L Molex_conn P101
 U 1 1 58D39F6F
 P 1000 4950
 F 0 "P101" H 1000 5250 60  0000 C CNN
@@ -139,7 +174,7 @@ FAULT_INT2
 Text GLabel 2000 5700 2    60   Input ~ 0
 FAULT_INT1
 $Comp
-L Device:D D101
+L D D101
 U 1 1 58D60506
 P 1850 5700
 F 0 "D101" H 1850 5800 50  0000 C CNN
@@ -150,7 +185,7 @@ F 3 "" H 1850 5700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:D D102
+L D D102
 U 1 1 58D6052B
 P 1850 5800
 F 0 "D102" H 1850 5900 50  0000 C CNN
@@ -161,7 +196,7 @@ F 3 "" H 1850 5800 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:D D103
+L D D103
 U 1 1 58D60544
 P 1850 5900
 F 0 "D103" H 1850 6000 50  0000 C CNN
@@ -172,7 +207,7 @@ F 3 "" H 1850 5900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:D D104
+L D D104
 U 1 1 58D60560
 P 1850 6000
 F 0 "D104" H 1850 6100 50  0000 C CNN
@@ -185,7 +220,7 @@ $EndComp
 Wire Wire Line
 	1700 6000 1600 6000
 Wire Wire Line
-	1600 6000 1600 5900
+	1600 6000 1600 5700
 Wire Wire Line
 	1700 5800 1600 5800
 Connection ~ 1600 5800
@@ -239,15 +274,5 @@ BAT19
 Text GLabel 1200 4600 2    60   BiDi ~ 0
 BAT20
 Wire Wire Line
-	1200 5700 1600 5700
-Wire Wire Line
-	1750 3600 1900 3600
-Wire Wire Line
-	1500 2600 1900 2600
-Wire Wire Line
-	1600 5800 1600 5700
-Wire Wire Line
-	1600 5900 1600 5800
-Wire Wire Line
-	1600 5700 1700 5700
+	1200 5700 1700 5700
 $EndSCHEMATC

@@ -7,32 +7,32 @@ extern short int SCR_WIDTH;
 extern short int SCR_HEIGHT;
 
 
-TempEntry::TempEntry(Mainwindow *parent) : QWidget(parent)
+TempEntry::TempEntry(Mainwindow *parent) : Entry(parent)
 {
-    short int entWidth = SCR_WIDTH*3/4;
+    //short int entWidth = SCR_WIDTH*3/4;
     int columns = 4;
 
-    QFont font("Digital-7 Mono", 28, Qt::white);
+    //QFont font("Digital-7 Mono", 28, Qt::white);
 
-    motEffEntry->setEasingCurve(QEasingCurve::InSine);
-    motEffEntry->setDuration(800);
+    //motEffEntry->setEasingCurve(QEasingCurve::InSine);
+    //motEffEntry->setDuration(800);
 
     for (int i=0; i<cells; ++i)
     {
         packTemp[i] = new QLabel(this);
-        packTemp[i]->setFont(font);
+        packTemp[i]->setFont(entryFrame->font());
         packTemp[i]->setStyleSheet("QLabel {background-color: rgba(0,0,0,80); color: white;}");
     }
 
-    entryFrame->setFixedSize(entWidth, SCR_HEIGHT);
+    //entryFrame->setFixedSize(entWidth, SCR_HEIGHT);
     entryFrame->setContentsMargins(0,20,0,20);
 
     entryLayout->setVerticalSpacing(8);
 
-    *entryBg = entryBg->scaled(entryFrame->size(),Qt::IgnoreAspectRatio);
-    canvas->setPixmap(*entryBg);
-    canvas->setFixedSize(entryFrame->size());
-    entryFrame->setLayout(entryLayout);
+    //*entryBg = entryBg->scaled(entryFrame->size(),Qt::IgnoreAspectRatio);
+    //canvas->setPixmap(*entryBg);
+    //canvas->setFixedSize(entryFrame->size());
+    //entryFrame->setLayout(entryLayout);
 
     int rows;
     do
@@ -40,7 +40,7 @@ TempEntry::TempEntry(Mainwindow *parent) : QWidget(parent)
         double a = cells;
         double b = columns;
         double rowsTmp = a/b;
-        rows = ceil(rowsTmp);
+        rows = static_cast<int>(ceil(rowsTmp));
     }
     while(false);
 

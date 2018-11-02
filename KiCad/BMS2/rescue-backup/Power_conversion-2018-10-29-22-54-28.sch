@@ -1,6 +1,39 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:bms-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:EMB1428Q
+LIBS:EMB1499Q
+LIBS:Omat
 LIBS:bms-cache
-EELAYER 26 0
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -15,7 +48,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Device:R R205
+L R R205
 U 1 1 58871EBA
 P 2600 5500
 F 0 "R205" V 2680 5500 50  0000 C CNN
@@ -26,7 +59,7 @@ F 3 "" H 2600 5500 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R201
+L R R201
 U 1 1 58871EC1
 P 2100 5400
 F 0 "R201" V 2180 5400 50  0000 C CNN
@@ -37,7 +70,7 @@ F 3 "" H 2100 5400 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R203
+L R R203
 U 1 1 58871EC8
 P 2250 5800
 F 0 "R203" V 2330 5800 50  0000 C CNN
@@ -48,7 +81,7 @@ F 3 "" H 2250 5800 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Omat:LM5018 IC201
+L LM5018 IC201
 U 1 1 58871ECF
 P 3300 5350
 F 0 "IC201" H 3300 5650 60  0000 C CNN
@@ -59,7 +92,7 @@ F 3 "" H 3300 5400 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C203
+L C C203
 U 1 1 58871ED6
 P 4000 5300
 F 0 "C203" H 4025 5400 50  0000 L CNN
@@ -70,7 +103,7 @@ F 3 "" H 4000 5300 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L bms-rescue:TRANSFO T201
+L TRANSFO T201
 U 1 1 58871EDD
 P 5050 4800
 F 0 "T201" H 5050 5050 50  0000 C CNN
@@ -81,7 +114,7 @@ F 3 "" H 5050 4800 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D_Schottky D201
+L D_Schottky D201
 U 1 1 58871EE4
 P 4550 5400
 F 0 "D201" H 4550 5500 50  0000 C CNN
@@ -92,7 +125,7 @@ F 3 "" H 4550 5400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C205
+L C C205
 U 1 1 58871EEB
 P 4200 5750
 F 0 "C205" H 4225 5850 50  0000 L CNN
@@ -103,7 +136,7 @@ F 3 "" H 4200 5750 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:D_Schottky D203
+L D_Schottky D203
 U 1 1 58871EF2
 P 5400 4050
 F 0 "D203" H 5400 4150 50  0000 C CNN
@@ -114,7 +147,7 @@ F 3 "" H 5400 4050 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:C C210
+L C C210
 U 1 1 58871EF9
 P 5600 4200
 F 0 "C210" H 5625 4300 50  0000 L CNN
@@ -125,7 +158,7 @@ F 3 "" H 5600 4200 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R211
+L R R211
 U 1 1 58871F00
 P 5850 4200
 F 0 "R211" V 5930 4200 50  0000 C CNN
@@ -136,7 +169,7 @@ F 3 "" H 5850 4200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R207
+L R R207
 U 1 1 58871F07
 P 5000 5750
 F 0 "R207" V 5080 5750 50  0000 C CNN
@@ -147,7 +180,7 @@ F 3 "" H 5000 5750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:C C207
+L C C207
 U 1 1 58871F0E
 P 5250 6000
 F 0 "C207" H 5275 6100 50  0000 L CNN
@@ -158,7 +191,7 @@ F 3 "" H 5250 6000 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R209
+L R R209
 U 1 1 58871F15
 P 5750 6000
 F 0 "R209" V 5830 6000 50  0000 C CNN
@@ -169,7 +202,7 @@ F 3 "" H 5750 6000 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R210
+L R R210
 U 1 1 58871F1C
 P 5750 6500
 F 0 "R210" V 5830 6500 50  0000 C CNN
@@ -180,7 +213,7 @@ F 3 "" H 5750 6500 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:C C213
+L C C213
 U 1 1 58871F23
 P 6050 5350
 F 0 "C213" H 6075 5450 50  0000 L CNN
@@ -191,7 +224,7 @@ F 3 "" H 6050 5350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C209
+L C C209
 U 1 1 58871F2A
 P 5500 5750
 F 0 "C209" H 5525 5850 50  0000 L CNN
@@ -202,7 +235,7 @@ F 3 "" H 5500 5750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:C C201
+L C C201
 U 1 1 58871F31
 P 1600 5450
 F 0 "C201" H 1625 5550 50  0000 L CNN
@@ -213,7 +246,7 @@ F 3 "" H 1600 5450 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R206
+L R R206
 U 1 1 58871F38
 P 2750 2200
 F 0 "R206" V 2830 2200 50  0000 C CNN
@@ -224,7 +257,7 @@ F 3 "" H 2750 2200 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R202
+L R R202
 U 1 1 58871F3F
 P 2250 2100
 F 0 "R202" V 2330 2100 50  0000 C CNN
@@ -235,7 +268,7 @@ F 3 "" H 2250 2100 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R204
+L R R204
 U 1 1 58871F46
 P 2400 2500
 F 0 "R204" V 2480 2500 50  0000 C CNN
@@ -246,7 +279,7 @@ F 3 "" H 2400 2500 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Omat:LM5018 IC202
+L LM5018 IC202
 U 1 1 58871F4D
 P 3450 2050
 F 0 "IC202" H 3450 2350 60  0000 C CNN
@@ -257,7 +290,7 @@ F 3 "" H 3450 2100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C204
+L C C204
 U 1 1 58871F54
 P 4150 2000
 F 0 "C204" H 4175 2100 50  0000 L CNN
@@ -268,7 +301,7 @@ F 3 "" H 4150 2000 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L bms-rescue:TRANSFO T202
+L TRANSFO T202
 U 1 1 58871F5B
 P 5200 1500
 F 0 "T202" H 5200 1750 50  0000 C CNN
@@ -279,7 +312,7 @@ F 3 "" H 5200 1500 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:D_Schottky D202
+L D_Schottky D202
 U 1 1 58871F62
 P 4700 2100
 F 0 "D202" H 4700 2200 50  0000 C CNN
@@ -290,7 +323,7 @@ F 3 "" H 4700 2100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C206
+L C C206
 U 1 1 58871F69
 P 4350 2450
 F 0 "C206" H 4375 2550 50  0000 L CNN
@@ -301,7 +334,7 @@ F 3 "" H 4350 2450 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:D_Schottky D204
+L D_Schottky D204
 U 1 1 58871F70
 P 5550 750
 F 0 "D204" H 5550 850 50  0000 C CNN
@@ -312,7 +345,7 @@ F 3 "" H 5550 750 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:C C212
+L C C212
 U 1 1 58871F77
 P 5750 900
 F 0 "C212" H 5775 1000 50  0000 L CNN
@@ -323,7 +356,7 @@ F 3 "" H 5750 900 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R214
+L R R214
 U 1 1 58871F7E
 P 6000 900
 F 0 "R214" V 6080 900 50  0000 C CNN
@@ -334,7 +367,7 @@ F 3 "" H 6000 900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R208
+L R R208
 U 1 1 58871F85
 P 5150 2450
 F 0 "R208" V 5230 2450 50  0000 C CNN
@@ -345,7 +378,7 @@ F 3 "" H 5150 2450 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:C C208
+L C C208
 U 1 1 58871F8C
 P 5400 2700
 F 0 "C208" H 5425 2800 50  0000 L CNN
@@ -356,7 +389,7 @@ F 3 "" H 5400 2700 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R212
+L R R212
 U 1 1 58871F93
 P 5900 2700
 F 0 "R212" V 5980 2700 50  0000 C CNN
@@ -367,7 +400,7 @@ F 3 "" H 5900 2700 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R213
+L R R213
 U 1 1 58871F9A
 P 5900 3200
 F 0 "R213" V 5980 3200 50  0000 C CNN
@@ -378,7 +411,7 @@ F 3 "" H 5900 3200 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:C C214
+L C C214
 U 1 1 58871FA1
 P 6150 2050
 F 0 "C214" H 6175 2150 50  0000 L CNN
@@ -389,7 +422,7 @@ F 3 "" H 6150 2050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C211
+L C C211
 U 1 1 58871FA8
 P 5650 2450
 F 0 "C211" H 5675 2550 50  0000 L CNN
@@ -400,7 +433,7 @@ F 3 "" H 5650 2450 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:C C202
+L C C202
 U 1 1 58871FAF
 P 1750 2150
 F 0 "C202" H 1775 2250 50  0000 L CNN
@@ -411,7 +444,7 @@ F 3 "" H 1750 2150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L regul:7805 U201
+L 7805 U201
 U 1 1 58871FB6
 P 7000 5600
 F 0 "U201" H 7150 5404 50  0000 C CNN
@@ -422,7 +455,7 @@ F 3 "" H 7000 5600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L regul:7805 U202
+L 7805 U202
 U 1 1 58871FBD
 P 7050 2300
 F 0 "U202" H 7200 2104 50  0000 C CNN
@@ -626,7 +659,7 @@ Text GLabel 6450 4050 2    60   Input ~ 0
 Text GLabel 6450 4350 2    60   Input ~ 0
 GNDF
 $Comp
-L conn:CONN_01X02 P201
+L CONN_01X02 P201
 U 1 1 589E2BC8
 P 7750 3650
 F 0 "P201" H 7750 3800 50  0000 C CNN
@@ -639,7 +672,7 @@ $EndComp
 Text GLabel 9300 3600 2    60   Input ~ 0
 12VSYS
 $Comp
-L power:GND #PWR02
+L GND #PWR02
 U 1 1 589E3FF2
 P 8050 3700
 F 0 "#PWR02" H 8050 3450 50  0001 C CNN
@@ -654,7 +687,7 @@ Wire Wire Line
 Wire Wire Line
 	7950 3600 9300 3600
 $Comp
-L Device:C C221
+L C C221
 U 1 1 589E4568
 P 8500 3750
 F 0 "C221" H 8525 3850 50  0000 L CNN
@@ -665,7 +698,7 @@ F 3 "" H 8500 3750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C222
+L C C222
 U 1 1 589E46B7
 P 8800 3750
 F 0 "C222" H 8825 3850 50  0000 L CNN
@@ -676,7 +709,7 @@ F 3 "" H 8800 3750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR03
+L GND #PWR03
 U 1 1 589E47A1
 P 8500 3900
 F 0 "#PWR03" H 8500 3650 50  0001 C CNN
@@ -687,7 +720,7 @@ F 3 "" H 8500 3900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR04
+L GND #PWR04
 U 1 1 589E4827
 P 8800 3900
 F 0 "#PWR04" H 8800 3650 50  0001 C CNN
@@ -698,7 +731,7 @@ F 3 "" H 8800 3900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L regul:7805 U203
+L 7805 U203
 U 1 1 589E5281
 P 9600 4100
 F 0 "U203" H 9750 3904 50  0000 C CNN
@@ -709,7 +742,7 @@ F 3 "" H 9600 4100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR05
+L GND #PWR05
 U 1 1 589E5381
 P 9600 4350
 F 0 "#PWR05" H 9600 4100 50  0001 C CNN
@@ -727,7 +760,7 @@ Connection ~ 9100 3600
 Text GLabel 10550 4050 2    60   Input ~ 0
 5VSYS
 $Comp
-L Device:C C223
+L C C223
 U 1 1 589E5885
 P 9100 4200
 F 0 "C223" H 9125 4300 50  0000 L CNN
@@ -738,7 +771,7 @@ F 3 "" H 9100 4200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR06
+L GND #PWR06
 U 1 1 589E5950
 P 9100 4350
 F 0 "#PWR06" H 9100 4100 50  0001 C CNN
@@ -749,7 +782,7 @@ F 3 "" H 9100 4350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C224
+L C C224
 U 1 1 589E5A37
 P 9950 4200
 F 0 "C224" H 9975 4300 50  0000 L CNN
@@ -762,7 +795,7 @@ $EndComp
 Wire Wire Line
 	10550 4050 10000 4050
 $Comp
-L power:GND #PWR07
+L GND #PWR07
 U 1 1 589E5CC9
 P 9950 4350
 F 0 "#PWR07" H 9950 4100 50  0001 C CNN
@@ -775,7 +808,7 @@ $EndComp
 Wire Wire Line
 	8050 2250 7450 2250
 $Comp
-L Device:C C215
+L C C215
 U 1 1 589E62D4
 P 6550 2400
 F 0 "C215" H 6575 2500 50  0000 L CNN
@@ -786,7 +819,7 @@ F 3 "" H 6550 2400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C218
+L C C218
 U 1 1 589E63BD
 P 7500 2400
 F 0 "C218" H 7525 2500 50  0000 L CNN
@@ -801,7 +834,7 @@ GND_TOP
 Text GLabel 6550 2550 3    60   Input ~ 0
 GND_TOP
 $Comp
-L Device:C C216
+L C C216
 U 1 1 589E70E7
 P 6550 5700
 F 0 "C216" H 6575 5800 50  0000 L CNN
@@ -814,7 +847,7 @@ $EndComp
 Wire Wire Line
 	8050 5550 7400 5550
 $Comp
-L Device:C C217
+L C C217
 U 1 1 589E72EA
 P 7400 5700
 F 0 "C217" H 7425 5800 50  0000 L CNN
@@ -829,7 +862,7 @@ GND_BOT
 Text GLabel 7400 5850 3    60   Input ~ 0
 GND_BOT
 $Comp
-L Device:C C220
+L C C220
 U 1 1 589E9E6C
 P 7850 2400
 F 0 "C220" H 7875 2500 50  0000 L CNN
@@ -842,7 +875,7 @@ $EndComp
 Text GLabel 7850 2550 3    60   Input ~ 0
 GND_TOP
 $Comp
-L Device:C C219
+L C C219
 U 1 1 589EB61A
 P 7750 5700
 F 0 "C219" H 7775 5800 50  0000 L CNN
@@ -855,7 +888,7 @@ $EndComp
 Text GLabel 7750 5850 3    60   Input ~ 0
 GND_BOT
 $Comp
-L Device:C C225
+L C C225
 U 1 1 589EC6BE
 P 10300 4200
 F 0 "C225" H 10325 4300 50  0000 L CNN
@@ -866,7 +899,7 @@ F 3 "" H 10300 4200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR08
+L GND #PWR08
 U 1 1 589EC7C7
 P 10300 4350
 F 0 "#PWR08" H 10300 4100 50  0001 C CNN

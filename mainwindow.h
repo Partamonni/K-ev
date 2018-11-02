@@ -10,14 +10,19 @@
 #include <QTime>
 #include <QTimer>
 #include "dropdown.h"
-#include "tempentry.h"
 #include "otherentry.h"
 #include "ampmeter.h"
 #include "serialportreader.h"
 #include "buttons.h"
-#include "shutmotorentry.h"
 #include "notice.h"
 #include "digitalclock.h"
+#include "entry.h"
+#include "tempentry.h"
+#include "errorsentry.h"
+#include "seriallogentry.h"
+#include "statsentry.h"
+#include "statusentry.h"
+#include "shutmotorentry.h"
 
 #define RPI 0
 
@@ -26,7 +31,7 @@ class Mainwindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit Mainwindow(QWidget *parent = 0);
+    explicit Mainwindow(QWidget *parent = nullptr);
     ~Mainwindow();
 
     int releaseTime = 600;
@@ -40,11 +45,15 @@ public:
     QGridLayout *fgLayout = new QGridLayout;
     Dropdown *dropdown = new Dropdown(this);
     TempEntry *tempEntry = new TempEntry(this);
+    ErrorsEntry *errorsEntry = new ErrorsEntry(this);
+    StatsEntry *statsEntry = new StatsEntry(this);
+    StatusEntry *statusEntry = new StatusEntry(this);
+    SerialLogEntry *serialLogEntry = new SerialLogEntry(this);
     OtherEntry *otherEntry = new OtherEntry(this);
+    ShutMotorEntry *shutMotor = new ShutMotorEntry(this);
     AmpMeter *ampMeter = new AmpMeter;
     QGraphicsOpacityEffect *opaEff = new QGraphicsOpacityEffect;
     SerialPortReader *mySerial = new SerialPortReader(this);
-    ShutMotorEntry *shutMotor = new ShutMotorEntry(this);
     Notice *splash = new Notice(this);
     DigitalClock *clock = new DigitalClock;
 #if RPI
@@ -81,8 +90,15 @@ protected:
 #endif
 private:
     void toggleTempEntry();
+    void toggleStatusEntry();
+    void toggleStatsEntry();
+    void toggleErrorsEntry();
+    void toggleSerialLogEntry();
     void toggleMotorEntry();
-    void (Mainwindow::*lastEntryFunc)() = NULL;
+    void doSliding(Entry*);
+    void (Mainwindow::*lastEntryFunc)() = nullptr;
+    Entry *closingEntry = nullptr;
+    Entry *entries[6];
 
     QTimer *motorShutTimer = new QTimer;
 
