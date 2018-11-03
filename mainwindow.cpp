@@ -210,8 +210,10 @@ void Mainwindow::toggleEntry()
 {
     if(dropdown->menu->isVisible())
     {
+        if(closingEntry != nullptr && closingEntry->motEffEntry->state() == QAbstractAnimation::Running)
+            return;
 
-        if(dropdown->entryOpen && lastEntryFunc != nullptr)
+        if(dropdown->entryOpen && lastEntryFunc != nullptr && dropdown->selPos != 5)
             (this->*lastEntryFunc)();
 
         switch(dropdown->selPos)
@@ -238,7 +240,6 @@ void Mainwindow::toggleEntry()
             break;
         case 5:
             toggleMotorEntry();
-            lastEntryFunc = &Mainwindow::toggleMotorEntry;
             break;
         }
     }
@@ -295,7 +296,7 @@ void Mainwindow::doSliding(Entry *entry)
     if(entry->motEffEntry->state() == QAbstractAnimation::Stopped ||
         entry->motEffEntry->state() ==(QAbstractAnimation::Forward | QAbstractAnimation::Running))
     {
-        if(entry->entryFrame->isHidden()/* && !dropdown->entryOpen*/)
+        if(entry->entryFrame->isHidden())
         {
             entry->motEffEntry->setDirection(QAbstractAnimation::Forward);
             // set direction to open

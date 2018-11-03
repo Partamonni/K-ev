@@ -17,19 +17,17 @@
 #define HOST_QUERY_ON 0
  // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
 
-const int FAN_MAX_DUTY_CYCLE = 35; //(12/72)*256 and lowered still a bit for first tests
+const int FAN_MAX_DUTY_CYCLE = 255;
 const int CMD_CHAR_COUNT = 2;
 const int OVERCURRENT = 140;
 const int OVERVOLTAGE = 85;
 const int LOW_VOLTAGE = 58;
 const int OVER_HEAT = 60;
 const int NL = 1;  // Newline flag for overloaded serialPrint -function
-const int HOST_QUERY_TIME = 5000; // ms | Change for real application
+const int HOST_QUERY_TIME = 5000; // ms | Change this for real application
 const int READ_TIME = 200; // ms, for temperature sensors to sample readings and while monitoring is on
 const int TMP_COUNT = 41;
 const int BYTE = 8;
-
-// const bool DEBUG = true; // DO NOT USE THIS ON LIVE SYSTEM!!! IMPERATIVE!!!
 
 OneWire ds(10);
 
@@ -134,7 +132,7 @@ void setup()
   serialInput.reserve(64);  // These values are probably too unoptimized,
   Serial.setTimeout(200);   // but I don't really care too much for now.
 
-  current = 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
+  current = ((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.1; //5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
   // ^ Can measure accuracy to ~0.25A
   if (current > 0.5 || current < -0.5)
   {
