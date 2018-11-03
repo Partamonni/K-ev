@@ -12,10 +12,10 @@
 #include <avr/wdt.h>
 #include <OneWire.h>
 
-#define DEBUG 1
-#define VERBOSE 1
-#define HOST_QUERY_ON 0
  // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
+#define DEBUG 0
+#define VERBOSE 0
+#define HOST_QUERY_ON 0
 
 const int FAN_MAX_DUTY_CYCLE = 255;
 const int CMD_CHAR_COUNT = 2;
@@ -97,6 +97,15 @@ double board5v;
 double ms;
 double temperature[TMP_COUNT];
 
+int sampleFreq = 10; //ms
+double coulombCounter = 0; //Ah
+double lastCurrents[100] = {0};
+double defaultCapacity = 80; //Ah
+double stateOfHealth = 100; //%
+double stateOfCharge = 100; //%
+double voltageFull = 84; //V
+double voltageEmpty = 66; //V
+
 String serialInput = "";
 bool success = false;
 bool setupSuccess = false;
@@ -111,6 +120,7 @@ bool checkIfShut();
 void interrupt_setup();
 void serialPrint(String);
 void serialPrint(String, bool);
+int calcSOC();
 String enquire(String);
 #if DEBUG&&VERBOSE
 void printBits(byte);
@@ -132,7 +142,7 @@ void setup()
   serialInput.reserve(64);  // These values are probably too unoptimized,
   Serial.setTimeout(200);   // but I don't really care too much for now.
 
-  current = ((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.1; //5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
+  current = 250((analogRead(curSense)-analogRead(curSenseRef))/1023); //5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
   // ^ Can measure accuracy to ~0.25A
   if (current > 0.5 || current < -0.5)
   {
@@ -146,10 +156,11 @@ void setup()
 
   pinMode(vsense, INPUT);
   pinMode(vref3v3, INPUT);
-  board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
+  board5v = 3375.9/analogRead(vref3v3); // Simplified function of 5V*((3.3/5)*1023)/vref3v3
   // ^ Returns real voltage referring to internal 3v3 regulator voltage
-  // 3v3 output pin shorted to analog input
-  voltage = (analogRead(vsense)/1023)*board5v*(537/27);
+  // 3v3 output pin shorted to analog input 
+  voltage = 179*analogRead(vsense)*board5v/9207; 
+  // Simplified function of (analogRead(vsense)/1023)*board5v*(537/27)
   // (537/27) is a multiplier to counter voltage divider in the circuit
   if (voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
   {
@@ -212,9 +223,10 @@ void loop()
   ds.reset();
   ds.skip();
   ds.write(0x44); // Command temperature sensors to start measurement
-  
+
+  if(millis() 
   ms = millis(); // Store current time             
-  while(ms+READ_TIME >= millis()) // Secondary loop  
+  while(READ_TIME >= (unsigned long)(millis()-ms)) // Secondary loop  
     systemMonitoring();     // Do over 200ms if no extra timing is
                             // given for temp sensors to do conversion    
   wdt_reset();
@@ -285,37 +297,34 @@ void loop()
 
 void systemMonitoring()
 {
-  if(criticalCFailure || criticalVFailure || criticalTFailure || lowVoltage)
+  if(criticalCFailure || criticalVFailure || criticalTFailure)
   {
-    if(!criticalCFailure || !criticalVFailure || !criticalTFailure)
+    do
     {
-      do
-      {
+      if(criticalCFailure)
+        serialPrint("!C", NL);
+      if(criticalVFailure)  
+        serialPrint("!V", NL);
+      if(criticalTFailure)
+        serialPrint("!T", NL);
+      if(lowVoltage)
         serialPrint("!v", NL);
-        delay(1000);
-        wdt_reset();
-      }
-      while(!DEBUG && lowVoltage);
-      if(!hostShut && !DEBUG)
-        serialPrint("up", NL);
+      delay(1000);
+      wdt_reset();
     }
-    else
+    while(!DEBUG);
+  }
+  else if(lowVoltage)
+  {
+    do
     {
-      do
-      {
-        if(criticalCFailure)
-          serialPrint("!C", NL);
-        if(criticalVFailure)  
-          serialPrint("!V", NL);
-        if(criticalTFailure)
-          serialPrint("!T", NL);
-        if(lowVoltage)
-          serialPrint("!v", NL);
-        delay(1000);
-        wdt_reset();
-      }
-      while(!DEBUG);
+      serialPrint("!v", NL);
+      delay(1000);
+      wdt_reset();
     }
+    while(!DEBUG && lowVoltage);
+    if(!hostShut && !DEBUG)
+      serialPrint("up", NL);
   }
 
   if(!checkIfShut() && hostNotResponding) // checkIfShut() is executed every time
@@ -455,7 +464,7 @@ void interrupt_setup() // http://www.instructables.com/id/Arduino-Timer-Interrup
   TCCR1A = 0; // set entire TCCR1A register to 0
   TCCR1B = 0; // same for TCCR1B
   TCNT1  = 0; //initialize counter value to 0
-  // set compare match register for 1hz increments
+  // set compare match register for 10hz increments
   OCR1A = 3124; // = (16*10^6) / (10*1024) - 1 (must be <65536)
   // turn on CTC mode
   TCCR1B |= (1 << WGM12);
@@ -486,8 +495,8 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
 {
   if(setupSuccess)
   {
-    board5v = 3.3*1023/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
-    voltage = (analogRead(vsense)/1023)*board5v*(537/27);
+    board5v = 3375.9/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
+    voltage = 179*analogRead(vsense)*board5v/9207; //voltage = (analogRead(vsense)/1023)*board5v*(537/27);
 
     if(voltage > OVERVOLTAGE)
     {
@@ -495,8 +504,9 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
       criticalVFailure = true;
     }
 
-    current = board5v*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; // Can measure accuracy to ~0.25A
-
+  // Can measure accuracy to ~0.25A
+    current = board5v*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
+    
     if(current > OVERCURRENT)
     {
       PORTC &= B11101111;
@@ -574,3 +584,9 @@ void printBits(int data)
   Serial.println(bits);
 }
 #endif
+
+int calcSOC()
+{
+  
+}
+
