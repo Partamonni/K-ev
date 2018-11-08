@@ -23,7 +23,7 @@ const int OVERCURRENT = 140;
 const int OVERVOLTAGE = 85;
 const int LOW_VOLTAGE = 58;
 const int OVER_HEAT = 60;
-const int NL = 1;  // Newline flag for overloaded serialPrint -function
+//const int NL = 1;  // Newline flag for overloaded serialPrint -function
 const int HOST_QUERY_TIME = 5000; // ms | Change this for real application
 const int READ_TIME = 200; // ms, for temperature sensors to sample readings and while monitoring is on
 const int TMP_COUNT = 41;
@@ -84,27 +84,30 @@ byte  tempAdr[TMP_COUNT][8] =
 };
 byte  data[TMP_COUNT][9];
 
-int vsense = A1;
-int curSense = A2;
-int curSenseRef = A3;
-int vref3v3 = A2;
+byte curSense = 0; // Analog pin
+byte vsense = 1; // Analog pin  
+byte vref3v3 = 2; // Analog pin
+byte curSenseRef = 3; // Analog pin
 int fanSwitch = 11;
-int mosfetSwitch = A4;
+int mosfetSwitch = A4; // IDE changes these to corresponding pin numbers by itself
 
-double current;
-double voltage;
-double board5v;
+volatile double current;
+volatile double voltage;
+volatile double board5v;
 double ms;
 double temperature[TMP_COUNT];
 
-int sampleFreq = 10; //ms
-double coulombCounter = 0; //Ah
-double lastCurrents[100] = {0};
-double defaultCapacity = 80; //Ah
-double stateOfHealth = 100; //%
-double stateOfCharge = 100; //%
-double voltageFull = 84; //V
-double voltageEmpty = 66; //V
+volatile double coulombCounter = 0; //Ah
+volatile double lastCurrents[100] = {0}; //A
+const double defaultCapacity = 80; //Ah
+double stateOfHealth = 1; // x100%
+double stateOfCharge = 1; // x100%
+const double voltageFull = 84; //V
+const double voltageEmpty = 66; //V
+const double current0_5C = 41.5; //A
+const double current0_2C = 16.64; //A
+const double dischargeVChange1Ah = 0.35; //V
+const double ccChargeEndCapacity = 71; //Ah
 
 String serialInput = "";
 bool success = false;
@@ -122,6 +125,7 @@ void serialPrint(String);
 void serialPrint(String, bool);
 int calcSOC();
 String enquire(String);
+int adConversion
 #if DEBUG&&VERBOSE
 void printBits(byte);
 #endif
@@ -130,19 +134,20 @@ void setup()
 {
   DDRC |= B00010000; // pinMode(mosfetSwitch, OUTPUT);
   PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW);
+  
   wdt_disable();
   wdt_reset();
   pinMode(fanSwitch, OUTPUT);
   analogWrite(fanSwitch, FAN_MAX_DUTY_CYCLE);
-  pinMode(curSense, INPUT);
-  pinMode(curSenseRef, INPUT);
+  
+  DIDR0=B00001111; // Set A0-A4 as analog inputs
   
   Serial.begin(57600);
   Serial.println("Board started");
   serialInput.reserve(64);  // These values are probably too unoptimized,
   Serial.setTimeout(200);   // but I don't really care too much for now.
 
-  current = 250((analogRead(curSense)-analogRead(curSenseRef))/1023); //5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
+  current = 250*((adConversion(curSense)-adConversion(curSenseRef))/1023); //5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02
   // ^ Can measure accuracy to ~0.25A
   if (current > 0.5 || current < -0.5)
   {
@@ -152,14 +157,13 @@ void setup()
       delay(1000);
     }
     while(!DEBUG);
-  }
-
-  pinMode(vsense, INPUT);
-  pinMode(vref3v3, INPUT);
-  board5v = 3375.9/analogRead(vref3v3); // Simplified function of 5V*((3.3/5)*1023)/vref3v3
+  } // These trap loops are to send alert to user interface
+    // They can be cleared only by full power cycle (for now, atleast)
+    
+  board5v = 3375.9/adConversion(vref3v3); // Simplified function of 5V*((3.3/5)*1023)/vref3v3
   // ^ Returns real voltage referring to internal 3v3 regulator voltage
   // 3v3 output pin shorted to analog input 
-  voltage = 179*analogRead(vsense)*board5v/9207; 
+  voltage = 179*adConversion(vsense)*board5v/9207; 
   // Simplified function of (analogRead(vsense)/1023)*board5v*(537/27)
   // (537/27) is a multiplier to counter voltage divider in the circuit
   if (voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
@@ -173,9 +177,7 @@ void setup()
   }
   
   interrupt_setup();
-
   #if DEBUG&&VERBOSE
-  
     serialPrint("Interrupts now in place", NL);
   #endif
   
@@ -198,9 +200,7 @@ void setup()
   while(enquire("?h") != "ok"){} 
 
   serialPrint(String(current,1), NL);
-  serialPrint(String(voltage,1), NL);
-
-  
+  serialPrint(String(voltage,1), NL);  
   
   setupSuccess = true;
   wdt_reset();
@@ -209,7 +209,8 @@ void setup()
   #if DEBUG&&VERBOSE
     serialPrint("wdt reset and enabled", NL);
   #endif
-  digitalWrite(mosfetSwitch, HIGH);
+  
+  PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
   serialPrint("up", NL);
 }
 
@@ -223,8 +224,7 @@ void loop()
   ds.reset();
   ds.skip();
   ds.write(0x44); // Command temperature sensors to start measurement
-
-  if(millis() 
+ 
   ms = millis(); // Store current time             
   while(READ_TIME >= (unsigned long)(millis()-ms)) // Secondary loop  
     systemMonitoring();     // Do over 200ms if no extra timing is
@@ -335,7 +335,7 @@ void systemMonitoring()
     {
       hostNotResponding = false;     
       hostShut = false;      
-      digitalWrite(mosfetSwitch, HIGH);
+      PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
       serialPrint("up", NL);
       #if DEBUG&&VERBOSE
         serialPrint("Host responded, gates are now open", NL);
@@ -473,16 +473,16 @@ void interrupt_setup() // http://www.instructables.com/id/Arduino-Timer-Interrup
   // enable timer compare interrupt
   TIMSK1 |= (1 << OCIE1A);
 /*
-//set timer2 interrupt at 8kHz
+//set timer2 interrupt at 1kHz
   TCCR2A = 0;// set entire TCCR2A register to 0
   TCCR2B = 0;// same for TCCR2B
   TCNT2  = 0;//initialize counter value to 0
-  // set compare match register for 8khz increments
-  OCR2A = 249;// = (16*10^6) / (8000*8) - 1 (must be <256)
+  // set compare match register for 10khz increments
+  OCR2A = 249;// = (16*10^6) / (10000*64) - 1 (must be <256)
   // turn on CTC mode
   TCCR2A |= (1 << WGM21);
-  // Set CS21 bit for 8 prescaler
-  TCCR2B |= (1 << CS21);   
+  // Set CS22 bit for 64 prescaler
+  TCCR2B |= (1 << CS22);   
   // enable timer compare interrupt
   TIMSK2 |= (1 << OCIE2A);
 */
@@ -493,50 +493,63 @@ void interrupt_setup() // http://www.instructables.com/id/Arduino-Timer-Interrup
 
 ISR(TIMER1_COMPA_vect) //timer1 interrupt
 {
-  if(setupSuccess)
+  board5v = 3375.9/adConversion(vref3v3); // Simplified Function of 5V*((3.3/5)*1023)/vref3v3
+  voltage = 179*adConversion(vsense)*board5v/9207; // Simplified Function of (vsense/1023)*board5v*(537/27)
+
+  if(voltage > OVERVOLTAGE)
   {
-    board5v = 3375.9/analogRead(vref3v3); // Function of 5V*((3.3/5)*1023)/vref3v3
-    voltage = 179*analogRead(vsense)*board5v/9207; //voltage = (analogRead(vsense)/1023)*board5v*(537/27);
+    PORTC &= B11101111;
+    criticalVFailure = true;
+  }
 
-    if(voltage > OVERVOLTAGE)
-    {
-      PORTC &= B11101111;
-      criticalVFailure = true;
-    }
+// Can measure accuracy to ~0.25A
+  current = board5v*((adConversion(curSense)-adConversion(curSenseRef))/1023)/0.02; 
+  
+  if(current > OVERCURRENT)
+  {
+    PORTC &= B11101111;
+    criticalCFailure = true;
+  }
+  
+  if(voltage < LOW_VOLTAGE)
+    lowVoltage = true;
 
-  // Can measure accuracy to ~0.25A
-    current = board5v*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02; 
-    
-    if(current > OVERCURRENT)
-    {
-      PORTC &= B11101111;
-      criticalCFailure = true;
-    }
-    
-    if(voltage < LOW_VOLTAGE)
-      lowVoltage = true;
+  else if(voltage >= LOW_VOLTAGE)
+    lowVoltage = false;
 
-    else if(voltage >= LOW_VOLTAGE)
-      lowVoltage = false;
+  static int i = 0;
+  static double currentHelper = 0;
+  coulombCounter += current/360000; // Simplified from: current*0.01/60/60
+                                    //                        10ms^  ^m  ^h
+  if(i++ < 10) // get average current on 100ms period
+    currentHelper += current;
+  else
+  { // This adds new current entry after every 100ms
+    currentHelper /= 10;
+    memmove(&lastCurrents[1], &lastCurrents[0], sizeof(double)*99);
+    lastCurrents[0] = currentHelper;
+    currentHelper = 0;
+    i = 0;
   }
 }
 
 
 // These serial funcs are needed because somehow too fast consecutive
 // Serial.Print() calls fail to wait the previous calls to finish.
-void serialPrint(String message)
+void serialPrint(String message, bool NL = 0)
 { 
   Serial.print(message);
+  if(NL)Serial.print("\n");
   Serial.flush(); 
   // Flushing means for arduino just to wait for data to be transmitted,
-  // not emptying the queue;
+  // not emptying the queue
 }
 
-void serialPrint(String message, bool NL)
+/*void serialPrint(String message, bool NL)
 {
   Serial.println(message);
   Serial.flush();
-}
+}*/
 
 String enquire(String query)
 {
@@ -587,6 +600,55 @@ void printBits(int data)
 
 int calcSOC()
 {
-  
+  stateOfCharge = (stateOfHealth*defaultCapacity - coulombCounter)
+  /(stateOfHealth*defaultCapacity);
+
+  static bool cvCharging = false;
+    
+  bool lightUsage = true;
+  for(int i = 0; i < 100; ++i)
+  {
+    if(lastCurrents[i] > current0_5C && lastCurrents[i] < current0_2C)
+    {
+      lightUsage = false;
+      break;
+    }
+  }
+  if(lightUsage)
+  { // Change stateOfCharge halfway to new calculated value, 
+    // that way it creeps towards correct value
+    double stateOfChargeHelper = 
+    (stateOfHealth*defaultCapacity - (32*(82 - voltage)/dischargeVChange1Ah))
+    /(stateOfHealth*defaultCapacity);
+    
+    stateOfChargeHelper += stateOfCharge;
+    stateOfChargeHelper /= 2;
+    stateOfCharge = stateOfChargeHelper;
+  }
+
+  if(voltage <= voltageEmpty && current < current0_2C)
+  {
+    stateOfCharge = 0;
+    if(coulombCounter < defaultCapacity)
+      stateOfHealth = coulombCounter/defaultCapacity;
+  }
+  else if(!cvCharging && voltage >= voltageFull 
+          && current < 0 && current >= -current0_5C)
+  {
+    stateOfCharge = 2220/defaultCapacity;
+    cvCharging = true;
+  }
+  else if(cvCharging && current >= 0)
+    cvCharging = false;
+
 }
 
+int adConversion(byte ch)
+{
+  ADMUX=B01000000 | ch; // Select pin and voltage reference
+  ADCSRA=B11000111; // Start conversion (first 2 bits from left) with prescaler 128 (last 3 bits)
+
+  while((ADCSRA & B01000000) != 0){}; // Wait for status bit to flip
+
+  return ADC;
+}
