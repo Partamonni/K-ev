@@ -13,7 +13,7 @@ class SerialPortReader : public QWidget
     Q_OBJECT
 
 public:
-    explicit SerialPortReader(Mainwindow *parent = 0);
+    explicit SerialPortReader(Mainwindow *parent = nullptr);
     ~SerialPortReader();
 
     QString *inData = new QString;
