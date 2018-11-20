@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 #include <QLabel>
 #include <QMessageBox>
+#include <QTimer>
 #include "mainwindow.h"
 
 #define RPI 0
@@ -18,37 +19,46 @@ SerialPortReader::SerialPortReader(Mainwindow *parent) :
     m_parent = parent;
     inData->reserve(100);
 
+    breakTimer->setSingleShot(true);
+    breakTimer->setInterval(1000);
+
     connect(m_serial, static_cast<void (QSerialPort::*)(QSerialPort::SerialPortError)>(&QSerialPort::error), this, &SerialPortReader::handleError);
     connect(m_serial, &QSerialPort::readyRead, this, &SerialPortReader::readData);
     connect(this, SIGNAL(motorIsShut(bool)), parent, SLOT(toggleMotorEntry(bool)));
+    connect(breakTimer, &QTimer::timeout, this, &SerialPortReader::stopBreak);
 }
 
 SerialPortReader::~SerialPortReader()
-{}
+{
+
+}
 
 bool SerialPortReader::openSerialPort()
 {
 #if RPI
     m_serial->setPortName("ttyAMA0");
+    m_serial->setBaudRate(QSerialPort::Baud9600);
 #else
     m_serial->setPortName("COM11");
+    m_serial->setBaudRate(QSerialPort::Baud57600);
 #endif
 
-    m_serial->setBaudRate(QSerialPort::Baud57600);
     m_serial->setDataBits(QSerialPort::Data8);
     m_serial->setParity(QSerialPort::NoParity);
     m_serial->setStopBits(QSerialPort::OneStop);
     m_serial->setFlowControl(QSerialPort::NoFlowControl);
     if (m_serial->open(QIODevice::ReadWrite))
     {
-        displayMessage("Connected");
+        m_parent->serialLogEntry->addLine("Connected");
+        m_serial->setBreakEnabled(true);
+        breakTimer->start();
         return true;
     }
     else
     {
-        QMessageBox::critical(this, "Error", m_serial->errorString());
+        //QMessageBox::critical(this, "Error", m_serial->errorString());
 
-        displayMessage("Open error");
+        m_parent->errorsEntry->addLine("Serial port open error - "+m_serial->errorString());
         return false;
     }
 }
@@ -57,12 +67,13 @@ void SerialPortReader::closeSerialPort()
 {
     if (m_serial->isOpen())
         m_serial->close();
-    displayMessage("Disconnected");
+    m_parent->serialLogEntry->addLine("Disconnected");
 }
 
 void SerialPortReader::writeData(const QByteArray &outData)
 {
     m_serial->write(outData);
+    m_parent->serialLogEntry->addLine(outData + " ------->");
 }
 
 void SerialPortReader::readData()
@@ -150,7 +161,9 @@ void SerialPortReader::readData()
 void SerialPortReader::handleError(QSerialPort::SerialPortError error)
 {
     if (error == QSerialPort::ResourceError) {
-        QMessageBox::critical(this, "Critical Error", m_serial->errorString());
+        //QMessageBox::critical(this, "Critical Error", m_serial->errorString());
+        m_parent->splash->showText("Serial port error!");
+        m_parent->errorsEntry->addLine("Serial port error - "+m_serial->errorString());
         closeSerialPort();
     }
 }
@@ -171,4 +184,9 @@ void SerialPortReader::displayMessage(const QString &message)
     else
     {}// Do something?
 
+}
+
+void SerialPortReader::stopBreak()
+{
+    m_serial->setBreakEnabled(false);
 }

@@ -29,8 +29,8 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     this->grabMouse();
     this->grabKeyboard();
 #endif
-    if(mySerial->openSerialPort())
-        mySerial->writeData("!S");
+
+    mySerial->openSerialPort();
 
     bgLabel->setFixedSize(SCR_WIDTH,SCR_HEIGHT);
 

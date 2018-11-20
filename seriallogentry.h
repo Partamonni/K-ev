@@ -17,7 +17,6 @@ class SerialLogEntry : public Entry
 public:
     SerialLogEntry(Mainwindow *parent = nullptr);
 
-public slots:
     void addLine(QString);
 
 private:
