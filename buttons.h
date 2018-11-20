@@ -15,7 +15,7 @@ class Buttons : public QObject
 
     Q_OBJECT
 public:
-    explicit Buttons(Mainwindow *parent = 0);
+    explicit Buttons(Mainwindow *parent = nullptr);
 
     Mainwindow *m_parent;
 

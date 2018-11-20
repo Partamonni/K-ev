@@ -19,11 +19,6 @@ class TempEntry : public Entry
 public:
     explicit TempEntry(Mainwindow *parent = nullptr);
 
-//    QWidget *entryFrame = new QWidget();
-//    QGridLayout *entryLayout = new QGridLayout;
-//    QPixmap *entryBg = new QPixmap(":/entry.png");
-//    QLabel *canvas = new QLabel(entryFrame);
-//    QPropertyAnimation *motEffEntry = new QPropertyAnimation(entryFrame, "pos");
     QLabel *packTemp[41];
 
 signals:

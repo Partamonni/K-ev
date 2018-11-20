@@ -141,7 +141,7 @@ void SerialPortReader::readData()
         {
             // Unknown data
         }
-
+        m_parent->serialLogEntry->addLine(inData->left(i+1));
         *inData = inData->remove(0,i+1);
 
     }

@@ -15,13 +15,16 @@ class SerialLogEntry : public Entry
 {
     Q_OBJECT
 public:
-    SerialLogEntry(Mainwindow *parent = 0);
-/*
-    QWidget *entryFrame = new QWidget();
-    QGridLayout *entryLayout = new QGridLayout;
-    QPixmap *entryBg = new QPixmap(":/entry.png");
-    QLabel *canvas = new QLabel(entryFrame);
-    QPropertyAnimation *motEffEntry = new QPropertyAnimation(entryFrame, "pos");
-*/};
+    SerialLogEntry(Mainwindow *parent = nullptr);
+
+public slots:
+    void addLine(QString);
+
+private:
+    QLabel *serialLog = new QLabel;
+    QVector<QString> data;
+    QString *temp = new QString;
+
+};
 
 #endif // SERIALLOGENTRY_H
