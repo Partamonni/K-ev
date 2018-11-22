@@ -178,12 +178,14 @@ void setup()
   } // These trap loops are to send alert to user interface
   // They can be cleared only by full power cycle (for now, atleast)
 
-  board5v = 3375.9 / adConversion(vref3v3); // Simplified function of 5V*((3.3/5)*1023)/vref3v3
+  board5v = 3375.9 / adConversion(vref3v3);
   // ^ Returns real voltage referring to internal 3v3 regulator voltage
+  // Simplified function of 5V*((3.3/5)*1023)/vref3v3
   // 3v3 output pin shorted to analog input
   voltage = 179 * adConversion(vsense) * board5v / 9207;
   // Simplified function of (analogRead(vsense)/1023)*board5v*(537/27)
   // (537/27) is a multiplier to counter voltage divider in the circuit
+  
   if(voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
   {
     do
@@ -195,18 +197,18 @@ void setup()
   }
 
   msEEPROM = millis();
-  byte tmp[8];
-  for (int i = 0; i < 8; ++i)
+  byte tmp[4];
+  for (int i = 0; i < 4; ++i)
   {
     tmp[i] = EEPROM.read(i);
   }
-  memcpy(&coulombCounter, tmp, 8);
+  memcpy(&coulombCounter, tmp, 4);
   
-  for (int i = 0; i < 8; ++i)
+  for (int i = 0; i < 4; ++i)
   {
-    tmp[i] = EEPROM.read(i+8);
+    tmp[i] = EEPROM.read(i+4);
   }
-  memcpy(&stateOfHealth, tmp, 8);
+  memcpy(&stateOfHealth, tmp, 4);
 
   // If no EEPROM value ->
   if(coulombCounter == 0)
@@ -292,14 +294,14 @@ void loop()
   // EEPROM is calculated to quaranteedly withstand 10y with this interval
   if(EEPROM_SAVE_INTERVAL <= (unsigned long)(millis() - msEEPROM))
   {
-    byte tmp[8];
-    memcpy(tmp, &coulombCounter, 8);
-    for (int i = 0; i < 8; ++i)
+    byte tmp[4];
+    memcpy(tmp, &coulombCounter, 4);
+    for (int i = 0; i < 4; ++i)
       EEPROM.update(i, tmp[i]);
       
-    memcpy(tmp, &stateOfHealth, 8);
-    for (int i = 0; i < 8; ++i)
-      EEPROM.update(i+8, tmp[i]);
+    memcpy(tmp, &stateOfHealth, 4);
+    for (int i = 0; i < 4; ++i)
+      EEPROM.update(i+4, tmp[i]);
 
     msEEPROM = millis(); // Store current time
   }
@@ -582,6 +584,7 @@ String enquire(String query)
   }
   return serialInput;
 }
+
 #if DEBUG&&VERBOSE
 void printBits(int data)
 {
