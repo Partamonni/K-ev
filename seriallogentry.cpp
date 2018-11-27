@@ -18,7 +18,15 @@ void SerialLogEntry::addLine(QString line)
 {
     data.prepend(line);
     if(data.size() > 20)
+    {
+        data2.prepend(data.last());
         data.removeLast();
+
+        if(data2.size() > 20)
+        {
+            data2.removeLast();
+        }
+    }
     temp->clear();
     for(QString line : data)
     {
@@ -26,4 +34,11 @@ void SerialLogEntry::addLine(QString line)
         temp->append(line);
     }
     serialLog->setText(*temp);
+    temp->clear();
+    for(QString line : data2)
+    {
+        temp->append("\n");
+        temp->append(line);
+    }
+    serialLog2->setText(*temp);
 }
