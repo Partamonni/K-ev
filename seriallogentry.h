@@ -22,6 +22,8 @@ public:
 private:
     QLabel *serialLog = new QLabel;
     QVector<QString> data;
+    QLabel *serialLog2 = new QLabel;
+    QVector<QString> data2;
     QString *temp = new QString;
 
 };

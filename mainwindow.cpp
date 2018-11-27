@@ -43,7 +43,7 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     bgLabel->setPixmap(*bgImg);
     bgLayout->addWidget(bgLabel,0,0,1,3);
     bgLayout->addWidget(ampMeter->ampFrame,0,0,Qt::AlignVCenter);
-    bgLayout->addWidget(splash->noticeFrame,0,0,1,4,Qt::AlignCenter);
+    bgLayout->addWidget(splash->noticeFrame,0,0,1,4,(Qt::AlignHCenter | Qt::AlignTop));
     bgLayout->addWidget(clock->display,0,3,(Qt::AlignTop | Qt::AlignRight));
     bgLayout->setContentsMargins(0,0,0,0);
 

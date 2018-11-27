@@ -4,6 +4,7 @@
 
 ErrorsEntry::ErrorsEntry(Mainwindow *parent) : Entry(parent)
 {
+    errorLog->setFont(QFont("Source Code Variable"));
     entryLayout->addWidget(errorLog, 0, 0, (Qt::AlignTop | Qt::AlignLeft));
     entryLayout->setMargin(30);
 

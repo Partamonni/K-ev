@@ -159,6 +159,8 @@ void setup()
   wdt_reset();
   pinMode(fanSwitch, OUTPUT);
   analogWrite(fanSwitch, FAN_MAX_DUTY_CYCLE);
+  pinMode(6, OUTPUT);
+  digitalWrite(6, HIGH);
 
   DIDR0 = B00001111; // Set A0-A4 as analog inputs
 
@@ -765,4 +767,3 @@ byte* getTempAdr(byte n)
 
   return tmp;
 }
-
