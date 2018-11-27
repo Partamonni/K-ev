@@ -14,10 +14,10 @@
 #include <OneWire.h>
 
 // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
-#define DEBUG 0
+#define DEBUG 1
 #define VERBOSE 0
 #define HOST_QUERY_ON 0
-#define DEMO 0
+#define DEMO 1
 
 #define BAUD 9600
 #define FAN_MAX_DUTY_CYCLE 255
@@ -147,6 +147,9 @@ byte* getTempAdr(byte n);
 void printBits(byte);
 #endif
 
+double demoCurrent = 0;
+bool demoCurrentUpwards = true;
+
 void setup()
 {
   DDRC |= B00010000; // pinMode(mosfetSwitch, OUTPUT);
@@ -182,7 +185,7 @@ void setup()
   board5v = 3375.9 / adConversion(vref3v3);
   // ^ Returns real voltage referring to internal 3v3 regulator voltage
   // Simplified function of 5V*((3.3/5)*1023)/vref3v3
-  // 3v3 output pin shorted to analog input
+  // 3v3 output pin shorted to analog input vref3v3
   voltage = 179 * adConversion(vsense) * board5v / 9207;
   // Simplified function of (analogRead(vsense)/1023)*board5v*(537/27)
   // (537/27) is a multiplier to counter voltage divider in the circuit
@@ -196,7 +199,7 @@ void setup()
     }
     while (!DEBUG);
   }
-
+/*
   msEEPROM = millis();
   byte tmp[4];
   for (int i = 0; i < 4; ++i)
@@ -210,7 +213,7 @@ void setup()
     tmp[i] = EEPROM.read(i+4);
   }
   memcpy(&stateOfHealth, tmp, 4);
-
+*/
   // If no EEPROM value ->
   if(coulombCounter == 0)
   { // Initialize SOC to an approximate with voltage
@@ -241,7 +244,7 @@ void setup()
   ds.write_bytes(setCnf, 4);
   ds.reset(); // reset 1-Wire
 
-  while (enquire("?h") != "ok") {}
+  //while (enquire("?h") != "ok") {}
 
   serialPrint(String(current, 1), NL);
   serialPrint(String(voltage, 1), NL);
@@ -290,7 +293,7 @@ void loop()
   checkHost();  // Check if host is up and set gate status accordingly
 
   sendData(); // Send gathered data
-
+  /*
   // Save coulombCounter to EEPROM once an hour
   // EEPROM is calculated to quaranteedly withstand 10y with this interval
   if(EEPROM_SAVE_INTERVAL <= (unsigned long)(millis() - msEEPROM))
@@ -305,7 +308,7 @@ void loop()
       EEPROM.update(i+4, tmp[i]);
 
     msEEPROM = millis(); // Store current time
-  }
+  }*/
 }
 
 void systemMonitoring()
@@ -332,7 +335,7 @@ void systemMonitoring()
     PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
     serialPrint("up", NL);
   }
-
+  /*
   if(lowVoltage)
   {
     do
@@ -345,6 +348,7 @@ void systemMonitoring()
     if(!hostShut && !DEBUG)
       serialPrint("up", NL);
   }
+  */
 }
 
 void readTemps()
@@ -520,7 +524,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
   static byte i = 0;
   static double currentHelper = 0;
   coulombCounter += current / 360000; // Simplified from: current*0.01/60/60
-									  //                        10ms^  ^m  ^h
+                                      //                        10ms^  ^m  ^h
   if(i++ < 10) // get average current on 100ms period
     currentHelper += current;
   else
@@ -637,7 +641,7 @@ int calcSOC()
       (capacity - (32 * (82 - voltage) / dischargeVChange1Ah)) / capacity;
     // 32 is number of parallel cells, thus used capacity is 32 times that of a single cell
 
-    socHelper += stateOfCharge * 99;
+    socHelper += soc * 99;
     socHelper /= 100;
     soc = socHelper;
     // Function reaches 90% of end value in about 45 seconds when execution happens every 200ms
@@ -684,18 +688,27 @@ int adConversion(byte ch)
 
 void sendData()
 {
+  if(demoCurrentUpwards && demoCurrent < OVERCURRENT)
+    demoCurrent += (millis() % 20) / 10;
+  else if(demoCurrent > 3)
+    demoCurrent -= (millis() % 20) / 10;
+  else
+    demoCurrentUpwards = false;
+  
   serialPrint(":c");
-  serialPrint(String(current, 1), NL);
+  serialPrint(String(demoCurrent, 1), NL);
   serialPrint(":v");
-  serialPrint(String(voltage, 1), NL);
+  serialPrint(String(board5v, 1), NL);
+  double asd;
   for (byte i = 0; i < TMP_COUNT; ++i)
   {
-    if(tempAdr[i][7] != 0x00)
+    if(true || tempAdr[i][7] != 0x00)
     {
       serialPrint(String(':'));
       serialPrint(String(i));
       serialPrint(String('-'));
-      serialPrint(String(temperature[i], 1), NL);
+      asd = 42.0 + ((millis() % 20) / 10);
+      serialPrint(String(asd, 1), NL);
     }
     else
       break;
