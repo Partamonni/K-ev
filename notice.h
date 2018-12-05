@@ -40,12 +40,13 @@ private:
     Mainwindow *m_parent;
     QPixmap *bgImg = new QPixmap(":/entry.png");
     QTimer *hideTimer = new QTimer;
+    QTimer *releaseTimer = new QTimer;
     QFont *noticeFont = new QFont;
     void initFont();
     QGraphicsOpacityEffect *opacity = new QGraphicsOpacityEffect(this->noticeFrame);
     QPropertyAnimation *opacityAnim = new QPropertyAnimation(opacity, "opacity");
 
-
+    bool keepHidden = false;
 };
 
 #endif // NOTICE_H

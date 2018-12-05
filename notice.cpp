@@ -29,7 +29,10 @@ Notice::Notice(Mainwindow *parent) : QWidget()
     noticeContent->setPixmap(bgImg->scaled(noticeFrame->size()));
 
     hideTimer->setSingleShot(true);
+    releaseTimer->setSingleShot(true);
+
     connect(hideTimer, SIGNAL(timeout()), opacityAnim, SLOT(start()));
+    connect(releaseTimer, SIGNAL(timeout()), this, SLOT(hide()));
     connect(opacityAnim, SIGNAL(finished()), this, SLOT(hide()));
 
     show();
@@ -122,17 +125,28 @@ void Notice::clearAll()
 
 void Notice::show()
 {
-    opacity->setOpacity(1);
-    noticeFrame->show();
-    noticeFrame->raise();
-    hideTimer->start(2000);
+    if(!keepHidden)
+    {
+        opacity->setOpacity(1);
+        noticeFrame->show();
+        noticeFrame->raise();
+        hideTimer->start(2000);
+        keepHidden = true;
+    }
 }
 
 void Notice::hide()
 {
-    if(noticeId.isEmpty())
+
+    if(keepHidden)
     {
-        m_content.clear();
+        if(noticeId.isEmpty())
+        {
+            m_content.clear();
+        }
+        noticeFrame->hide();
+        releaseTimer->start(4000);
     }
-    noticeFrame->hide();
+    else
+        keepHidden = false;
 }

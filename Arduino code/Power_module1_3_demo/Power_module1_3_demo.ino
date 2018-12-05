@@ -693,7 +693,10 @@ void sendData()
   if(demoCurrentUpwards && demoCurrent < OVERCURRENT)
     demoCurrent += (millis() % 20) / 10;
   else if(demoCurrent > 3)
+  {
+    demoCurrentUpwards = false;
     demoCurrent -= (millis() % 20) / 10;
+  }
   else
     demoCurrentUpwards = false;
   

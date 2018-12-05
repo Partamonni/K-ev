@@ -82,6 +82,9 @@ public slots:
     void menuIsShutFunc();
     void entryIsShutFunc();
 
+private slots:
+    void motorShutFailed();
+
 #if RPI == 0
 protected:
     void mouseReleaseEvent(QMouseEvent *mouseEvent1);
@@ -101,6 +104,7 @@ private:
     Entry *entries[6];
 
     QTimer *motorShutTimer = new QTimer;
+
 
 };
 
