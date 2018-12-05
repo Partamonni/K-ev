@@ -17,12 +17,12 @@ SerialLogEntry::SerialLogEntry(Mainwindow *parent) : Entry(parent)
 void SerialLogEntry::addLine(QString line)
 {
     data.prepend(line);
-    if(data.size() > 20)
+    if(data.size() > 30)
     {
         data2.prepend(data.last());
         data.removeLast();
 
-        if(data2.size() > 20)
+        if(data2.size() > 30)
         {
             data2.removeLast();
         }

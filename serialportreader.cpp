@@ -73,7 +73,9 @@ void SerialPortReader::closeSerialPort()
 void SerialPortReader::writeData(const QByteArray &outData)
 {
     m_serial->write(outData);
-    m_parent->serialLogEntry->addLine(outData + " ------->");
+    QString temp = outData;
+    temp.chop(1);
+    m_parent->serialLogEntry->addLine(temp + " ------->");
 }
 
 void SerialPortReader::readData()
@@ -94,10 +96,13 @@ void SerialPortReader::readData()
             i = inData->indexOf('\r');
 
         if(inData->at(0) == 'e' || inData->at(0) == '~')
-            m_serial->write("ok\n");
+        {
+            writeData("ok\n");
+        }
         else if(inData->at(0) == '?' && inData->at(1) == 'h')
         {
             m_serial->write("ok\n");
+            m_parent->serialLogEntry->addLine("ok");
         }
         else if(inData->at(0) == '!')
         {
@@ -152,7 +157,7 @@ void SerialPortReader::readData()
         {
             // Unknown data
         }
-        m_parent->serialLogEntry->addLine(inData->left(i+1));
+        m_parent->serialLogEntry->addLine(inData->left(i));
         *inData = inData->remove(0,i+1);
 
     }
