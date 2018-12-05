@@ -78,6 +78,7 @@ public slots:
     void shutMenu();
     void toggleEntry();
     void toggleMotorEntry(bool success);
+    void motorFailedToShut();
 
     void menuIsShutFunc();
     void entryIsShutFunc();

@@ -85,11 +85,13 @@ Mainwindow::Mainwindow(QWidget *parent) : QWidget(parent)
     splash->noticeFrame->show();
     clock->display->show();
 
+    motorShutTimer->setSingleShot(true);
+
 #if RPI == 0
     connect(this, SIGNAL(menuPressed()), this, SLOT(toggleMenu()) );
     connect(this, SIGNAL(keyPressed()), this, SLOT(toggleEntry()) );
 #endif
-
+    connect(motorShutTimer, &QTimer::timeout, this, &Mainwindow::motorFailedToShut);
 }
 
 Mainwindow::~Mainwindow(){}
@@ -262,12 +264,14 @@ void Mainwindow::toggleSerialLogEntry()
 
 void Mainwindow::toggleMotorEntry()
 {
-#if RPI
-    if(!shutMotor->getState())
+#if RPI || 1
+    if(shutMotor->getState())
     {
-        mySerial->writeData("!S");
-        motorShutTimer->singleShot(100, this, SLOT(toggleMotorEntry(false)));
+        mySerial->writeData("!S\n");
+        motorShutTimer->start(5000);
     }
+    else
+        mySerial->writeData("ok\n");
 #else
     toggleMotorEntry(shutMotor->getState());
 #endif
@@ -347,4 +351,9 @@ void Mainwindow::entryIsShutFunc()
     {
         closingEntry->entryFrame->hide();
     }
+}
+
+void Mainwindow::motorFailedToShut()
+{
+    splash->showText("Motor failed to shut!");
 }

@@ -22,7 +22,6 @@ public:
     QGridLayout *layout = new QGridLayout;
     QLabel *text = new QLabel();
     QLabel *noticeContent = new QLabel();
-    //QWidget *spacer = new QWidget;
 
 signals:
 
