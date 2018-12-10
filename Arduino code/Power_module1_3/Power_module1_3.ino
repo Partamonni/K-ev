@@ -14,10 +14,9 @@
 #include <OneWire.h>
 
 // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
-#define DEBUG 0
+#define DEBUG 1
 #define VERBOSE 0
-#define HOST_QUERY_ON 0
-#define DEMO 0
+#define HOST_QUERY_ON 1
 
 #define BAUD 9600
 #define FAN_MAX_DUTY_CYCLE 255
@@ -637,7 +636,7 @@ int calcSOC()
       (capacity - (32 * (82 - voltage) / dischargeVChange1Ah)) / capacity;
     // 32 is number of parallel cells, thus used capacity is 32 times that of a single cell
 
-    socHelper += stateOfCharge * 99;
+    socHelper += soc * 99;
     socHelper /= 100;
     soc = socHelper;
     // Function reaches 90% of end value in about 45 seconds when execution happens every 200ms
@@ -688,6 +687,10 @@ void sendData()
   serialPrint(String(current, 1), NL);
   serialPrint(":v");
   serialPrint(String(voltage, 1), NL);
+  serialPrint(":s");
+  serialPrint(String(soc, 3), NL);
+  serialPrint(":h");
+  serialPrint(String(stateOfHealth, 3), NL);
   for (byte i = 0; i < TMP_COUNT; ++i)
   {
     if(tempAdr[i][7] != 0x00)
@@ -752,4 +755,3 @@ byte* getTempAdr(byte n)
 
   return tmp;
 }
-

@@ -32,7 +32,6 @@ Notice::Notice(Mainwindow *parent) : QWidget()
     releaseTimer->setSingleShot(true);
 
     connect(hideTimer, SIGNAL(timeout()), opacityAnim, SLOT(start()));
-    connect(releaseTimer, SIGNAL(timeout()), this, SLOT(hide()));
     connect(opacityAnim, SIGNAL(finished()), this, SLOT(hide()));
 
     show();
@@ -125,28 +124,16 @@ void Notice::clearAll()
 
 void Notice::show()
 {
-    if(!keepHidden)
-    {
-        opacity->setOpacity(1);
-        noticeFrame->show();
-        noticeFrame->raise();
-        hideTimer->start(2000);
-        keepHidden = true;
-    }
+    opacity->setOpacity(1);
+    noticeFrame->show();
+    noticeFrame->raise();
+    hideTimer->start(2000);
 }
 
 void Notice::hide()
 {
-
-    if(keepHidden)
+    if(noticeId.isEmpty())
     {
-        if(noticeId.isEmpty())
-        {
-            m_content.clear();
-        }
-        noticeFrame->hide();
-        releaseTimer->start(4000);
+        m_content.clear();
     }
-    else
-        keepHidden = false;
 }
