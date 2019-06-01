@@ -16,15 +16,15 @@
 // DO NOT USE DEBUG ON LIVE SYSTEM!!! IMPERATIVE!!!
 #define DEBUG 1
 #define VERBOSE 0
-#define HOST_QUERY_ON 0
+#define HOST_QUERY_ON 1
 #define DEMO 1
 
-#define BAUD 9600
+#define BAUD 2400
 #define FAN_MAX_DUTY_CYCLE 255
 #define CMD_CHAR_COUNT 2
-#define OVERCURRENT 140
+#define OVERCURRENT 50
 #define OVERVOLTAGE 85
-#define LOW_VOLTAGE 58
+#define LOW_VOLTAGE 10 //60
 #define OVER_HEAT 60
 #define NL 1
 // Newline flag for overloaded serialPrint -function
@@ -33,13 +33,13 @@
 #define EEPROM_SAVE_INTERVAL 3600000
 #define READ_TIME 200
 // ms, for temperature sensors to sample readings and while monitoring is on
-#define TMP_COUNT 41
+#define TMP_COUNT 40
 #define BYTE 8
 
 OneWire ds(10);
 
 const PROGMEM byte  tempAdr[TMP_COUNT][8] =
-{ {0x28, 0xBA, 0x4B, 0x41, 0x09, 0x00, 0x00, 0xAE},
+{ //{0x28, 0xBA, 0x4B, 0x41, 0x09, 0x00, 0x00, 0xAE},
   {0x28, 0xEE, 0x46, 0x41, 0x09, 0x00, 0x00, 0xB0},
   {0x28, 0x4C, 0x2B, 0x41, 0x09, 0x00, 0x00, 0x7F},
   {0x28, 0x68, 0x43, 0x41, 0x09, 0x00, 0x00, 0x3A},
@@ -101,6 +101,7 @@ byte mosfetSwitch = A4; // IDE changes these to corresponding pin numbers by its
 volatile double current;
 volatile double voltage;
 volatile double board5v;
+unsigned int raw;
 double ms;
 double msEEPROM;
 double temperature[TMP_COUNT];
@@ -136,11 +137,10 @@ int calcSOC();
 void sendData();
 void serialPrint(String);
 void serialPrint(String, int);
-String enquire(String);
 bool checkIfShut();
 void checkHost();
 
-int adConversion(byte);
+unsigned int adConversion(byte);
 byte* getTempAdr(byte n);
 
 #if DEBUG&&VERBOSE
@@ -168,11 +168,13 @@ void setup()
   Serial.println("Board started");
   serialInput.reserve(64);  // These values are probably too unoptimized,
   Serial.setTimeout(200);   // but I don't really care too much for now.
+  
+  interruptSetup();
+  #if DEBUG&&VERBOSE
+  serialPrint("Interrupts now in place", NL);
+  #endif
 
-  current = 250 * ((adConversion(curSense) - adConversion(curSenseRef)) / 1023);
-  // ^ Can measure accuracy to ~0.25A
-  // 5*((analogRead(curSense)-analogRead(curSenseRef))/1023)/0.02
-
+  delay(250);
   if(current > 0.5 || current < -0.5)
   {
     do
@@ -183,16 +185,8 @@ void setup()
     while (!DEBUG);
   } // These trap loops are to send alert to user interface
   // They can be cleared only by full power cycle (for now, atleast)
-
-  board5v = 3375.9 / adConversion(vref3v3);
-  // ^ Returns real voltage referring to internal 3v3 regulator voltage
-  // Simplified function of 5V*((3.3/5)*1023)/vref3v3
-  // 3v3 output pin shorted to analog input vref3v3
-  voltage = 179 * adConversion(vsense) * board5v / 9207;
-  // Simplified function of (analogRead(vsense)/1023)*board5v*(537/27)
-  // (537/27) is a multiplier to counter voltage divider in the circuit
-  
-  if(voltage > OVERVOLTAGE || voltage < LOW_VOLTAGE)
+    
+  if(voltage > OVERVOLTAGE)
   {
     do
     {
@@ -201,7 +195,17 @@ void setup()
     }
     while (!DEBUG);
   }
-/*
+  else if(voltage < LOW_VOLTAGE)
+  {
+    do
+    {
+      serialPrint("!v", NL); // Board voltage failure
+      delay(1000);
+    }
+    while (!DEBUG);
+  }
+  
+  #if !DEMO
   msEEPROM = millis();
   byte tmp[4];
   for (int i = 0; i < 4; ++i)
@@ -215,7 +219,8 @@ void setup()
     tmp[i] = EEPROM.read(i+4);
   }
   memcpy(&stateOfHealth, tmp, 4);
-*/
+  #endif
+  
   // If no EEPROM value ->
   if(coulombCounter == 0)
   { // Initialize SOC to an approximate with voltage
@@ -224,11 +229,6 @@ void setup()
   
   if(stateOfHealth == 0)
     stateOfHealth = 1;
-
-  interruptSetup();
-#if DEBUG&&VERBOSE
-  serialPrint("Interrupts now in place", NL);
-#endif
 
   if(!ds.reset())
   {
@@ -246,21 +246,18 @@ void setup()
   ds.write_bytes(setCnf, 4);
   ds.reset(); // reset 1-Wire
 
-  //while (enquire("?h") != "ok") {}
-
   serialPrint(String(current, 1), NL);
   serialPrint(String(voltage, 1), NL);
 
   setupSuccess = true;
   wdt_reset();
+  #if !VERBOSE
   wdt_enable(WDTO_2S);
+  #endif
 
 #if DEBUG&&VERBOSE
   serialPrint("wdt reset and enabled", NL);
 #endif
-
-  PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
-  serialPrint("up", NL);
 }
 
 void loop()
@@ -289,13 +286,15 @@ void loop()
   readTemps(); // Read and store temperatures
   wdt_reset();
 
-  calcSOC();
-  wdt_reset();
+  //calcSOC();
+  //wdt_reset();
 
   checkHost();  // Check if host is up and set gate status accordingly
+  systemMonitoring();     
 
   sendData(); // Send gathered data
-  /*
+  
+  #if !DEMO
   // Save coulombCounter to EEPROM once an hour
   // EEPROM is calculated to quaranteedly withstand 10y with this interval
   if(EEPROM_SAVE_INTERVAL <= (unsigned long)(millis() - msEEPROM))
@@ -310,7 +309,8 @@ void loop()
       EEPROM.update(i+4, tmp[i]);
 
     msEEPROM = millis(); // Store current time
-  }*/
+  }
+  #endif
 }
 
 void systemMonitoring()
@@ -331,26 +331,26 @@ void systemMonitoring()
       wdt_reset();
     }
     while(!DEBUG);
-  }
-  else if(hostUp && !(PORTC & B00010000) && !checkIfShut())
-  {
-    PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
-    serialPrint("up", NL);
-  }
-  /*
-  if(lowVoltage)
+  }  
+  else if(lowVoltage)
   {
     do
     {
       serialPrint("!v", NL);
+      #if !DEBUG
       delay(1000);
+      #endif
       wdt_reset();
     }
     while(!DEBUG && lowVoltage);
     if(!hostShut && !DEBUG)
       serialPrint("up", NL);
   }
-  */
+  else if(!checkIfShut() && hostUp && !(PORTC & B00010000))
+  {
+    PORTC |= B00010000; // digitalWrite(mosfetSwitch, HIGH);
+    serialPrint("up", NL);
+  }
 }
 
 void readTemps()
@@ -430,27 +430,47 @@ void readTemps()
 
 bool checkIfShut()
 {
-#if DEBUG&&VERBOSE&&0
-  serialPrint("Peeking: ");
-  serialPrint(String(Serial.peek()), NL);
-#endif
-  if(Serial.peek() == '!')
+  // Check all received data
+  while(Serial.available())
   {
-    if(Serial.readStringUntil('\n') == "!S")
+    if(Serial.find('\n')
     {
-      PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
-      hostShut = true;
-      serialPrint("sh", NL);
-#if DEBUG&&VERBOSE
-      serialPrint("Gate is now shut by host", NL);
-#endif
-      return true;
+      if(Serial.peek() == '!')
+      {
+        if(Serial.readStringUntil('\n') == "!S")
+        {
+          PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
+          hostShut = true;
+          serialPrint("sh", NL);
+          
+          #if DEBUG&&VERBOSE
+          serialPrint("Gate is now shut by host", NL);
+          #endif
+          
+          return true;
+        }
+      }
+      // If there's "ok" waiting in line, flag host active
+      else if(Serial.peek() == 'o')
+      {
+        if(Serial.readStringUntil('\n') == "ok")
+        {
+          hostShut = false;
+          hostUp = true;
+          return false;
+        }
+      }
+      // Otherwise it's garbage data, ditch it 
+      else
+        Serial.readStringUntil('\n');
     }
+    else // If there is data, but it hasn't got '\n', it's uncomplete
+      delay(1)
   }
   return false;
 }
 
-void interruptSetup() // http://www.instructables.com/id/Arduino-Timer-Interrupts/
+void interruptSetup()
 {
   cli(); //stop interrupts
   /*
@@ -467,7 +487,6 @@ void interruptSetup() // http://www.instructables.com/id/Arduino-Timer-Interrupt
     // enable timer compare interrupt
     TIMSK0 |= (1 << OCIE0A);
   */
-
   //set timer1 interrupt at 10Hz
   TCCR1A = 0; // set entire TCCR1A register to 0
   TCCR1B = 0; // same for TCCR1B
@@ -495,13 +514,13 @@ void interruptSetup() // http://www.instructables.com/id/Arduino-Timer-Interrupt
     TIMSK2 |= (1 << OCIE2A);
   */
   sei(); //allow interrupts
-
 }//end setup
 
 ISR(TIMER1_COMPA_vect) //timer1 interrupt
 {
-  board5v = 3375.9 / adConversion(vref3v3); // Simplified Function of 5V*((3.3/5)*1023)/vref3v3
-  voltage = 179 * adConversion(vsense) * board5v / 9207; // Simplified Function of (vsense/1023)*board5v*(537/27)
+  // Selecting internal 1.1V voltage reference to MUX gets us the basepoint calculating the real voltage
+  board5v = 1125.3 / (unsigned int)adConversion(0b1110) ; // Simplified Function of 5V*((1.1/5)*1023)/vref1v1
+  voltage = 179.0 * (unsigned int)adConversion(vsense) * board5v / 9207; // Simplified Function of (vsense/1023)*board5v*(537/27)
 
   if(voltage > OVERVOLTAGE)
   {
@@ -510,7 +529,7 @@ ISR(TIMER1_COMPA_vect) //timer1 interrupt
   }
 
   // Can measure accuracy to ~0.25A
-  current = board5v * ((adConversion(curSense) - adConversion(curSenseRef)) / 1023) / 0.02;
+  current = board5v * (((unsigned int)adConversion(curSense) - (unsigned int)adConversion(curSenseRef)) / 1023) / 0.02;
 
   if(current > OVERCURRENT)
   {
@@ -546,7 +565,7 @@ void serialPrint(String message)
   Serial.print(message);
   Serial.flush();
   // Flushing means for arduino just to wait for data to be transmitted,
-  // not emptying the queue
+  // not emptying the incoming buffer
 }
 
 void serialPrint(String message, int nl)
@@ -555,42 +574,105 @@ void serialPrint(String message, int nl)
   Serial.flush();
 }
 
-String enquire(String query)
+unsigned int adConversion(byte ch)
 {
-  success = false;
-  while (!success)
+  ADMUX = B01000000 | ch; // Select pin and voltage reference
+  
+  ADCSRA = B11000111; // Start conversion (first 2 bits from left) with prescaler 128 (last 3 bits)
+  while ((ADCSRA & B01000000) != 0) {}; // Wait for status bit to flip
+  
+  ADCSRA = B11000111; // Start conversion (first 2 bits from left) with prescaler 128 (last 3 bits)
+  while ((ADCSRA & B01000000) != 0) {}; // Wait for status bit to flip
+
+  return ADC;
+}
+
+void sendData()
+{
+  if(demoCurrentUpwards && demoCurrent < OVERCURRENT)
+    demoCurrent += (millis() % 20) / 10;
+  else if(demoCurrent > 3)
   {
-    while (!Serial.available())
+    demoCurrentUpwards = false;
+    demoCurrent -= (millis() % 20) / 10;
+  }
+  else
+    demoCurrentUpwards = true;
+  
+  systemMonitoring();  
+  if(PORTC & B00010000)
+    serialPrint("up", NL);
+  else
+    serialPrint("sh", NL);
+  
+  serialPrint(":c");
+  serialPrint(String(demoCurrent, 1), NL);
+  serialPrint(":v");
+  serialPrint(String(voltage, 1), NL);
+  systemMonitoring();     
+  double asd;
+  for (byte i = 0; i < TMP_COUNT; ++i)
+  {
+    if(true || tempAdr[i][7] != 0x00)
     {
-      delay(500);
-      serialPrint(query, NL);
-      systemMonitoring();
-    }
-
-    serialInput = Serial.readStringUntil('\n');
-
-#if DEBUG&&VERBOSE
-    serialPrint("Command received: ");
-    serialPrint(serialInput, NL);
-    Serial.print(serialInput.length(), DEC);
-    Serial.flush();
-    serialPrint(" bytes", NL);
-#endif
-
-    if(serialInput.length() == CMD_CHAR_COUNT)
-    {
-      success = true;
+      serialPrint(String(':'));
+      serialPrint(String(i));
+      serialPrint(String('-'));
+      asd = 42.0 + (millis() % 6);
+      serialPrint(String(asd, 1), NL);
+      systemMonitoring();     
     }
     else
+      break;
+  }
+  serialPrint("e~", NL);
+}
+
+void checkHost()
+{
+  #if HOST_QUERY_ON
+  hostUp = false;
+  #endif
+  
+  checkIfShut();
+
+  #if HOST_QUERY_ON
+  
+  // Check if host answered "ok", otherwise checkHost() is now finished.
+  if(!hostUp)
+  { 
+    // If not, try to reach it
+    ms = millis();
+    while (!(hostUp || hostShut) && HOST_QUERY_TIME > (unsigned long)(millis() - ms))
     {
-#if DEBUG&&VERBOSE
-      serialPrint("Answer wasn't wanted, clearing", NL);
-#endif
-      serialInput = "";
+      serialPrint("?h", NL);
+      systemMonitoring();
+      delay(HOST_QUERY_TIME / 10);
+      
+      wdt_reset();
+    } 
+    // If not reachable (or host just now shut the power), shut the gates
+    if(!hostUp)
+    {
+      PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
+      
+      #if DEBUG&&VERBOSE
+        serialPrint("Host not reached, gates are now shut", NL);
+      #endif
     }
   }
-  return serialInput;
+#endif
 }
+
+byte* getTempAdr(byte n)
+{
+  static byte tmp[8];
+  for (int i = 0; i < 8; ++i)
+    tmp[i] = pgm_read_byte_near(tempAdr[n][i]);
+
+  return tmp;
+}
+
 
 #if DEBUG&&VERBOSE
 void printBits(int data)
@@ -678,95 +760,3 @@ int calcSOC()
     cvCharging = false;
 }
 
-int adConversion(byte ch)
-{
-  ADMUX = B01000000 | ch; // Select pin and voltage reference
-  ADCSRA = B11000111; // Start conversion (first 2 bits from left) with prescaler 128 (last 3 bits)
-
-  while ((ADCSRA & B01000000) != 0) {}; // Wait for status bit to flip
-
-  return ADC;
-}
-
-void sendData()
-{
-  if(demoCurrentUpwards && demoCurrent < OVERCURRENT)
-    demoCurrent += (millis() % 20) / 10;
-  else if(demoCurrent > 3)
-  {
-    demoCurrentUpwards = false;
-    demoCurrent -= (millis() % 20) / 10;
-  }
-  else
-    demoCurrentUpwards = false;
-  
-  serialPrint(":c");
-  serialPrint(String(demoCurrent, 1), NL);
-  serialPrint(":v");
-  serialPrint(String(board5v, 1), NL);
-  double asd;
-  for (byte i = 0; i < TMP_COUNT; ++i)
-  {
-    if(true || tempAdr[i][7] != 0x00)
-    {
-      serialPrint(String(':'));
-      serialPrint(String(i));
-      serialPrint(String('-'));
-      asd = 42.0 + ((millis() % 20) / 10);
-      serialPrint(String(asd, 1), NL);
-    }
-    else
-      break;
-  }
-  serialPrint("e~", NL);
-}
-
-void checkHost()
-{
-  checkIfShut();
-
-#if HOST_QUERY_ON
-
-  // Check if host has answered "ok"
-
-  if(Serial.readStringUntil('\n') != "ok")
-  { // If not, false hostUp flag and try to reach host
-    hostUp = false;
-    serialPrint("?h", NL);
-
-    ms = millis();
-    while (!hostUp && HOST_QUERY_TIME > (unsigned long)(millis() - ms))
-    {
-      if(Serial.available() && Serial.readStringUntil('\n') == "ok")
-        hostUp = true;
-      else
-      {
-        serialPrint("?h", NL);
-        systemMonitoring();
-        delay(HOST_QUERY_TIME / 10);
-      }
-      wdt_reset();
-    } // If not reachable, shut the gates
-    if(!hostUp)
-    {
-      PORTC &= B11101111; // digitalWrite(mosfetSwitch, LOW)
-      #if DEBUG&&VERBOSE
-        serialPrint("Host not reached, gates are now shut", NL);
-      #endif
-    }
-  }
-  else
-    hostUp = true;
-  // If host had responded in time, func execution just jumps and ends here
-
-#endif
-}
-
-byte* getTempAdr(byte n)
-{
-  static byte tmp[8];
-  for (int i = 0; i < 8; ++i)
-    tmp[i] = pgm_read_byte_near(tempAdr[n][i]);
-
-  return tmp;
-}
