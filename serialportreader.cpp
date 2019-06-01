@@ -95,7 +95,7 @@ void SerialPortReader::readData()
         else
             i = inData->indexOf('\r');
 
-        if(inData->at(0) == 'e' || inData->at(0) == '~')
+        if(inData->at(0) == 'e' && inData->at(1) == '~')
         {
             writeData("ok\n");
         }
